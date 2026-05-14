@@ -225,11 +225,22 @@ function Hero() {
 }
 
 const categories = [
-  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue" as const },
-  { id: "A2", title: "אופנוע מתחילים", subtitle: "דרגה A2", desc: "עד 14.7 כ״ס (125 סמ״ק) — רישיון אופנוע למתחילים, הדרך המושלמת להתחיל.", img: vehScooter, icon: Zap, color: "blue" as const },
-  { id: "A1", title: "אופנוע בינוני", subtitle: "דרגה A1", desc: "עד 47 כ״ס — רישיון אופנוע בדרגת ביניים, יותר כוח ויותר חופש.", img: vehBikeA2, icon: Bike, color: "orange" as const },
-  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "orange" as const },
+  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue" as const, interest: "רכב אוטומט דרגה B" },
+  { id: "A2", title: "אופנוע מתחילים", subtitle: "דרגה A2", desc: "עד 14.7 כ״ס (125 סמ״ק) — רישיון אופנוע למתחילים, הדרך המושלמת להתחיל.", img: vehScooter, icon: Zap, color: "blue" as const, interest: "אופנוע A2" },
+  { id: "A1", title: "אופנוע בינוני", subtitle: "דרגה A1", desc: "עד 47 כ״ס — רישיון אופנוע בדרגת ביניים, יותר כוח ויותר חופש.", img: vehBikeA2, icon: Bike, color: "orange" as const, interest: "אופנוע A1" },
+  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "orange" as const, interest: "אופנוע A" },
 ];
+
+function scrollToLead() {
+  const el = document.getElementById("lead");
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function selectInterestAndScroll(interest: string) {
+  window.dispatchEvent(new CustomEvent("lead:set-interest", { detail: interest }));
+  // small delay so the form state updates before scrolling
+  setTimeout(scrollToLead, 30);
+}
 
 function Categories() {
   return (
