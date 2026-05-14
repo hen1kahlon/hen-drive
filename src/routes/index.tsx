@@ -462,7 +462,26 @@ function LeadForm() {
     ];
     const subject = encodeURIComponent("ליד חדש מהאתר - " + form.name);
     const body = encodeURIComponent(lines.join("\n"));
-    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+
+    // 1) Open WhatsApp with prefilled lead details to Hen
+    const waText = encodeURIComponent(
+      [
+        `היי חן! 👋`,
+        `מילאתי טופס באתר ואשמח שתחזור אליי:`,
+        ``,
+        `🙋 שם: ${form.name}`,
+        `📱 טלפון: ${form.phone}`,
+        `🚗 מסלול: ${form.interest}`,
+        `📍 אזור: ${form.area}`,
+        form.notes ? `📝 הערות: ${form.notes}` : ``,
+      ].filter(Boolean).join("\n")
+    );
+    window.open(`https://wa.me/${PHONE_INTL}?text=${waText}`, "_blank");
+
+    // 2) Also fire mailto so Hen receives an email copy
+    setTimeout(() => {
+      window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+    }, 400);
     setSubmitted(true);
     toast.success("תודה! הפרטים התקבלו, חן יחזור אליך בהקדם.");
   };
