@@ -226,9 +226,9 @@ function Hero() {
 
 const categories = [
   { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue" as const },
-  { id: "A2", title: "אופנוע", subtitle: "דרגה A2", desc: "אופנועים בינוניים עד 35kW — חופש ושליטה.", img: vehBikeA2, icon: Bike, color: "orange" as const },
-  { id: "A1", title: "אופנוע", subtitle: "דרגה A1", desc: "אופנועים קלים עד 125 סמ״ק — מצוין להתחלה.", img: vehScooter, icon: Zap, color: "blue" as const },
-  { id: "A", title: "אופנוע", subtitle: "דרגה A", desc: "כל סוגי האופנועים — ללא הגבלת הספק.", img: vehBikeA, icon: Bike, color: "orange" as const },
+  { id: "A2", title: "אופנוע מתחילים", subtitle: "דרגה A2", desc: "עד 14.6 kW (125 סמ״ק) — רישיון אופנוע למתחילים, הדרך המושלמת להתחיל.", img: vehScooter, icon: Zap, color: "blue" as const },
+  { id: "A1", title: "אופנוע בינוני", subtitle: "דרגה A1", desc: "עד 35 kW / 47 כ״ס — רישיון אופנוע בדרגת ביניים, יותר כוח ויותר חופש.", img: vehBikeA2, icon: Bike, color: "orange" as const },
+  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת הספק — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "orange" as const },
 ];
 
 function Categories() {
