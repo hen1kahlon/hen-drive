@@ -5,15 +5,22 @@ import { Toaster, toast } from "sonner";
 import {
   Phone, MessageCircle, Instagram, Facebook, Mail, Star, Car, Bike,
   Users, Award, Clock, Shield, Sparkles, MapPin, ChevronDown, Check,
-  ArrowLeft, Zap, Heart, GraduationCap,
+  ArrowLeft, Zap, Heart, GraduationCap, Send, Trophy, Calendar, UserCheck,
+  Smile,
 } from "lucide-react";
 import heroImg from "@/assets/hero-driving.jpg";
+import portraitImg from "@/assets/instructor-portrait.jpg";
+import vehSedan from "@/assets/vehicle-sedan.png";
+import vehBikeA2 from "@/assets/vehicle-bike-a2.png";
+import vehScooter from "@/assets/vehicle-scooter.png";
+import vehBikeA from "@/assets/vehicle-bike-a.png";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
 });
 
 const PHONE = "0503250150";
+const PHONE_DISPLAY = "050-3250150";
 const PHONE_INTL = "972503250150";
 const WA_URL = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent("היי חן, אשמח לפרטים על שיעורי נהיגה")}`;
 const INSTAGRAM = "https://instagram.com";
@@ -36,97 +43,205 @@ function TikTokIcon({ className }: { className?: string }) {
   );
 }
 
-function Nav() {
+function Logo({ size = "md" }: { size?: "sm" | "md" }) {
+  const dim = size === "sm" ? "w-9 h-9 text-sm" : "w-11 h-11 text-base";
   return (
-    <header className="fixed top-0 inset-x-0 z-40 glass border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2 font-extrabold text-lg">
-          <span className="w-9 h-9 rounded-xl bg-gradient-accent grid place-items-center text-primary-foreground">חכ</span>
-          <span className="hidden sm:inline">חן כחלון</span>
-        </a>
-        <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-          <a href="#about" className="hover:text-foreground transition">אודות</a>
-          <a href="#categories" className="hover:text-foreground transition">דרגות</a>
-          <a href="#why" className="hover:text-foreground transition">למה אני</a>
-          <a href="#reviews" className="hover:text-foreground transition">המלצות</a>
-          <a href="#faq" className="hover:text-foreground transition">שאלות</a>
-        </nav>
-        <a href={`tel:${PHONE}`} className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-accent px-4 py-2 text-sm font-bold text-primary-foreground shadow-glow hover:scale-105 transition">
-          <Phone size={16} /> {PHONE}
-        </a>
+    <div className="flex items-center gap-2.5">
+      <div className={`${dim} rounded-xl bg-gradient-orange grid place-items-center text-white font-black shadow-glow-orange`}>חכ</div>
+      <div className="leading-tight">
+        <div className="font-black text-base">חן כחלון</div>
+        <div className="text-[10px] text-muted-foreground -mt-0.5">מורה נהיגה</div>
       </div>
+    </div>
+  );
+}
+
+function Nav() {
+  const [openMenu, setOpenMenu] = useState(false);
+  const links = [
+    { href: "#categories", label: "דרגות" },
+    { href: "#about", label: "עליי" },
+    { href: "#why", label: "למה אני" },
+    { href: "#reviews", label: "ביקורות" },
+    { href: "#faq", label: "שאלות" },
+    { href: "#lead", label: "צור קשר" },
+  ];
+  return (
+    <header className="fixed top-0 inset-x-0 z-50 glass-strong border-b border-white/5">
+      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+        <a href={`tel:${PHONE}`} className="hidden md:inline-flex items-center gap-2 rounded-full bg-gradient-orange px-4 py-2 text-sm font-bold text-white shadow-glow-orange hover:scale-105 transition">
+          <Phone size={15} /> {PHONE_DISPLAY}
+        </a>
+        <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} className="hover:text-foreground transition relative">
+              {l.label}
+            </a>
+          ))}
+        </nav>
+        <a href="#top"><Logo /></a>
+        {/* mobile */}
+        <button onClick={() => setOpenMenu(!openMenu)} className="md:hidden w-10 h-10 grid place-items-center rounded-lg border border-white/10" aria-label="תפריט">
+          <div className="space-y-1.5">
+            <span className={`block h-0.5 w-5 bg-foreground transition ${openMenu ? "translate-y-2 rotate-45" : ""}`} />
+            <span className={`block h-0.5 w-5 bg-foreground transition ${openMenu ? "opacity-0" : ""}`} />
+            <span className={`block h-0.5 w-5 bg-foreground transition ${openMenu ? "-translate-y-2 -rotate-45" : ""}`} />
+          </div>
+        </button>
+      </div>
+      {openMenu && (
+        <div className="md:hidden glass-strong border-t border-white/5 px-4 py-4 space-y-1">
+          {links.map((l) => (
+            <a key={l.href} href={l.href} onClick={() => setOpenMenu(false)} className="block py-2 px-3 rounded-lg text-sm font-medium hover:bg-white/5">
+              {l.label}
+            </a>
+          ))}
+          <a href={`tel:${PHONE}`} className="mt-2 flex items-center justify-center gap-2 rounded-full bg-gradient-orange px-4 py-2.5 text-sm font-bold text-white">
+            <Phone size={14} /> {PHONE_DISPLAY}
+          </a>
+        </div>
+      )}
     </header>
+  );
+}
+
+function Speedometer() {
+  return (
+    <svg viewBox="0 0 200 110" className="w-full h-full" aria-hidden>
+      <defs>
+        <linearGradient id="speedGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="oklch(0.62 0.20 255)" />
+          <stop offset="0.6" stopColor="oklch(0.72 0.18 50)" />
+          <stop offset="1" stopColor="oklch(0.65 0.25 30)" />
+        </linearGradient>
+      </defs>
+      <path d="M10 100 A 90 90 0 0 1 190 100" fill="none" stroke="oklch(1 0 0 / 0.08)" strokeWidth="14" strokeLinecap="round" />
+      <path d="M10 100 A 90 90 0 0 1 160 30" fill="none" stroke="url(#speedGrad)" strokeWidth="14" strokeLinecap="round" />
+      {Array.from({ length: 9 }).map((_, i) => {
+        const a = (Math.PI * i) / 8;
+        const x1 = 100 - Math.cos(a) * 70;
+        const y1 = 100 - Math.sin(a) * 70;
+        const x2 = 100 - Math.cos(a) * 78;
+        const y2 = 100 - Math.sin(a) * 78;
+        return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="oklch(1 0 0 / 0.4)" strokeWidth="2" />;
+      })}
+      <line x1="100" y1="100" x2="155" y2="42" stroke="oklch(0.72 0.18 50)" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="100" cy="100" r="6" fill="oklch(0.72 0.18 50)" />
+    </svg>
   );
 }
 
 function Hero() {
   return (
     <section id="top" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <img src={heroImg} alt="שיעור נהיגה עם חן כחלון" width={1920} height={1080} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-l from-background via-background/85 to-background/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60" />
-        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.25)] blur-3xl animate-float-slow" />
-        <div className="absolute bottom-0 -left-32 w-96 h-96 rounded-full bg-[oklch(0.72_0.18_50_/_0.25)] blur-3xl animate-float-slow" style={{ animationDelay: "3s" }} />
+      {/* glow background */}
+      <div className="absolute inset-0 -z-10 grid-bg">
+        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.25)] blur-[120px] animate-float-slow" />
+        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.72_0.18_50_/_0.28)] blur-[120px] animate-float-slow" style={{ animationDelay: "3s" }} />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-16 grid lg:grid-cols-2 gap-12 items-center w-full">
-        <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
-          <div className="inline-flex items-center gap-2 rounded-full border border-border glass px-4 py-1.5 mb-6 text-xs font-medium">
-            <Sparkles size={14} className="text-accent" />
+      <div className="max-w-7xl mx-auto px-4 py-12 lg:py-16 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
+        {/* image - mobile: top, desktop: right (visually first in RTL = right side) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative lg:col-span-7 order-1 lg:order-2"
+        >
+          <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 shadow-glow">
+            <img src={heroImg} alt="חן כחלון בשיעור נהיגה עם תלמידה" width={1920} height={1080} className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/30" />
+            {/* corner badge */}
+            <div className="absolute top-4 right-4 glass-strong rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5 border border-white/10">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              זמין השבוע
+            </div>
+            {/* speedometer accent */}
+            <div className="absolute bottom-4 left-4 w-32 sm:w-44 opacity-90">
+              <Speedometer />
+            </div>
+          </div>
+          {/* floating stat card */}
+          <div className="absolute -bottom-5 -right-2 sm:-right-5 glass-strong rounded-2xl p-3 sm:p-4 border border-white/10 shadow-card flex items-center gap-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-blue grid place-items-center text-white">
+              <Trophy size={20} />
+            </div>
+            <div>
+              <div className="text-xl sm:text-2xl font-black gradient-text-orange leading-none">98%</div>
+              <div className="text-[10px] sm:text-xs text-muted-foreground">הצלחה בטסט</div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* text */}
+        <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="lg:col-span-5 order-2 lg:order-1 text-center lg:text-right">
+          <div className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-4 py-1.5 mb-5 text-xs font-medium">
+            <Sparkles size={13} className="text-accent" />
             <span>5 שנות ותק · רכב ואופנועים · אשקלון</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight mb-6">
-            מוציאים רישיון <span className="gradient-text">בביטחון</span>
-            <br />עם מורה שמלווה אותך עד ההצלחה
+          <h1 className="text-display text-[2.5rem] sm:text-5xl lg:text-[3.75rem] mb-3">
+            מוציאים רישיון<br />
+            <span className="gradient-text-blue">בביטחון</span>
           </h1>
-          <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-            שיעורי נהיגה לרכב אוטומט ואופנועים באווירה צעירה, מקצועית וסבלנית.
+          <p className="text-display text-2xl sm:text-3xl lg:text-4xl gradient-text-orange mb-5">
+            עד ההצלחה!
           </p>
-          <div className="flex flex-wrap gap-3">
-            <a href="#lead" className="group inline-flex items-center gap-2 rounded-full bg-gradient-accent px-6 py-3.5 font-bold text-primary-foreground shadow-glow hover:scale-105 transition">
-              אני רוצה להתחיל ללמוד
+          <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0">
+            שיעורי נהיגה לרכב אוטומט ואופנועים באווירה צעירה, מקצועית וסבלנית — עם מורה שמלווה אותך עד הקריאה ״עברת!״
+          </p>
+
+          <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
+            <a href="#lead" className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
+              התחל ללמוד עכשיו
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
             </a>
-            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 font-bold text-white hover:scale-105 transition shadow-card">
-              <MessageCircle size={18} /> שלחו וואטסאפ
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card">
+              <MessageCircle size={18} /> וואטסאפ
             </a>
-            <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full border border-border glass px-6 py-3.5 font-bold hover:bg-secondary transition">
-              <Phone size={18} /> התקשרו עכשיו
+            <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3.5 font-bold hover:bg-white/5 transition">
+              <Phone size={18} /> התקשר
             </a>
           </div>
-          <div className="mt-10 flex items-center gap-6 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2"><Award size={18} className="text-accent" /> אחוזי הצלחה גבוהים</div>
-            <div className="flex items-center gap-2"><Shield size={18} className="text-primary" /> כלים חדשים</div>
+
+          {/* trust bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 max-w-xl mx-auto lg:mx-0">
+            {[
+              { icon: Heart, label: "יחס אישי" },
+              { icon: Shield, label: "כלים חדשים" },
+              { icon: GraduationCap, label: "ליווי עד טסט" },
+              { icon: Users, label: "מאות תלמידים" },
+            ].map((t) => (
+              <div key={t.label} className="glass rounded-xl px-2 py-2.5 border border-white/5 flex items-center gap-2 text-[11px] sm:text-xs font-medium">
+                <t.icon size={14} className="text-accent flex-shrink-0" />
+                <span className="truncate">{t.label}</span>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>
-
-      <a href="#categories" aria-label="גלול למטה" className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground animate-bounce">
-        <ChevronDown size={28} />
-      </a>
     </section>
   );
 }
 
 const categories = [
-  { id: "B", title: "רכב אוטומט דרגה B", desc: "רכב פרטי אוטומט – הדרגה הפופולרית והמבוקשת ביותר.", icon: Car },
-  { id: "A2", title: "אופנוע דרגה A2", desc: "אופנועים בינוניים עד 35kW – חופש ושליטה.", icon: Bike },
-  { id: "A1", title: "אופנוע דרגה A1", desc: "אופנועים קלים עד 125 סמ״ק – מצוין להתחלה.", icon: Zap },
-  { id: "A", title: "אופנוע דרגה A", desc: "כל סוגי האופנועים – ללא הגבלת הספק.", icon: Bike },
+  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue" as const },
+  { id: "A2", title: "אופנוע", subtitle: "דרגה A2", desc: "אופנועים בינוניים עד 35kW — חופש ושליטה.", img: vehBikeA2, icon: Bike, color: "orange" as const },
+  { id: "A1", title: "אופנוע", subtitle: "דרגה A1", desc: "אופנועים קלים עד 125 סמ״ק — מצוין להתחלה.", img: vehScooter, icon: Zap, color: "blue" as const },
+  { id: "A", title: "אופנוע", subtitle: "דרגה A", desc: "כל סוגי האופנועים — ללא הגבלת הספק.", img: vehBikeA, icon: Bike, color: "orange" as const },
 ];
 
 function Categories() {
   return (
-    <section id="categories" className="py-24 px-4">
+    <section id="categories" className="py-20 sm:py-28 px-4 relative">
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-14">
-          <p className="text-accent font-bold text-sm tracking-wider uppercase mb-3">בחר את הדרגה שלך</p>
-          <h2 className="text-4xl sm:text-5xl font-black mb-4">מה <span className="gradient-text">תרצה ללמוד</span>?</h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">בחרו את סוג הרישיון שמתאים לכם – ונתחיל יחד את הדרך</p>
+        <motion.div {...fadeUp} className="text-center mb-12 sm:mb-16">
+          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">בחרו את הדרגה</p>
+          <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
+            על מה <span className="gradient-text-orange">תרצו ללמוד</span>?
+          </h2>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {categories.map((c, i) => (
             <motion.div
               key={c.id}
@@ -134,17 +249,30 @@ function Categories() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="group relative bg-card rounded-3xl p-6 border border-border shadow-card hover:shadow-glow hover:-translate-y-1 transition-all"
+              className="group relative bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition-all hover:-translate-y-1 overflow-hidden"
             >
-              <div className="absolute inset-0 rounded-3xl bg-gradient-accent opacity-0 group-hover:opacity-10 transition" />
+              {/* glow on hover */}
+              <div className={`absolute -top-20 ${c.color === "orange" ? "right-1/2 bg-[oklch(0.72_0.18_50_/_0.4)]" : "left-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]"} w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity`} />
+
               <div className="relative">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-accent grid place-items-center mb-5 text-primary-foreground shadow-glow">
-                  <c.icon size={26} />
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="text-xl font-black leading-tight">{c.title}</h3>
+                    <p className={`text-sm font-bold ${c.color === "orange" ? "gradient-text-orange" : "gradient-text-blue"}`}>{c.subtitle}</p>
+                  </div>
+                  <div className={`w-10 h-10 rounded-xl ${c.color === "orange" ? "bg-[oklch(0.72_0.18_50_/_0.15)] text-[oklch(0.78_0.18_55)]" : "bg-[oklch(0.62_0.20_255_/_0.15)] text-[oklch(0.7_0.18_255)]"} grid place-items-center border ${c.color === "orange" ? "border-[oklch(0.72_0.18_50_/_0.3)]" : "border-[oklch(0.62_0.20_255_/_0.3)]"}`}>
+                    <c.icon size={18} />
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">{c.title}</h3>
-                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">{c.desc}</p>
-                <a href={`${WA_URL.split("?")[0]}?text=${encodeURIComponent(`היי חן, אשמח לפרטים על ${c.title}`)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-accent hover:gap-3 transition-all">
-                  אני מעוניין בפרטים <ArrowLeft size={16} />
+
+                <div className="aspect-[4/3] grid place-items-center my-3 group-hover:scale-105 transition-transform duration-500">
+                  <img src={c.img} alt={`${c.title} ${c.subtitle}`} loading="lazy" width={400} height={300} className="w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]" />
+                </div>
+
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
+
+                <a href={`${WA_URL.split("?")[0]}?text=${encodeURIComponent(`היי חן, אשמח לפרטים על ${c.title} ${c.subtitle}`)}`} target="_blank" rel="noopener noreferrer" className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-orange hover:border-transparent hover:text-white transition-all">
+                  אני מעוניין/ת בפרטים
                 </a>
               </div>
             </motion.div>
@@ -157,27 +285,55 @@ function Categories() {
 
 function About() {
   const bullets = [
-    "ותק של 5 שנים",
-    "לימוד על רכב ואופנועים",
+    "ותק של 5 שנים בתחום",
+    "לימוד רכב + אופנועים",
     "כלים חדשים ומתקדמים",
     "יחס אישי לכל תלמיד",
     "אווירה צעירה וסבלנית",
     "הכנה אמיתית לטסט",
-    "אחוזי הצלחה גבוהים",
   ];
   return (
-    <section id="about" className="py-24 px-4 bg-secondary/30">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-        <motion.div {...fadeUp}>
-          <p className="text-accent font-bold text-sm tracking-wider uppercase mb-3">קצת עליי</p>
-          <h2 className="text-4xl sm:text-5xl font-black mb-6">נעים מאוד, <span className="gradient-text">חן כחלון</span></h2>
-          <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-            מורה נהיגה בעל ותק של 5 שנים בתחום הרכב והאופנועים. אני מאמין בלימוד נהיגה בגישה אישית, רגועה ומקצועית, עם התאמה מלאה לקצב של כל תלמיד. השיעורים מתבצעים על כלים חדשים, נוחים ובטיחותיים, באווירה צעירה, סבלנית ומכבדת — עד שמגיעים מוכנים ובטוחים לטסט.
+    <section id="about" className="py-20 sm:py-28 px-4 relative overflow-hidden">
+      <div className="absolute inset-0 -z-10 grid-bg opacity-40" />
+      <div className="absolute top-1/2 -translate-y-1/2 right-0 w-96 h-96 rounded-full bg-[oklch(0.72_0.18_50_/_0.12)] blur-[120px] -z-10" />
+
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <motion.div {...fadeUp} className="relative order-2 lg:order-1">
+          <div className="aspect-[4/5] rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue">
+            <img src={portraitImg} alt="חן כחלון - מורה נהיגה" loading="lazy" width={800} height={1000} className="w-full h-full object-cover" />
+          </div>
+          {/* stats overlay */}
+          <div className="absolute -bottom-6 inset-x-4 sm:left-auto sm:right-4 sm:max-w-[20rem] glass-strong rounded-2xl p-4 border border-white/10 shadow-card">
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div>
+                <div className="text-2xl font-black gradient-text-orange">350+</div>
+                <div className="text-[10px] text-muted-foreground">תלמידים</div>
+              </div>
+              <div className="border-x border-white/10">
+                <div className="text-2xl font-black gradient-text-blue">5</div>
+                <div className="text-[10px] text-muted-foreground">שנות ותק</div>
+              </div>
+              <div>
+                <div className="text-2xl font-black gradient-text-orange">98%</div>
+                <div className="text-[10px] text-muted-foreground">הצלחה</div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div {...fadeUp} className="order-1 lg:order-2">
+          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">קצת עליי</p>
+          <h2 className="text-display text-4xl sm:text-5xl mb-6">
+            נעים מאוד,<br />
+            <span className="gradient-text-orange">חן כחלון</span>
+          </h2>
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">
+            מורה נהיגה בעל ותק של 5 שנים בתחום הרכב והאופנועים. אני מאמין בלימוד נהיגה בגישה אישית, רגועה ומקצועית, עם התאמה מלאה לקצב של כל תלמיד. השיעורים מתבצעים על כלים חדשים, נוחים ובטיחותיים, באווירה צעירה ומכבדת — עד שמגיעים מוכנים ובטוחים לטסט.
           </p>
           <ul className="grid sm:grid-cols-2 gap-3">
             {bullets.map((b) => (
               <li key={b} className="flex items-center gap-3 text-sm">
-                <span className="w-6 h-6 rounded-full bg-gradient-accent grid place-items-center text-primary-foreground flex-shrink-0">
+                <span className="w-7 h-7 rounded-lg bg-gradient-blue grid place-items-center text-white flex-shrink-0 shadow-glow">
                   <Check size={14} strokeWidth={3} />
                 </span>
                 <span className="font-medium">{b}</span>
@@ -185,41 +341,31 @@ function About() {
             ))}
           </ul>
         </motion.div>
-        <motion.div {...fadeUp} className="relative">
-          <div className="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-glow border border-border">
-            <img src={heroImg} alt="חן כחלון בשיעור נהיגה" loading="lazy" width={800} height={1000} className="w-full h-full object-cover" />
-          </div>
-          <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-2xl p-5 shadow-card max-w-[200px]">
-            <div className="flex items-center gap-2 mb-1">
-              {[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-accent text-accent" />)}
-            </div>
-            <p className="text-sm font-bold">5 שנות ותק</p>
-            <p className="text-xs text-muted-foreground">מאות תלמידים מרוצים</p>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
 }
 
 const reasons = [
-  { icon: Heart, title: "יחס אישי וסבלני", desc: "כל תלמיד מקבל התייחסות מלאה והתאמה לקצב שלו." },
-  { icon: Sparkles, title: "אווירה צעירה ונעימה", desc: "שיעור שמרגיש כמו זמן עם חבר טוב." },
-  { icon: Shield, title: "כלים חדשים ובטיחותיים", desc: "רכבים ואופנועים מהדור החדש." },
-  { icon: GraduationCap, title: "ליווי מקצועי עד הטסט", desc: "מהשיעור הראשון ועד הקריאה ׳עברת!׳." },
-  { icon: Clock, title: "זמינות ונוחות", desc: "קביעת שיעורים גמישה לפי הזמן שלך." },
-  { icon: Award, title: "אחוזי הצלחה גבוהים", desc: "תוצאות אמיתיות שמדברות בעד עצמן." },
+  { icon: Heart, title: "יחס אישי וסבלני", desc: "כל תלמיד מקבל התייחסות מלאה.", color: "orange" },
+  { icon: Smile, title: "אווירה צעירה", desc: "שיעור שמרגיש כמו זמן עם חבר טוב.", color: "blue" },
+  { icon: Shield, title: "כלים חדשים", desc: "רכבים ואופנועים מהדור החדש.", color: "orange" },
+  { icon: GraduationCap, title: "ליווי מקצועי", desc: "מהשיעור הראשון ועד ההצלחה.", color: "blue" },
+  { icon: Calendar, title: "זמינות גמישה", desc: "קביעת שיעורים לפי הזמן שלך.", color: "orange" },
+  { icon: Trophy, title: "אחוזי הצלחה", desc: "תוצאות אמיתיות שמדברות בעד עצמן.", color: "blue" },
 ];
 
 function WhyMe() {
   return (
-    <section id="why" className="py-24 px-4">
+    <section id="why" className="py-20 sm:py-28 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-14">
-          <p className="text-accent font-bold text-sm tracking-wider uppercase mb-3">היתרונות שלי</p>
-          <h2 className="text-4xl sm:text-5xl font-black">למה לבחור <span className="gradient-text">בחן</span>?</h2>
+        <motion.div {...fadeUp} className="text-center mb-12 sm:mb-16">
+          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">היתרונות שלי</p>
+          <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
+            למה לבחור <span className="gradient-text-blue">בחן</span>?
+          </h2>
         </motion.div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {reasons.map((r, i) => (
             <motion.div
               key={r.title}
@@ -227,13 +373,16 @@ function WhyMe() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.07 }}
-              className="bg-card rounded-3xl p-7 border border-border shadow-card hover:shadow-glow hover:-translate-y-1 transition-all"
+              className="group bg-card rounded-3xl p-6 border border-white/5 hover:border-white/15 transition-all hover:-translate-y-1 relative overflow-hidden"
             >
-              <div className="w-12 h-12 rounded-2xl glass border border-border grid place-items-center mb-5">
-                <r.icon size={22} className="text-accent" />
+              <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full ${r.color === "orange" ? "bg-[oklch(0.72_0.18_50_/_0.3)]" : "bg-[oklch(0.62_0.20_255_/_0.3)]"} blur-3xl opacity-0 group-hover:opacity-100 transition-opacity`} />
+              <div className="relative">
+                <div className={`w-12 h-12 rounded-2xl border ${r.color === "orange" ? "border-[oklch(0.72_0.18_50_/_0.3)] bg-[oklch(0.72_0.18_50_/_0.1)] text-[oklch(0.78_0.18_55)]" : "border-[oklch(0.62_0.20_255_/_0.3)] bg-[oklch(0.62_0.20_255_/_0.1)] text-[oklch(0.7_0.18_255)]"} grid place-items-center mb-4`}>
+                  <r.icon size={22} />
+                </div>
+                <h3 className="text-lg font-black mb-1.5">{r.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{r.desc}</p>
               </div>
-              <h3 className="text-xl font-bold mb-2">{r.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{r.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -242,39 +391,26 @@ function WhyMe() {
   );
 }
 
-function Areas() {
-  return (
-    <section className="py-20 px-4 bg-secondary/30">
-      <div className="max-w-4xl mx-auto text-center">
-        <motion.div {...fadeUp}>
-          <div className="inline-flex items-center gap-2 rounded-full glass border border-border px-5 py-2 mb-6">
-            <MapPin size={16} className="text-accent" />
-            <span className="text-sm font-medium">איפה לומדים</span>
-          </div>
-          <h2 className="text-4xl sm:text-5xl font-black mb-4">אזורי <span className="gradient-text">לימוד</span></h2>
-          <p className="text-2xl font-bold text-foreground/90">אשקלון והסביבה</p>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
 const reviews = [
-  { name: "ליאור מ׳", text: "חן הכי סבלני בעולם, עברתי טסט ראשון! ממליץ בחום.", rating: 5 },
-  { name: "נועה ש׳", text: "אווירה כיפית ומקצועית, הרגשתי בטוחה כל הדרך.", rating: 5 },
-  { name: "יובל א׳", text: "למדתי אופנוע אצל חן – חוויה מטורפת. רישיון ביד!", rating: 5 },
+  { name: "ליאור מ׳", text: "חן הכי סבלני בעולם, עברתי טסט ראשון! ממליץ בחום על המקצועיות והאווירה.", rating: 5 },
+  { name: "נועה ש׳", text: "אווירה כיפית ומקצועית, הרגשתי בטוחה כל הדרך. מורה מדהים ומסור.", rating: 5 },
+  { name: "יובל א׳", text: "למדתי אופנוע אצל חן — חוויה מטורפת. רישיון ביד מהפעם הראשונה!", rating: 5 },
+  { name: "דניאל מ׳", text: "מורה צעיר, מקצועי וסבלני. ממליץ בחום לכל מי שמחפש מורה רציני.", rating: 5 },
 ];
 
 function Reviews() {
   return (
-    <section id="reviews" className="py-24 px-4">
+    <section id="reviews" className="py-20 sm:py-28 px-4 relative">
+      <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-14">
-          <p className="text-accent font-bold text-sm tracking-wider uppercase mb-3">המלצות</p>
-          <h2 className="text-4xl sm:text-5xl font-black">תלמידים <span className="gradient-text">מספרים</span></h2>
+        <motion.div {...fadeUp} className="text-center mb-12 sm:mb-16">
+          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">המלצות תלמידים</p>
+          <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
+            מה <span className="gradient-text-orange">אומרים עליי</span>
+          </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-5 mb-16">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {reviews.map((r, i) => (
             <motion.div
               key={i}
@@ -282,38 +418,24 @@ function Reviews() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-card rounded-3xl p-7 border border-border shadow-card"
+              className="bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition"
             >
-              <div className="flex gap-1 mb-4">
-                {[...Array(r.rating)].map((_, j) => <Star key={j} size={18} className="fill-accent text-accent" />)}
+              <div className="flex gap-0.5 mb-3">
+                {[...Array(r.rating)].map((_, j) => <Star key={j} size={15} className="fill-[oklch(0.78_0.18_55)] text-[oklch(0.78_0.18_55)]" />)}
               </div>
-              <p className="text-foreground/90 leading-relaxed mb-5">"{r.text}"</p>
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-gradient-accent grid place-items-center text-primary-foreground font-bold">
+              <p className="text-sm text-foreground/90 leading-relaxed mb-5 min-h-[80px]">"{r.text}"</p>
+              <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                <div className="w-10 h-10 rounded-full bg-gradient-blue grid place-items-center text-white font-black text-sm">
                   {r.name.charAt(0)}
                 </div>
                 <div>
-                  <p className="font-bold">{r.name}</p>
-                  <p className="text-xs text-muted-foreground">תלמיד/ה</p>
+                  <p className="font-bold text-sm">{r.name}</p>
+                  <p className="text-[11px] text-muted-foreground">תלמיד/ה</p>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
-
-        <motion.div {...fadeUp}>
-          <h3 className="text-2xl font-bold text-center mb-8">תלמידים שעברו טסט <span className="gradient-text">בהצלחה</span></h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <div key={i} className="aspect-square rounded-2xl glass border border-border grid place-items-center text-muted-foreground hover:border-accent/50 transition">
-                <div className="text-center">
-                  <Users size={28} className="mx-auto mb-1 opacity-50" />
-                  <p className="text-xs">תמונת תלמיד</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
@@ -321,7 +443,7 @@ function Reviews() {
 
 function LeadForm() {
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: "", phone: "", interest: "רכב אוטומט דרגה B", area: "", notes: "" });
+  const [form, setForm] = useState({ name: "", phone: "", interest: "רכב אוטומט דרגה B", area: "אשקלון", notes: "" });
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -329,28 +451,61 @@ function LeadForm() {
       toast.error("נא למלא שם וטלפון");
       return;
     }
-    // mailto fallback + WhatsApp option
     const body = `שם: ${form.name}%0Aטלפון: ${form.phone}%0Aמעוניין: ${form.interest}%0Aאזור: ${form.area}%0Aהערות: ${form.notes}`;
     const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent("ליד חדש מהאתר")}&body=${body}`;
-    // Open mailto in background
     window.open(mailto, "_blank");
     setSubmitted(true);
     toast.success("תודה! הפרטים התקבלו, חן יחזור אליך בהקדם.");
   };
 
+  const promises = [
+    { icon: Zap, title: "חזרה מהירה", desc: "תוך שעות בודדות" },
+    { icon: Shield, title: "ללא התחייבות", desc: "השארת פרטים ללא עלות" },
+    { icon: UserCheck, title: "התאמה אישית", desc: "נמצא ביחד את המסלול" },
+  ];
+
   return (
-    <section id="lead" className="py-24 px-4 bg-secondary/30">
-      <div className="max-w-3xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-10">
-          <p className="text-accent font-bold text-sm tracking-wider uppercase mb-3">השאירו פרטים</p>
-          <h2 className="text-4xl sm:text-5xl font-black mb-4">מתחילים את <span className="gradient-text">הדרך</span></h2>
-          <p className="text-muted-foreground">השאר/י פרטים וחן יחזור אליך תוך זמן קצר</p>
+    <section id="lead" className="py-20 sm:py-28 px-4 relative overflow-hidden">
+      <div className="absolute -top-40 left-0 w-[30rem] h-[30rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.18)] blur-[120px] -z-10" />
+      <div className="absolute -bottom-40 right-0 w-[30rem] h-[30rem] rounded-full bg-[oklch(0.72_0.18_50_/_0.18)] blur-[120px] -z-10" />
+
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+        {/* left: areas + promises */}
+        <motion.div {...fadeUp} className="lg:col-span-2">
+          <div className="inline-flex items-center gap-2 rounded-full glass border border-white/10 px-4 py-1.5 mb-4">
+            <MapPin size={14} className="text-accent" />
+            <span className="text-xs font-medium">אזורי לימוד</span>
+          </div>
+          <h2 className="text-display text-4xl sm:text-5xl mb-3">
+            <span className="gradient-text-blue">אשקלון</span><br />והסביבה
+          </h2>
+          <p className="text-muted-foreground mb-8">שיעורים בכל אזור אשקלון והסביבה בהתאמה מלאה לזמן ולמיקום שלך.</p>
+
+          <div className="space-y-3">
+            {promises.map((p) => (
+              <div key={p.title} className="flex items-center gap-4 p-3 rounded-2xl glass border border-white/10">
+                <div className="w-11 h-11 rounded-xl bg-gradient-orange grid place-items-center text-white flex-shrink-0">
+                  <p.icon size={20} />
+                </div>
+                <div>
+                  <div className="font-bold text-sm">{p.title}</div>
+                  <div className="text-xs text-muted-foreground">{p.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
-        <motion.div {...fadeUp} className="bg-card rounded-3xl p-6 sm:p-10 border border-border shadow-card">
+        {/* right: form */}
+        <motion.div {...fadeUp} className="lg:col-span-3 glass-strong rounded-[2rem] p-6 sm:p-8 border border-white/10 shadow-card relative">
+          <div className="mb-6">
+            <p className="gradient-text-orange font-bold text-xs tracking-[0.2em] uppercase mb-2">השאירו פרטים</p>
+            <h3 className="text-2xl sm:text-3xl font-black">חן יחזור אליך <span className="gradient-text-orange">בהקדם</span></h3>
+          </div>
+
           {submitted ? (
             <div className="text-center py-10">
-              <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-gradient-accent grid place-items-center text-primary-foreground">
+              <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-gradient-orange grid place-items-center text-white shadow-glow-orange">
                 <Check size={32} strokeWidth={3} />
               </div>
               <h3 className="text-2xl font-black mb-2">תודה!</h3>
@@ -361,34 +516,39 @@ function LeadForm() {
             </div>
           ) : (
             <form onSubmit={onSubmit} className="grid gap-4">
-              <Field label="שם מלא *">
-                <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full bg-input border border-border rounded-xl px-4 py-3 outline-none focus:border-accent transition" placeholder="ישראל ישראלי" />
-              </Field>
-              <Field label="טלפון *">
-                <input required type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  className="w-full bg-input border border-border rounded-xl px-4 py-3 outline-none focus:border-accent transition" placeholder="050-0000000" />
-              </Field>
-              <Field label="מה מעניין אותך ללמוד?">
-                <select value={form.interest} onChange={(e) => setForm({ ...form, interest: e.target.value })}
-                  className="w-full bg-input border border-border rounded-xl px-4 py-3 outline-none focus:border-accent transition">
-                  <option>רכב אוטומט דרגה B</option>
-                  <option>אופנוע A2</option>
-                  <option>אופנוע A1</option>
-                  <option>אופנוע A</option>
-                </select>
-              </Field>
-              <Field label="אזור מגורים">
-                <input value={form.area} onChange={(e) => setForm({ ...form, area: e.target.value })}
-                  className="w-full bg-input border border-border rounded-xl px-4 py-3 outline-none focus:border-accent transition" placeholder="אשקלון" />
-              </Field>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Field label="שם מלא *">
+                  <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={60}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition" placeholder="ישראל ישראלי" />
+                </Field>
+                <Field label="טלפון *">
+                  <input required type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition" placeholder="050-0000000" />
+                </Field>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Field label="מעוניין/ת ללמוד">
+                  <select value={form.interest} onChange={(e) => setForm({ ...form, interest: e.target.value })}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition">
+                    <option>רכב אוטומט דרגה B</option>
+                    <option>אופנוע A2</option>
+                    <option>אופנוע A1</option>
+                    <option>אופנוע A</option>
+                  </select>
+                </Field>
+                <Field label="אזור מגורים">
+                  <input value={form.area} onChange={(e) => setForm({ ...form, area: e.target.value })} maxLength={60}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition" placeholder="אשקלון" />
+                </Field>
+              </div>
               <Field label="הערות נוספות">
-                <textarea rows={3} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                  className="w-full bg-input border border-border rounded-xl px-4 py-3 outline-none focus:border-accent transition resize-none" placeholder="כל מה שחשוב שנדע..." />
+                <textarea rows={3} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} maxLength={500}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition resize-none" placeholder="כל מה שחשוב שנדע..." />
               </Field>
-              <button type="submit" className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-accent px-6 py-4 font-bold text-primary-foreground shadow-glow hover:scale-[1.02] transition">
-                שלח/י פרטים <ArrowLeft size={18} />
+              <button type="submit" className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-orange px-6 py-4 font-bold text-white shadow-glow-orange hover:scale-[1.01] transition">
+                <Send size={18} /> שלח/י פרטים
               </button>
+              <p className="text-[11px] text-center text-muted-foreground">בלחיצה על שליחה את/ה מאשר/ת שנחזור אליך בקרוב</p>
             </form>
           )}
         </motion.div>
@@ -400,7 +560,7 @@ function LeadForm() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="block text-sm font-bold mb-2">{label}</span>
+      <span className="block text-xs font-bold mb-2 text-muted-foreground">{label}</span>
       {children}
     </label>
   );
@@ -417,11 +577,13 @@ const faqs = [
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="py-24 px-4">
+    <section id="faq" className="py-20 sm:py-28 px-4">
       <div className="max-w-3xl mx-auto">
         <motion.div {...fadeUp} className="text-center mb-12">
-          <p className="text-accent font-bold text-sm tracking-wider uppercase mb-3">שאלות נפוצות</p>
-          <h2 className="text-4xl sm:text-5xl font-black">כל מה ש<span className="gradient-text">חשוב לדעת</span></h2>
+          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">שאלות נפוצות</p>
+          <h2 className="text-display text-4xl sm:text-5xl">
+            כל מה ש<span className="gradient-text-orange">חשוב לדעת</span>
+          </h2>
         </motion.div>
         <div className="space-y-3">
           {faqs.map((f, i) => (
@@ -431,9 +593,9 @@ function FAQ() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="bg-card rounded-2xl border border-border overflow-hidden"
+              className="bg-card rounded-2xl border border-white/5 overflow-hidden"
             >
-              <button onClick={() => setOpen(open === i ? null : i)} className="w-full flex items-center justify-between p-5 text-right font-bold hover:bg-secondary/50 transition">
+              <button onClick={() => setOpen(open === i ? null : i)} className="w-full flex items-center justify-between p-5 text-right font-bold hover:bg-white/5 transition">
                 <span>{f.q}</span>
                 <ChevronDown size={20} className={`flex-shrink-0 transition-transform ${open === i ? "rotate-180 text-accent" : ""}`} />
               </button>
@@ -450,20 +612,25 @@ function FAQ() {
 
 function FinalCTA() {
   return (
-    <section className="py-24 px-4 relative overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-gradient-accent opacity-10" />
+    <section className="py-20 sm:py-28 px-4 relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-primary/30 blur-3xl animate-float-slow" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-accent/30 blur-3xl animate-float-slow" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.3)] blur-3xl animate-float-slow" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[oklch(0.72_0.18_50_/_0.3)] blur-3xl animate-float-slow" style={{ animationDelay: "2s" }} />
       </div>
-      <motion.div {...fadeUp} className="max-w-3xl mx-auto text-center">
-        <h2 className="text-4xl sm:text-6xl font-black mb-4">מתחילים את הדרך <span className="gradient-text">לרישיון</span>?</h2>
-        <p className="text-lg text-muted-foreground mb-10">דבר אחד מפריד בינך לבין הרישיון — ההחלטה שלך</p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-7 py-4 font-bold text-white hover:scale-105 transition shadow-glow">
+      <motion.div {...fadeUp} className="max-w-4xl mx-auto text-center glass-strong rounded-[2.5rem] border border-white/10 p-8 sm:p-14 shadow-card">
+        <div className="inline-flex items-center gap-2 rounded-full bg-gradient-orange px-4 py-1.5 mb-6 text-xs font-bold text-white">
+          <Sparkles size={14} /> בואו נתחיל
+        </div>
+        <h2 className="text-display text-4xl sm:text-6xl mb-4">
+          מתחילים את הדרך<br />
+          <span className="gradient-text-orange">לרישיון</span>?
+        </h2>
+        <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">דבר אחד מפריד בינך לבין הרישיון — ההחלטה שלך</p>
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+          <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-7 py-4 font-bold text-white hover:scale-105 transition shadow-card">
             <MessageCircle size={20} /> שלחו הודעה בוואטסאפ
           </a>
-          <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full bg-gradient-accent px-7 py-4 font-bold text-primary-foreground hover:scale-105 transition shadow-glow">
+          <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full bg-gradient-orange px-7 py-4 font-bold text-white hover:scale-105 transition shadow-glow-orange">
             <Phone size={20} /> התקשרו עכשיו
           </a>
         </div>
@@ -474,39 +641,36 @@ function FinalCTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-border py-12 px-4 pb-28 md:pb-12">
+    <footer className="border-t border-white/5 py-12 px-4 pb-28 md:pb-12 relative">
       <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 text-sm">
         <div>
-          <div className="flex items-center gap-2 font-extrabold text-lg mb-3">
-            <span className="w-9 h-9 rounded-xl bg-gradient-accent grid place-items-center text-primary-foreground">חכ</span>
-            חן כחלון
-          </div>
-          <p className="text-muted-foreground">מורה נהיגה לרכב ואופנוע</p>
+          <Logo />
+          <p className="text-muted-foreground mt-4 max-w-xs">מורה נהיגה לרכב ואופנועים — אשקלון והסביבה. מלווה אותך עד הקריאה ״עברת״.</p>
         </div>
         <div>
-          <h4 className="font-bold mb-3">צור קשר</h4>
-          <ul className="space-y-2 text-muted-foreground">
-            <li><a href={`tel:${PHONE}`} className="hover:text-foreground inline-flex items-center gap-2"><Phone size={14} /> {PHONE}</a></li>
-            <li><a href={`mailto:${EMAIL}`} className="hover:text-foreground inline-flex items-center gap-2"><Mail size={14} /> {EMAIL}</a></li>
-            <li className="inline-flex items-center gap-2"><MapPin size={14} /> אשקלון והסביבה</li>
+          <h4 className="font-black mb-4 text-base">צור קשר</h4>
+          <ul className="space-y-3 text-muted-foreground">
+            <li><a href={`tel:${PHONE}`} className="hover:text-foreground inline-flex items-center gap-2"><Phone size={14} className="text-accent" /> {PHONE_DISPLAY}</a></li>
+            <li><a href={`mailto:${EMAIL}`} className="hover:text-foreground inline-flex items-center gap-2"><Mail size={14} className="text-accent" /> {EMAIL}</a></li>
+            <li className="inline-flex items-center gap-2"><MapPin size={14} className="text-accent" /> אשקלון והסביבה</li>
           </ul>
         </div>
         <div>
-          <h4 className="font-bold mb-3">עקבו אחריי</h4>
+          <h4 className="font-black mb-4 text-base">עקבו אחריי</h4>
           <div className="flex gap-3">
-            <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-11 h-11 rounded-full glass border border-border grid place-items-center hover:bg-gradient-accent hover:border-transparent transition">
+            <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-gradient-orange hover:border-transparent hover:text-white transition">
               <Instagram size={18} />
             </a>
-            <a href={FACEBOOK} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-11 h-11 rounded-full glass border border-border grid place-items-center hover:bg-gradient-accent hover:border-transparent transition">
+            <a href={FACEBOOK} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-gradient-blue hover:border-transparent hover:text-white transition">
               <Facebook size={18} />
             </a>
-            <a href={TIKTOK} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="w-11 h-11 rounded-full glass border border-border grid place-items-center hover:bg-gradient-accent hover:border-transparent transition">
+            <a href={TIKTOK} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-foreground hover:text-background hover:border-transparent transition">
               <TikTokIcon className="w-[18px] h-[18px]" />
             </a>
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-border text-center text-xs text-muted-foreground">
+      <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-white/5 text-center text-xs text-muted-foreground">
         © {new Date().getFullYear()} חן כחלון - מורה נהיגה. כל הזכויות שמורות.
       </div>
     </footer>
@@ -516,7 +680,7 @@ function Footer() {
 function FloatingWA() {
   return (
     <a href={WA_URL} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
-      className="fixed bottom-24 md:bottom-6 left-6 z-40 w-14 h-14 rounded-full bg-[#25D366] grid place-items-center text-white shadow-glow hover:scale-110 transition relative">
+      className="fixed bottom-24 md:bottom-6 left-6 z-40 w-14 h-14 rounded-full bg-[#25D366] grid place-items-center text-white shadow-glow hover:scale-110 transition">
       <MessageCircle size={26} />
       <span className="absolute inset-0 rounded-full bg-[#25D366] -z-10 animate-pulse-ring" />
     </a>
@@ -525,19 +689,19 @@ function FloatingWA() {
 
 function MobileBar() {
   return (
-    <div className="md:hidden fixed bottom-0 inset-x-0 z-40 glass border-t border-border">
+    <div className="md:hidden fixed bottom-0 inset-x-0 z-40 glass-strong border-t border-white/10">
       <div className="grid grid-cols-3 gap-1 p-2">
-        <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 py-2 rounded-xl hover:bg-secondary transition">
+        <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 py-2 rounded-xl hover:bg-white/5 transition">
           <MessageCircle size={20} className="text-[#25D366]" />
-          <span className="text-xs font-bold">וואטסאפ</span>
+          <span className="text-[11px] font-bold">וואטסאפ</span>
         </a>
-        <a href={`tel:${PHONE}`} className="flex flex-col items-center gap-1 py-2 rounded-xl hover:bg-secondary transition">
-          <Phone size={20} className="text-primary" />
-          <span className="text-xs font-bold">שיחה</span>
+        <a href={`tel:${PHONE}`} className="flex flex-col items-center gap-1 py-2 rounded-xl hover:bg-white/5 transition">
+          <Phone size={20} className="text-[oklch(0.7_0.18_255)]" />
+          <span className="text-[11px] font-bold">שיחה</span>
         </a>
-        <a href="#lead" className="flex flex-col items-center gap-1 py-2 rounded-xl bg-gradient-accent text-primary-foreground">
+        <a href="#lead" className="flex flex-col items-center gap-1 py-2 rounded-xl bg-gradient-orange text-white">
           <Sparkles size={20} />
-          <span className="text-xs font-bold">השארת פרטים</span>
+          <span className="text-[11px] font-bold">השאר פרטים</span>
         </a>
       </div>
     </div>
@@ -554,7 +718,6 @@ function LandingPage() {
         <Categories />
         <About />
         <WhyMe />
-        <Areas />
         <Reviews />
         <LeadForm />
         <FAQ />
