@@ -451,9 +451,18 @@ function LeadForm() {
       toast.error("נא למלא שם וטלפון");
       return;
     }
-    const body = `שם: ${form.name}%0Aטלפון: ${form.phone}%0Aמעוניין: ${form.interest}%0Aאזור: ${form.area}%0Aהערות: ${form.notes}`;
-    const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent("ליד חדש מהאתר")}&body=${body}`;
-    window.open(mailto, "_blank");
+    const lines = [
+      `שם: ${form.name}`,
+      `טלפון: ${form.phone}`,
+      `מסלול מבוקש: ${form.interest}`,
+      `אזור מגורים: ${form.area}`,
+      `הערות: ${form.notes || "—"}`,
+      ``,
+      `נשלח מהאתר של חן כחלון`,
+    ];
+    const subject = encodeURIComponent("ליד חדש מהאתר - " + form.name);
+    const body = encodeURIComponent(lines.join("\n"));
+    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
     setSubmitted(true);
     toast.success("תודה! הפרטים התקבלו, חן יחזור אליך בהקדם.");
   };
