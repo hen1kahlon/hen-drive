@@ -166,14 +166,51 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  .gradient-text-orange {
+    background: var(--gradient-orange);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-text-blue {
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
   .glass {
     background: oklch(0.13 0.012 250 / 0.7);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
   }
+  .glass-strong {
+    background: oklch(0.10 0.014 252 / 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
   .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-glow-orange { box-shadow: var(--shadow-glow-orange); }
   .shadow-card { box-shadow: var(--shadow-card); }
   .bg-gradient-accent { background: var(--gradient-accent); }
+  .bg-gradient-orange { background: var(--gradient-orange); }
+  .bg-gradient-blue { background: var(--gradient-blue); }
+  .text-display {
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(oklch(1 0 0 / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(1 0 0 / 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .ring-glow-orange {
+    box-shadow: 0 0 0 1px oklch(0.72 0.18 50 / 0.4), 0 10px 40px -10px oklch(0.72 0.18 50 / 0.4);
+  }
+  .ring-glow-blue {
+    box-shadow: 0 0 0 1px oklch(0.62 0.20 255 / 0.4), 0 10px 40px -10px oklch(0.62 0.20 255 / 0.4);
+  }
 }
 
 @keyframes float-slow {
