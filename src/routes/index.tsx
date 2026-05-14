@@ -404,14 +404,28 @@ function WhyMe() {
   );
 }
 
-const reviews = [
-  { name: "ליאור מ׳", text: "חן הכי סבלני בעולם, עברתי טסט ראשון! ממליץ בחום על המקצועיות והאווירה.", rating: 5 },
-  { name: "נועה ש׳", text: "אווירה כיפית ומקצועית, הרגשתי בטוחה כל הדרך. מורה מדהים ומסור.", rating: 5 },
-  { name: "יובל א׳", text: "למדתי אופנוע אצל חן — חוויה מטורפת. רישיון ביד מהפעם הראשונה!", rating: 5 },
-  { name: "דניאל מ׳", text: "מורה צעיר, מקצועי וסבלני. ממליץ בחום לכל מי שמחפש מורה רציני.", rating: 5 },
+const fallbackReviews = [
+  { id: "f1", full_name: "ליאור מ׳", content: "חן הכי סבלני בעולם, עברתי טסט ראשון! ממליץ בחום על המקצועיות והאווירה.", rating: 5, license_type: "B", image_url: null },
+  { id: "f2", full_name: "נועה ש׳", content: "אווירה כיפית ומקצועית, הרגשתי בטוחה כל הדרך. מורה מדהים ומסור.", rating: 5, license_type: "B", image_url: null },
+  { id: "f3", full_name: "יובל א׳", content: "למדתי אופנוע אצל חן — חוויה מטורפת. רישיון ביד מהפעם הראשונה!", rating: 5, license_type: "A2", image_url: null },
+  { id: "f4", full_name: "דניאל מ׳", content: "מורה צעיר, מקצועי וסבלני. ממליץ בחום לכל מי שמחפש מורה רציני.", rating: 5, license_type: "B", image_url: null },
 ];
 
+type PublicReview = { id: string; full_name: string; content: string; rating: number; license_type: string; image_url: string | null };
+
 function Reviews() {
+  const [reviews, setReviews] = useState<PublicReview[]>(fallbackReviews);
+  useEffect(() => {
+    supabase
+      .from("reviews")
+      .select("id, full_name, content, rating, license_type, image_url")
+      .eq("status", "approved")
+      .order("created_at", { ascending: false })
+      .limit(12)
+      .then(({ data }) => {
+        if (data && data.length > 0) setReviews(data as PublicReview[]);
+      });
+  }, []);
   return (
     <section id="reviews" className="py-20 sm:py-28 px-4 relative">
       <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
@@ -426,7 +440,7 @@ function Reviews() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {reviews.map((r, i) => (
             <motion.div
-              key={i}
+              key={r.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -436,21 +450,137 @@ function Reviews() {
               <div className="flex gap-0.5 mb-3">
                 {[...Array(r.rating)].map((_, j) => <Star key={j} size={15} className="fill-[oklch(0.78_0.18_55)] text-[oklch(0.78_0.18_55)]" />)}
               </div>
-              <p className="text-sm text-foreground/90 leading-relaxed mb-5 min-h-[80px]">"{r.text}"</p>
+              {r.image_url && <img src={r.image_url} alt="" className="rounded-xl mb-3 w-full h-32 object-cover" />}
+              <p className="text-sm text-foreground/90 leading-relaxed mb-5 min-h-[80px]">"{r.content}"</p>
               <div className="flex items-center gap-3 pt-4 border-t border-white/5">
                 <div className="w-10 h-10 rounded-full bg-gradient-blue grid place-items-center text-white font-black text-sm">
-                  {r.name.charAt(0)}
+                  {r.full_name.charAt(0)}
                 </div>
                 <div>
-                  <p className="font-bold text-sm">{r.name}</p>
-                  <p className="text-[11px] text-muted-foreground">תלמיד/ה</p>
+                  <p className="font-bold text-sm">{r.full_name}</p>
+                  <p className="text-[11px] text-muted-foreground">דרגה {r.license_type}</p>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
+
+        <SubmitReview />
       </div>
     </section>
+  );
+}
+
+function SubmitReview() {
+  const [form, setForm] = useState({ full_name: "", rating: 5, license_type: "B", content: "" });
+  const [file, setFile] = useState<File | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (form.full_name.trim().length < 1 || form.content.trim().length < 1) {
+      toast.error("נא למלא שם וטקסט ביקורת");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      let image_url: string | null = null;
+      if (file) {
+        if (file.size > 5 * 1024 * 1024) throw new Error("התמונה גדולה מדי (מקס׳ 5MB)");
+        const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
+        const path = `submissions/${crypto.randomUUID()}.${ext}`;
+        const { error: upErr } = await supabase.storage.from("review-images").upload(path, file, { contentType: file.type });
+        if (upErr) throw upErr;
+        const { data } = supabase.storage.from("review-images").getPublicUrl(path);
+        image_url = data.publicUrl;
+      }
+      const { error } = await supabase.from("reviews").insert({
+        full_name: form.full_name.trim(),
+        rating: form.rating,
+        license_type: form.license_type,
+        content: form.content.trim(),
+        image_url,
+      });
+      if (error) throw error;
+      setDone(true);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "שגיאה בשליחה");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <motion.div {...fadeUp} className="mt-16 sm:mt-20 max-w-2xl mx-auto">
+      <div className="text-center mb-6">
+        <p className="gradient-text-orange font-bold text-xs tracking-[0.2em] uppercase mb-2">שתפו את החוויה</p>
+        <h3 className="text-display text-3xl sm:text-4xl">השאירו ביקורת</h3>
+      </div>
+
+      {done ? (
+        <div className="bg-card border border-green-500/20 rounded-3xl p-8 text-center">
+          <div className="w-14 h-14 rounded-full bg-green-500/20 grid place-items-center mx-auto mb-4">
+            <Check className="text-green-300" size={28} />
+          </div>
+          <p className="text-lg font-bold mb-2">תודה!</p>
+          <p className="text-sm text-muted-foreground">הביקורת נשלחה ותפורסם לאחר אישור.</p>
+        </div>
+      ) : (
+        <form onSubmit={submit} className="bg-card border border-white/10 rounded-3xl p-6 sm:p-8 space-y-4">
+          <div>
+            <label className="text-xs font-semibold mb-1.5 block">שם מלא</label>
+            <input value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} maxLength={100}
+              className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-white/30 outline-none" />
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold mb-2 block">דירוג</label>
+            <div className="flex gap-1">
+              {[1,2,3,4,5].map((n) => (
+                <button key={n} type="button" onClick={() => setForm({ ...form, rating: n })}
+                  className="p-1 hover:scale-110 transition" aria-label={`${n} כוכבים`}>
+                  <Star size={28} className={n <= form.rating ? "fill-[oklch(0.78_0.18_55)] text-[oklch(0.78_0.18_55)]" : "text-white/20"} />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold mb-1.5 block">סוג לימוד</label>
+            <select value={form.license_type} onChange={(e) => setForm({ ...form, license_type: e.target.value })}
+              className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-white/30 outline-none">
+              <option value="B">רכב B</option>
+              <option value="A2">אופנוע A2</option>
+              <option value="A1">אופנוע A1</option>
+              <option value="A">אופנוע A</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold mb-1.5 block">טקסט הביקורת</label>
+            <textarea value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} maxLength={2000} rows={5}
+              className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-white/30 outline-none resize-none" />
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold mb-1.5 block">תמונה (אופציונלי)</label>
+            <label className="flex items-center gap-3 bg-background border border-white/10 border-dashed rounded-xl px-4 py-3 text-sm cursor-pointer hover:border-white/30">
+              <Upload size={16} className="text-muted-foreground" />
+              <span className="text-muted-foreground truncate">{file ? file.name : "בחר תמונה (עד 5MB)"}</span>
+              <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="hidden" />
+            </label>
+          </div>
+
+          <button type="submit" disabled={submitting}
+            className="w-full bg-gradient-orange text-white font-bold rounded-xl py-3.5 shadow-glow-orange disabled:opacity-50 flex items-center justify-center gap-2">
+            <Send size={16} />
+            {submitting ? "שולח..." : "שלח ביקורת"}
+          </button>
+          <p className="text-[11px] text-muted-foreground text-center">הביקורת תפורסם לאחר אישור</p>
+        </form>
+      )}
+    </motion.div>
   );
 }
 
