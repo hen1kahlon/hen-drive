@@ -155,7 +155,12 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* scroll-behavior intentionally NOT smooth globally — smooth scroll is
+       triggered only when the user clicks a nav/menu hash link (handled in JS).
+       This prevents unexpected scroll jumps after typing in inputs or
+       clicking unrelated buttons. */
+    scroll-behavior: auto;
+    overflow-anchor: none;
   }
 }
 

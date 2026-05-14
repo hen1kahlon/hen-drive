@@ -124,6 +124,30 @@ function RootComponent() {
       window.history.replaceState(null, "", window.location.pathname + window.location.search);
     }
     window.scrollTo(0, 0);
+
+    // Intercept hash anchor clicks: smooth-scroll to the target without
+    // mutating the URL hash. Prevents the browser from auto-scrolling on
+    // subsequent re-renders / focus events and stops unrelated bubbling.
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      const anchor = target.closest("a") as HTMLAnchorElement | null;
+      if (!anchor) return;
+      const href = anchor.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+      e.preventDefault();
+      const id = href.slice(1);
+      if (!id || id === "top") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
   }, []);
 
   return (
