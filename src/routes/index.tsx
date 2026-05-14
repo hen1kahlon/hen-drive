@@ -22,7 +22,8 @@ export const Route = createFileRoute("/")({
 const PHONE = "0503250150";
 const PHONE_DISPLAY = "050-3250150";
 const PHONE_INTL = "972503250150";
-const WA_URL = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent("היי חן, אשמח לפרטים על שיעורי נהיגה")}`;
+const WA_DEFAULT_MSG = "היי חן, הגעתי דרך האתר ואני מעוניין לקבל פרטים על שיעורי נהיגה";
+const WA_URL = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(WA_DEFAULT_MSG)}`;
 const INSTAGRAM = "https://instagram.com";
 const FACEBOOK = "https://facebook.com";
 const TIKTOK = "https://tiktok.com";
@@ -191,11 +192,11 @@ function Hero() {
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
-            <a href="#lead" className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
               התחל ללמוד עכשיו
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
             </a>
-            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card">
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card animate-pulse-ring relative">
               <MessageCircle size={18} /> וואטסאפ
             </a>
             <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3.5 font-bold hover:bg-white/5 transition">
@@ -271,7 +272,7 @@ function Categories() {
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                <a href={`${WA_URL.split("?")[0]}?text=${encodeURIComponent(`היי חן, אשמח לפרטים על ${c.title} ${c.subtitle}`)}`} target="_blank" rel="noopener noreferrer" className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-orange hover:border-transparent hover:text-white transition-all">
+                <a href={`https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(`${WA_DEFAULT_MSG} (${c.title} ${c.subtitle})`)}`} target="_blank" rel="noopener noreferrer" className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-orange hover:border-transparent hover:text-white transition-all">
                   אני מעוניין/ת בפרטים
                 </a>
               </div>
@@ -707,10 +708,18 @@ function Footer() {
 
 function FloatingWA() {
   return (
-    <a href={WA_URL} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
-      className="fixed bottom-24 md:bottom-6 left-6 z-40 w-14 h-14 rounded-full bg-[#25D366] grid place-items-center text-white shadow-glow hover:scale-110 transition">
-      <MessageCircle size={26} />
-      <span className="absolute inset-0 rounded-full bg-[#25D366] -z-10 animate-pulse-ring" />
+    <a
+      href={WA_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="פתח וואטסאפ"
+      className="fixed bottom-24 md:bottom-6 left-4 md:left-6 z-50 inline-flex items-center gap-2 h-14 md:h-16 px-4 md:px-5 rounded-full bg-[#25D366] text-white font-bold shadow-[0_10px_40px_-10px_rgba(37,211,102,0.8)] hover:scale-105 transition animate-bounce-slow"
+    >
+      <span className="relative grid place-items-center w-9 h-9 rounded-full bg-white/15">
+        <MessageCircle size={22} />
+        <span className="absolute inset-0 rounded-full bg-[#25D366] -z-10 animate-pulse-ring" />
+      </span>
+      <span className="hidden sm:inline text-sm whitespace-nowrap">דברו איתי בוואטסאפ</span>
     </a>
   );
 }
@@ -719,8 +728,8 @@ function MobileBar() {
   return (
     <div className="md:hidden fixed bottom-0 inset-x-0 z-40 glass-strong border-t border-white/10">
       <div className="grid grid-cols-3 gap-1 p-2">
-        <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 py-2 rounded-xl hover:bg-white/5 transition">
-          <MessageCircle size={20} className="text-[#25D366]" />
+        <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 py-2 rounded-xl bg-[#25D366] text-white shadow-[0_8px_20px_-8px_rgba(37,211,102,0.8)]">
+          <MessageCircle size={20} />
           <span className="text-[11px] font-bold">וואטסאפ</span>
         </a>
         <a href={`tel:${PHONE}`} className="flex flex-col items-center gap-1 py-2 rounded-xl hover:bg-white/5 transition">
