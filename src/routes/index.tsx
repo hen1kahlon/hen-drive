@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import {
   Phone, MessageCircle, Instagram, Facebook, Mail, Star, Car, Bike,
@@ -192,10 +192,10 @@ function Hero() {
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
-            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
+            <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
               התחל ללמוד עכשיו
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
-            </a>
+            </button>
             <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card animate-pulse-ring relative">
               <MessageCircle size={18} /> וואטסאפ
             </a>
@@ -225,11 +225,22 @@ function Hero() {
 }
 
 const categories = [
-  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue" as const },
-  { id: "A2", title: "אופנוע מתחילים", subtitle: "דרגה A2", desc: "עד 14.7 כ״ס (125 סמ״ק) — רישיון אופנוע למתחילים, הדרך המושלמת להתחיל.", img: vehScooter, icon: Zap, color: "blue" as const },
-  { id: "A1", title: "אופנוע בינוני", subtitle: "דרגה A1", desc: "עד 47 כ״ס — רישיון אופנוע בדרגת ביניים, יותר כוח ויותר חופש.", img: vehBikeA2, icon: Bike, color: "orange" as const },
-  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "orange" as const },
+  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue" as const, interest: "רכב אוטומט דרגה B" },
+  { id: "A2", title: "אופנוע מתחילים", subtitle: "דרגה A2", desc: "עד 14.7 כ״ס (125 סמ״ק) — רישיון אופנוע למתחילים, הדרך המושלמת להתחיל.", img: vehScooter, icon: Zap, color: "blue" as const, interest: "אופנוע A2" },
+  { id: "A1", title: "אופנוע בינוני", subtitle: "דרגה A1", desc: "עד 47 כ״ס — רישיון אופנוע בדרגת ביניים, יותר כוח ויותר חופש.", img: vehBikeA2, icon: Bike, color: "orange" as const, interest: "אופנוע A1" },
+  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "orange" as const, interest: "אופנוע A" },
 ];
+
+function scrollToLead() {
+  const el = document.getElementById("lead");
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function selectInterestAndScroll(interest: string) {
+  window.dispatchEvent(new CustomEvent("lead:set-interest", { detail: interest }));
+  // small delay so the form state updates before scrolling
+  setTimeout(scrollToLead, 30);
+}
 
 function Categories() {
   return (
@@ -272,9 +283,9 @@ function Categories() {
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                <a href={`https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(`${WA_DEFAULT_MSG} (${c.title} ${c.subtitle})`)}`} target="_blank" rel="noopener noreferrer" className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-orange hover:border-transparent hover:text-white transition-all">
+                <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-orange hover:border-transparent hover:text-white transition-all">
                   אני מעוניין/ת בפרטים
-                </a>
+                </button>
               </div>
             </motion.div>
           ))}
@@ -445,6 +456,17 @@ function Reviews() {
 function LeadForm() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", interest: "רכב אוטומט דרגה B", area: "אשקלון", notes: "" });
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (typeof detail === "string") {
+        setForm((prev) => ({ ...prev, interest: detail }));
+      }
+    };
+    window.addEventListener("lead:set-interest", handler as EventListener);
+    return () => window.removeEventListener("lead:set-interest", handler as EventListener);
+  }, []);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
