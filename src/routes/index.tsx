@@ -22,7 +22,8 @@ export const Route = createFileRoute("/")({
 const PHONE = "0503250150";
 const PHONE_DISPLAY = "050-3250150";
 const PHONE_INTL = "972503250150";
-const WA_URL = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent("היי חן, אשמח לפרטים על שיעורי נהיגה")}`;
+const WA_DEFAULT_MSG = "היי חן, הגעתי דרך האתר ואני מעוניין לקבל פרטים על שיעורי נהיגה";
+const WA_URL = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(WA_DEFAULT_MSG)}`;
 const INSTAGRAM = "https://instagram.com";
 const FACEBOOK = "https://facebook.com";
 const TIKTOK = "https://tiktok.com";
