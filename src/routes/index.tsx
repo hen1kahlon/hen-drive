@@ -6,8 +6,9 @@ import {
   Phone, MessageCircle, Instagram, Facebook, Mail, Star, Car, Bike,
   Users, Award, Clock, Shield, Sparkles, MapPin, ChevronDown, Check,
   ArrowLeft, Zap, Heart, GraduationCap, Send, Trophy, Calendar, UserCheck,
-  Smile,
+  Smile, Upload,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import heroImg from "@/assets/hero-driving.jpg";
 import portraitImg from "@/assets/instructor-portrait.jpg";
 import vehSedan from "@/assets/vehicle-sedan.png";
