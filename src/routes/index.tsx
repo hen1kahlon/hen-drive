@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import {
   Phone, MessageCircle, Instagram, Facebook, Mail, Star, Car, Bike,
@@ -192,10 +192,10 @@ function Hero() {
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
-            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
+            <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
               התחל ללמוד עכשיו
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
-            </a>
+            </button>
             <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card animate-pulse-ring relative">
               <MessageCircle size={18} /> וואטסאפ
             </a>
@@ -283,9 +283,9 @@ function Categories() {
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                <a href={`https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(`${WA_DEFAULT_MSG} (${c.title} ${c.subtitle})`)}`} target="_blank" rel="noopener noreferrer" className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-orange hover:border-transparent hover:text-white transition-all">
+                <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-orange hover:border-transparent hover:text-white transition-all">
                   אני מעוניין/ת בפרטים
-                </a>
+                </button>
               </div>
             </motion.div>
           ))}
