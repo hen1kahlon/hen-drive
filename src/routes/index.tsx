@@ -457,6 +457,17 @@ function LeadForm() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", interest: "רכב אוטומט דרגה B", area: "אשקלון", notes: "" });
 
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (typeof detail === "string") {
+        setForm((prev) => ({ ...prev, interest: detail }));
+      }
+    };
+    window.addEventListener("lead:set-interest", handler as EventListener);
+    return () => window.removeEventListener("lead:set-interest", handler as EventListener);
+  }, []);
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim()) {
