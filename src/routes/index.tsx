@@ -225,8 +225,15 @@ function Hero() {
               התחל ללמוד עכשיו
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
             </button>
-            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card animate-pulse-ring relative">
-              <MessageCircle size={18} /> וואטסאפ
+            <a
+              href={WA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="וואטסאפ"
+              className="relative z-10 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card"
+            >
+              <MessageCircle size={18} aria-hidden="true" />
+              <span className="text-white opacity-100">וואטסאפ</span>
             </a>
             <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3.5 font-bold hover:bg-white/5 transition">
               <Phone size={18} /> התקשר
