@@ -1,13 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadGalleryImage } from "@/lib/gallery.functions";
 import { toast } from "sonner";
 import { Trash2, Upload, Check, Pencil } from "lucide-react";
 
 export const Route = createFileRoute("/admin/gallery")({ component: GalleryPage });
 
 type Item = { id: string; image_url: string; category: string; title: string | null; sort_order: number };
+type SelectedPreview = { name: string; url: string };
 const CATS = [
   { id: "cars", label: "רכב" },
   { id: "motorcycles", label: "אופנוע" },
@@ -64,6 +67,18 @@ async function compressToWebP(file: File): Promise<Blob> {
   if (!blob) blob = await tryEncode("image/jpeg");
   if (!blob) throw new Error("דחיסת התמונה נכשלה");
   return blob;
+}
+
+function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === "string" ? reader.result : "";
+      resolve(result.includes(",") ? result.split(",")[1] : result);
+    };
+    reader.onerror = () => reject(new Error("קריאת קובץ התמונה נכשלה"));
+    reader.readAsDataURL(blob);
+  });
 }
 
 function GalleryPage() {
