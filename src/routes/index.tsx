@@ -669,10 +669,28 @@ function LeadForm() {
     return () => window.removeEventListener("lead:set-interest", handler as EventListener);
   }, []);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim()) {
       toast.error("נא למלא שם וטלפון");
+      return;
+    }
+    // Map interest text to license_type when possible
+    const it = form.interest;
+    const license_type = /A2/i.test(it) ? "A2" : /A1/i.test(it) ? "A1" : /\bA\b/i.test(it) ? "A" : /B/i.test(it) ? "B" : null;
+    try {
+      const { error } = await supabase.from("leads").insert({
+        full_name: form.name.trim().slice(0, 100),
+        phone: form.phone.trim().slice(0, 30),
+        license_type,
+        interest: it.slice(0, 200),
+        area: form.area.slice(0, 200),
+        notes: form.notes.slice(0, 2000) || null,
+        source: "lead-form",
+      });
+      if (error) throw error;
+    } catch (err) {
+      toast.error(err instanceof Error ? `שגיאה בשמירה: ${err.message}` : "שגיאה בשמירת הפרטים");
       return;
     }
     const lines = [
