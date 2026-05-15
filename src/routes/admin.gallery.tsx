@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { uploadGalleryImage } from "@/lib/gallery.functions";
+import { uploadGalleryImage, updateGalleryTitle } from "@/lib/gallery.functions";
 import { toast } from "sonner";
 import { Trash2, Upload, Check, Pencil } from "lucide-react";
 
@@ -100,6 +100,7 @@ function blobToBase64(blob: Blob): Promise<string> {
 
 function GalleryPage() {
   const uploadImage = useServerFn(uploadGalleryImage);
+  const saveTitleFn = useServerFn(updateGalleryTitle);
   const [items, setItems] = useState<Item[]>([]);
   const [cat, setCat] = useState<(typeof CATS)[number]["id"]>("cars");
   const [uploading, setUploading] = useState(false);
@@ -234,15 +235,20 @@ function GalleryPage() {
   };
 
   const saveTitle = async (id: string) => {
-    const value = editValue.trim() || null;
-    const { error } = await supabase.from("gallery_items").update({ title: value }).eq("id", id);
-    if (error) {
-      toast.error(error.message);
+    const value = editValue.trim() ? editValue.trim() : null;
+    const current = items.find((i) => i.id === id);
+    if ((current?.title ?? null) === value) {
+      setEditingId(null);
       return;
     }
-    setItems((p) => p.map((i) => (i.id === id ? { ...i, title: value } : i)));
-    setEditingId(null);
-    toast.success("נשמר");
+    try {
+      await saveTitleFn({ data: { id, title: value } });
+      setItems((p) => p.map((i) => (i.id === id ? { ...i, title: value } : i)));
+      setEditingId(null);
+      toast.success("הכיתוב נשמר");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "שמירת הכיתוב נכשלה");
+    }
   };
 
   const filtered = items.filter((i) => i.category === cat);
@@ -372,19 +378,28 @@ function GalleryPage() {
                   <div className="flex items-center gap-1">
                     <input
                       autoFocus
+                      dir="rtl"
                       value={editValue}
                       onChange={(e) => setEditValue(e.target.value)}
+                      onBlur={() => saveTitle(i.id)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") saveTitle(i.id);
-                        if (e.key === "Escape") setEditingId(null);
+                        if (e.key === "Escape") {
+                          setEditValue(i.title ?? "");
+                          setEditingId(null);
+                        }
                       }}
                       placeholder="כיתוב..."
                       className="flex-1 bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-xs"
                     />
                     <button
-                      onClick={() => saveTitle(i.id)}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        saveTitle(i.id);
+                      }}
                       className="bg-gradient-orange text-white p-1.5 rounded-lg"
                       aria-label="שמור"
+                      title="שמור"
                     >
                       <Check size={12} />
                     </button>
