@@ -14,25 +14,43 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/admin" });
+      if (data.session) navigate({ to: "/admin/gallery" });
     });
   }, [navigate]);
+
+  const translateError = (msg: string): string => {
+    const m = msg.toLowerCase();
+    if (m.includes("invalid login credentials")) return "אימייל או סיסמה שגויים";
+    if (m.includes("email not confirmed")) return "האימייל טרם אומת";
+    if (m.includes("user already registered")) return "משתמש כבר רשום במערכת";
+    if (m.includes("password should be")) return "הסיסמה חייבת להכיל לפחות 6 תווים";
+    if (m.includes("rate limit") || m.includes("too many")) return "יותר מדי ניסיונות, נסו שוב בעוד מספר דקות";
+    if (m.includes("network") || m.includes("failed to fetch")) return "בעיית רשת – בדקו את החיבור ונסו שוב";
+    return "שגיאה בהתחברות – ודאו את הפרטים ונסו שוב";
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({ email, password });
+        const { error } = await supabase.auth.signUp({
+          email: email.trim(),
+          password,
+          options: { emailRedirectTo: `${window.location.origin}/admin/gallery` },
+        });
         if (error) throw error;
         toast.success("נרשמת בהצלחה! מתחבר...");
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        });
         if (error) throw error;
       }
-      navigate({ to: "/admin" });
+      navigate({ to: "/admin/gallery" });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "שגיאה");
+      toast.error(translateError(err instanceof Error ? err.message : ""));
     } finally {
       setLoading(false);
     }
