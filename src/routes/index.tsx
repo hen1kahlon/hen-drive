@@ -1185,19 +1185,33 @@ function StudentCard({
         mobile ? "snap-start shrink-0 w-[78%] aspect-[3/4]" : tall ? "row-span-2" : "row-span-1",
       ].join(" ")}
     >
+      {/* blurred backdrop = no cropping, no empty bars */}
       <img
         src={item.image_url}
-        alt={item.title ?? "תלמיד שעבר טסט"}
+        alt=""
+        aria-hidden="true"
         loading="lazy"
         decoding="async"
-        className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+        className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-40"
+      />
+      <div className="absolute inset-0 bg-black/30" />
+
+      {/* main image — full face, no crop */}
+      <img
+        src={item.image_url}
+        alt={item.title ?? "תלמיד שעבר טסט בהצלחה"}
+        loading={index < 2 ? "eager" : "lazy"}
+        fetchPriority={index < 2 ? "high" : "low"}
+        decoding="async"
+        sizes={mobile ? "78vw" : "(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"}
+        className="relative z-[1] w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-700"
       />
 
-      {/* readability gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+      {/* readability gradient on top of main image */}
+      <div className="absolute inset-0 z-[2] bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none" />
 
       {/* top badges */}
-      <div className="absolute top-2.5 right-2.5 left-2.5 flex items-center justify-between gap-2">
+      <div className="absolute z-[3] top-2.5 right-2.5 left-2.5 flex items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1 rounded-full bg-[#ff7a00] text-white px-2.5 py-1 text-[10px] font-black shadow-glow-orange">
           <Check size={11} strokeWidth={3} />
           עבר/ה טסט
@@ -1210,7 +1224,7 @@ function StudentCard({
       </div>
 
       {/* caption */}
-      <div className="absolute bottom-0 inset-x-0 p-3 sm:p-3.5 text-white">
+      <div className="absolute z-[3] bottom-0 inset-x-0 p-3 sm:p-3.5 text-white">
         <div className="font-black text-sm sm:text-base leading-tight">{item.caption}</div>
         {item.title && (
           <div className="text-[11px] sm:text-xs text-white/70 mt-0.5 truncate">{item.title}</div>
