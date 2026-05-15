@@ -11,7 +11,8 @@ export async function uploadGalleryImageAsAdmin(data: GalleryUploadData) {
   if (bytes.byteLength === 0) throw new Error("קובץ התמונה ריק");
   if (bytes.byteLength > 6 * 1024 * 1024) throw new Error("התמונה הדחוסה גדולה מדי");
 
-  const ext = data.mimeType === "image/jpeg" ? "jpg" : data.mimeType === "image/png" ? "png" : "webp";
+  const ext =
+    data.mimeType === "image/jpeg" ? "jpg" : data.mimeType === "image/png" ? "png" : "webp";
   const path = `${data.category}/${crypto.randomUUID()}.${ext}`;
   const body = new Blob([bytes], { type: data.mimeType });
 
