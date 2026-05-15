@@ -119,6 +119,9 @@ function Nav() {
           <a href={`tel:${PHONE}`} className="mt-2 flex items-center justify-center gap-2 rounded-full bg-gradient-orange px-4 py-2.5 text-sm font-bold text-white">
             <Phone size={14} /> {PHONE_DISPLAY}
           </a>
+          <a href="/admin" onClick={() => setOpenMenu(false)} className="block text-center text-[10px] text-muted-foreground/60 hover:text-foreground pt-3" aria-label="כניסת מנהל">
+            ניהול
+          </a>
         </div>
       )}
     </header>
