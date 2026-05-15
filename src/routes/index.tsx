@@ -571,11 +571,14 @@ function SubmitReview() {
         license_type: form.license_type,
         content: form.content.trim(),
         image_url,
+        status: "pending",
+        is_featured: false,
       });
       if (error) throw error;
+      toast.success("הביקורת נשלחה וממתינה לאישור");
       setDone(true);
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "שגיאה בשליחה");
+      toast.error(err instanceof Error ? `שגיאה בשליחת ביקורת: ${err.message}` : "שגיאה בשליחת ביקורת");
     } finally {
       setSubmitting(false);
     }
