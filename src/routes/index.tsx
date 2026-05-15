@@ -9,12 +9,12 @@ import {
   Smile, Upload, Navigation, Play, Image as ImageIcon, Video as VideoIcon,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import heroImg from "@/assets/hero-driving.jpg";
-import portraitImg from "@/assets/instructor-portrait.jpg";
-import vehSedan from "@/assets/vehicle-sedan.png";
-import vehBikeA2 from "@/assets/vehicle-bike-a2.png";
-import vehScooter from "@/assets/vehicle-scooter.png";
-import vehBikeA from "@/assets/vehicle-bike-a.png";
+import heroImg from "@/assets/hero-driving.webp";
+import portraitImg from "@/assets/instructor-portrait.webp";
+import vehSedan from "@/assets/vehicle-sedan.webp";
+import vehBikeA2 from "@/assets/vehicle-bike-a2.webp";
+import vehScooter from "@/assets/vehicle-scooter.webp";
+import vehBikeA from "@/assets/vehicle-bike-a.webp";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
