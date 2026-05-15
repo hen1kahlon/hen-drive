@@ -117,11 +117,11 @@ export const DEFAULT_SETTINGS: SiteSettings = {
 // Deep-merge incoming partial onto defaults
 export function mergeSettings(partial: unknown): SiteSettings {
   const p = (partial ?? {}) as Partial<Record<keyof SiteSettings, Record<string, unknown>>>;
-  const out = {} as SiteSettings;
+  const out: Record<string, unknown> = {};
   (Object.keys(DEFAULT_SETTINGS) as (keyof SiteSettings)[]).forEach((k) => {
-    out[k] = { ...(DEFAULT_SETTINGS[k] as object), ...((p[k] ?? {}) as object) } as SiteSettings[typeof k];
+    out[k] = { ...(DEFAULT_SETTINGS[k] as object), ...((p[k] ?? {}) as object) };
   });
-  return out;
+  return out as SiteSettings;
 }
 
 const Ctx = createContext<SiteSettings>(DEFAULT_SETTINGS);
