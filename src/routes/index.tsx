@@ -19,7 +19,7 @@ import vehBikeA from "@/assets/vehicle-bike-a.webp";
 export const Route = createFileRoute("/")({
   head: () => ({
     links: [
-      { rel: "preload", as: "image", href: heroImg, fetchpriority: "high" } as any,
+      { rel: "preload", as: "image", href: heroImg, fetchPriority: "high" } as any,
     ],
   }),
   component: LandingPage,
