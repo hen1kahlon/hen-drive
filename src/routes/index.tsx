@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteSettingsProvider, useSiteSettings, waUrl, DEFAULT_SETTINGS } from "@/lib/site-settings";
+import { getSafeImageMimeType } from "@/lib/image-upload.client";
 import heroImg from "@/assets/hero-driving.webp";
 import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 import portraitImg from "@/assets/instructor-portrait.webp";
@@ -558,9 +559,10 @@ function SubmitReview() {
       let image_url: string | null = null;
       if (file) {
         if (file.size > 5 * 1024 * 1024) throw new Error("התמונה גדולה מדי (מקס׳ 5MB)");
-        const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
+        const mimeType = getSafeImageMimeType(file);
+        const ext = mimeType === "image/jpeg" ? "jpg" : mimeType === "image/png" ? "png" : "webp";
         const path = `submissions/${crypto.randomUUID()}.${ext}`;
-        const { error: upErr } = await supabase.storage.from("review-images").upload(path, file, { contentType: file.type });
+        const { error: upErr } = await supabase.storage.from("review-images").upload(path, file, { contentType: mimeType });
         if (upErr) throw upErr;
         const { data } = supabase.storage.from("review-images").getPublicUrl(path);
         image_url = data.publicUrl;
