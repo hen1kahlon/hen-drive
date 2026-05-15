@@ -1426,7 +1426,7 @@ function AccessibilityWidget() {
         onClick={() => setOpen((v) => !v)}
         aria-label="פתיחת תפריט נגישות"
         aria-expanded={open}
-        className="fixed bottom-20 md:bottom-6 left-4 md:left-auto md:right-4 z-[60] h-11 w-11 md:h-14 md:w-14 rounded-full bg-[oklch(0.55_0.22_255)] hover:bg-[oklch(0.62_0.22_255)] text-white shadow-glow flex items-center justify-center border-2 border-white/20 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/40 transition-colors"
+        className="fixed bottom-20 md:bottom-6 right-4 z-[60] h-11 w-11 md:h-14 md:w-14 rounded-full bg-[oklch(0.55_0.22_255)] hover:bg-[oklch(0.62_0.22_255)] text-white shadow-glow flex items-center justify-center border-2 border-white/20 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/40 transition-colors"
       >
         <Accessibility className="!size-5 md:!size-7" />
       </button>
@@ -1436,7 +1436,7 @@ function AccessibilityWidget() {
           dir="rtl"
           role="dialog"
           aria-label="תפריט נגישות"
-          className="fixed bottom-32 md:bottom-24 left-4 md:left-auto md:right-4 z-[60] w-72 max-w-[calc(100vw-2rem)] glass-strong border border-white/10 rounded-2xl p-4 shadow-card text-foreground"
+          className="fixed bottom-32 md:bottom-24 right-4 z-[60] w-72 max-w-[calc(100vw-2rem)] glass-strong border border-white/10 rounded-2xl p-4 shadow-card text-foreground"
         >
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-base font-bold flex items-center gap-2">
