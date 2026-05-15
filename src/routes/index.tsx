@@ -14,7 +14,7 @@ import heroImg from "@/assets/hero-driving.webp";
 import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 import portraitImg from "@/assets/instructor-portrait.webp";
 import portraitImgMobile from "@/assets/instructor-portrait-mobile.webp";
-import chenPortrait from "@/assets/chen-portrait.png";
+import chenPortrait from "@/assets/chen-portrait.webp";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA2 from "@/assets/vehicle-bike-a2.webp";
 import vehScooter from "@/assets/vehicle-scooter.webp";
@@ -355,10 +355,26 @@ function About() {
       <div className="absolute inset-0 -z-10 grid-bg opacity-40" />
       <div className="absolute top-1/2 -translate-y-1/2 right-0 w-96 h-96 rounded-full bg-[oklch(0.72_0.18_50_/_0.12)] blur-[120px] -z-10" />
 
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-5 sm:gap-8 lg:gap-16 items-center">
         <motion.div {...fadeUp} className="relative order-2 lg:order-1">
-          <div className="rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue">
-            <img src={chenPortrait} alt="חן כחלון - מורה נהיגה" loading="lazy" width={1240} height={1240} className="w-full h-auto object-cover" />
+          <div className="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue aspect-square">
+            <img src={chenPortrait} alt="חן כחלון - מורה נהיגה עם רכב ואופנוע באשקלון" loading="lazy" width={1100} height={1100} className="absolute inset-0 w-full h-full object-cover object-center" />
+            <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 bg-gradient-to-t from-black/85 via-black/55 to-transparent">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
+                  <div className="text-base sm:text-2xl font-bold gradient-text-orange leading-none">98%</div>
+                  <div className="text-[10px] sm:text-xs text-white/80 mt-1">הצלחה</div>
+                </div>
+                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
+                  <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">5</div>
+                  <div className="text-[10px] sm:text-xs text-white/80 mt-1">שנות ותק</div>
+                </div>
+                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
+                  <div className="text-base sm:text-2xl font-bold gradient-text-orange leading-none">350+</div>
+                  <div className="text-[10px] sm:text-xs text-white/80 mt-1">תלמידים</div>
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
 
