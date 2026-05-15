@@ -1054,52 +1054,169 @@ function LicenseMatcher() {
   );
 }
 
-// ===================== Success Gallery =====================
-const galleryItems = [
-  { tag: "טסט", title: "עברתי טסט!", grad: "from-[oklch(0.62_0.20_255)] to-[oklch(0.45_0.18_265)]" },
-  { tag: "אופנוע", title: "שיעור A2", grad: "from-[oklch(0.78_0.20_55)] to-[oklch(0.55_0.22_30)]" },
-  { tag: "רכב", title: "שיעור B", grad: "from-[oklch(0.7_0.18_250)] to-[oklch(0.5_0.20_270)]" },
-  { tag: "הצלחה", title: "רישיון ביד", grad: "from-[oklch(0.75_0.18_40)] to-[oklch(0.5_0.22_25)]" },
-  { tag: "אופנוע", title: "תרגול במגרש", grad: "from-[oklch(0.6_0.20_260)] to-[oklch(0.4_0.18_280)]" },
-  { tag: "טסט", title: "פעם ראשונה!", grad: "from-[oklch(0.78_0.18_55)] to-[oklch(0.6_0.20_255)]" },
-  { tag: "רכב", title: "מוכן לטסט", grad: "from-[oklch(0.5_0.18_265)] to-[oklch(0.3_0.15_270)]" },
-  { tag: "הצלחה", title: "תלמידה מאושרת", grad: "from-[oklch(0.72_0.18_50)] to-[oklch(0.55_0.22_35)]" },
+// ===================== Student Success =====================
+const SUCCESS_CAPTIONS = [
+  "טסט ראשון 🎉",
+  "עבר/ה בהצלחה 🚗",
+  "עוד הצלחה בדרך לרישיון",
+  "גם אתם יכולים",
+  "בדרך לעצמאות על הכביש",
+  "עוד תלמיד/ה עם רישיון",
+  "רישיון ביד ✨",
+  "מוכן/ה לכביש",
 ];
+
+type StudentItem = {
+  id: string;
+  image_url: string;
+  title: string | null;
+  caption: string;
+  isFirstTry: boolean;
+};
+
 function SuccessGallery() {
+  const s = useSiteSettings();
+  const [items, setItems] = useState<StudentItem[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("gallery_items")
+      .select("id,image_url,title,sort_order")
+      .eq("category", "success")
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        if (!data) return;
+        setItems(
+          data.map((row, i) => ({
+            id: row.id as string,
+            image_url: row.image_url as string,
+            title: (row.title as string | null) ?? null,
+            caption: SUCCESS_CAPTIONS[i % SUCCESS_CAPTIONS.length],
+            // mark roughly every 3rd card as a "first-try" highlight
+            isFirstTry: i % 3 === 0,
+          })),
+        );
+      });
+  }, []);
+
+  if (items.length === 0) return null;
+
+  const stats = [
+    { value: `+${s.stats.students.replace(/\D/g, "") || "350"}`, label: "תלמידים" },
+    { value: s.stats.success, label: "הצלחה" },
+    { value: s.stats.years, label: "שנות ניסיון" },
+  ];
+
   return (
-    <section id="gallery" className="py-7 sm:py-24 px-4">
+    <section id="gallery" className="py-7 sm:py-24 px-4 relative overflow-hidden">
+      <div className="absolute -top-32 right-1/3 w-[28rem] h-[28rem] rounded-full bg-[oklch(0.72_0.18_50_/_0.10)] blur-[120px] -z-10" />
+      <div className="absolute -bottom-40 left-1/4 w-[28rem] h-[28rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.10)] blur-[120px] -z-10" />
+
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-5 sm:mb-14">
-          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">גלריית הצלחות</p>
+        <motion.div {...fadeUp} className="text-center mb-4 sm:mb-10">
+          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">הצלחות אמיתיות</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             תלמידים <span className="gradient-text-orange">שעשו את זה</span>
           </h2>
-          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">רגעי הצלחה מתוך השיעורים והטסטים — אווירה צעירה, מקצועית ומלאה במוטיבציה.</p>
+          <p className="text-muted-foreground mt-3 max-w-xl mx-auto text-sm sm:text-base">
+            רגעי הצלחה אמיתיים — מהשיעור הראשון ועד הקריאה ״עברת!״
+          </p>
         </motion.div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {galleryItems.map((g, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              className={`group relative aspect-square rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br ${g.grad} cursor-pointer`}
+
+        {/* Counters */}
+        <motion.div
+          {...fadeUp}
+          className="grid grid-cols-3 gap-2 sm:gap-4 max-w-3xl mx-auto mb-6 sm:mb-12"
+        >
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="glass-strong rounded-2xl border border-white/10 px-2 py-3 sm:px-5 sm:py-5 text-center hover:border-[oklch(0.72_0.18_50_/_0.5)] transition"
             >
-              <div className="absolute inset-0 grid-bg opacity-20" />
-              <div className="absolute inset-0 grid place-items-center">
-                <ImageIcon size={40} className="text-white/30 group-hover:scale-110 transition-transform duration-500" />
+              <div className="text-2xl sm:text-4xl font-black gradient-text-orange leading-none mb-1">
+                {stat.value}
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute top-2 right-2 glass-strong rounded-full px-2.5 py-1 text-[10px] font-bold border border-white/10">{g.tag}</div>
-              <div className="absolute bottom-3 right-3 left-3 text-white font-black text-sm sm:text-base translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition">
-                {g.title}
+              <div className="text-[10px] sm:text-xs text-muted-foreground font-medium">
+                {stat.label}
               </div>
-            </motion.div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* Mobile: swipe carousel */}
+        <div className="sm:hidden -mx-4 px-4 overflow-x-auto snap-x snap-mandatory flex gap-3 pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {items.map((item, i) => (
+            <StudentCard key={item.id} item={item} index={i} mobile />
+          ))}
+        </div>
+
+        {/* Desktop: masonry-like grid */}
+        <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[180px]">
+          {items.map((item, i) => (
+            <StudentCard key={item.id} item={item} index={i} />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function StudentCard({
+  item,
+  index,
+  mobile = false,
+}: {
+  item: StudentItem;
+  index: number;
+  mobile?: boolean;
+}) {
+  // Masonry rhythm on desktop: every 3rd card spans 2 rows
+  const tall = !mobile && index % 3 === 0;
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.4) }}
+      className={[
+        "group relative overflow-hidden rounded-2xl border border-white/10 glass shadow-card",
+        "hover:border-[oklch(0.72_0.18_50_/_0.5)] hover:-translate-y-1 hover:shadow-glow-orange",
+        "transition-all duration-500",
+        mobile ? "snap-start shrink-0 w-[78%] aspect-[3/4]" : tall ? "row-span-2" : "row-span-1",
+      ].join(" ")}
+    >
+      <img
+        src={item.image_url}
+        alt={item.title ?? "תלמיד שעבר טסט"}
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+      />
+
+      {/* readability gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+
+      {/* top badges */}
+      <div className="absolute top-2.5 right-2.5 left-2.5 flex items-center justify-between gap-2">
+        <span className="inline-flex items-center gap-1 rounded-full bg-[#ff7a00] text-white px-2.5 py-1 text-[10px] font-black shadow-glow-orange">
+          <Check size={11} strokeWidth={3} />
+          עבר/ה טסט
+        </span>
+        {item.isFirstTry && (
+          <span className="rounded-full glass-strong border border-white/15 px-2 py-0.5 text-[10px] font-bold text-white">
+            טסט ראשון
+          </span>
+        )}
+      </div>
+
+      {/* caption */}
+      <div className="absolute bottom-0 inset-x-0 p-3 sm:p-3.5 text-white">
+        <div className="font-black text-sm sm:text-base leading-tight">{item.caption}</div>
+        {item.title && (
+          <div className="text-[11px] sm:text-xs text-white/70 mt-0.5 truncate">{item.title}</div>
+        )}
+      </div>
+    </motion.article>
   );
 }
 
