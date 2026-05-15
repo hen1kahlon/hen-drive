@@ -1228,9 +1228,6 @@ function StudentCard({
       {/* caption */}
       <div className="absolute z-[3] bottom-0 inset-x-0 p-3 sm:p-3.5 text-white">
         <div className="font-black text-sm sm:text-base leading-tight">{item.caption}</div>
-        {item.title && (
-          <div className="text-[11px] sm:text-xs text-white/70 mt-0.5 truncate">{item.title}</div>
-        )}
       </div>
     </motion.article>
   );
