@@ -158,6 +158,9 @@ function Speedometer() {
 }
 
 function Hero() {
+  const s = useSiteSettings();
+  const heroSrc = s.hero.hero_media_url || heroImgMobile;
+  const heroSrcSet = s.hero.hero_media_url ? undefined : `${heroImgMobile} 768w, ${heroImg} 1920w`;
   return (
     <section id="top" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* glow background */}
@@ -176,8 +179,8 @@ function Hero() {
         >
           <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 shadow-glow">
             <img
-              src={heroImgMobile}
-              srcSet={`${heroImgMobile} 768w, ${heroImg} 1920w`}
+              src={heroSrc}
+              srcSet={heroSrcSet}
               sizes="(max-width: 768px) 100vw, 60vw"
               alt="חן כחלון בשיעור נהיגה עם תלמידה"
               width={1920}
@@ -203,8 +206,8 @@ function Hero() {
               <Trophy size={20} />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-black gradient-text-orange leading-none">98%</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground">הצלחה בטסט</div>
+              <div className="text-xl sm:text-2xl font-black gradient-text-orange leading-none">{s.stats.floating}</div>
+              <div className="text-[10px] sm:text-xs text-muted-foreground">{s.stats.floating_label}</div>
             </div>
           </div>
         </motion.div>
@@ -213,22 +216,22 @@ function Hero() {
         <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="lg:col-span-5 order-2 lg:order-1 text-center lg:text-right">
           <div className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-4 py-1.5 mb-5 text-xs font-medium">
             <Sparkles size={13} className="text-accent" />
-            <span>5 שנות ותק · רכב ואופנועים · אשקלון</span>
+            <span>{s.hero.badge}</span>
           </div>
           <h1 className="text-display text-[2.5rem] sm:text-5xl lg:text-[3.75rem] mb-3">
-            מוציאים רישיון<br />
-            <span className="gradient-text-blue">בביטחון</span>
+            {s.hero.headline_line1}<br />
+            <span className="gradient-text-blue">{s.hero.headline_highlight}</span>
           </h1>
           <p className="text-display text-2xl sm:text-3xl lg:text-4xl gradient-text-orange mb-5">
-            עד ההצלחה!
+            {s.hero.tagline}
           </p>
           <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0">
-            שיעורי נהיגה לרכב אוטומט ואופנועים באווירה צעירה, מקצועית וסבלנית — עם מורה שמלווה אותך עד הקריאה ״עברת!״
+            {s.hero.description}
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
             <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
-              התחל ללמוד עכשיו
+              {s.hero.cta_primary}
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
             </button>
             <a
@@ -239,10 +242,10 @@ function Hero() {
               className="relative z-10 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card"
             >
               <MessageCircle size={18} aria-hidden="true" />
-              <span className="text-white opacity-100">וואטסאפ</span>
+              <span className="text-white opacity-100">{s.buttons.whatsapp}</span>
             </a>
             <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3.5 font-bold hover:bg-white/5 transition">
-              <Phone size={18} /> התקשר
+              <Phone size={18} /> {s.buttons.call}
             </a>
           </div>
 
