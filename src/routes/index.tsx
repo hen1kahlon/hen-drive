@@ -270,11 +270,23 @@ function Hero() {
   );
 }
 
-const categories = [
-  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue" as const, interest: "רכב אוטומט דרגה B" },
-  { id: "A2", title: "אופנוע מתחילים", subtitle: "דרגה A2", desc: "עד 14.7 כ״ס (125 סמ״ק) — רישיון אופנוע למתחילים, הדרך המושלמת להתחיל.", img: vehScooter, icon: Zap, color: "blue" as const, interest: "אופנוע A2" },
-  { id: "A1", title: "אופנוע בינוני", subtitle: "דרגה A1", desc: "עד 47 כ״ס — רישיון אופנוע בדרגת ביניים, יותר כוח ויותר חופש.", img: vehBikeA2, icon: Bike, color: "orange" as const, interest: "אופנוע A1" },
-  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "orange" as const, interest: "אופנוע A" },
+type Category = {
+  id: string;
+  title: string;
+  subtitle: string;
+  desc: string;
+  img?: string;
+  imgs?: { src: string; label: string }[];
+  icon: typeof Car;
+  color: "blue" | "orange";
+  interest: string;
+};
+
+const categories: Category[] = [
+  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue", interest: "רכב אוטומט דרגה B" },
+  { id: "A2", title: "אופנוע מתחילים", subtitle: "דרגה A2 · ידני / אוטומט", desc: "עד 14.7 כ״ס (125 סמ״ק) — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA2, label: "ידני" }, { src: vehScooter, label: "אוטומט" }], icon: Zap, color: "blue", interest: "אופנוע A2 (ידני / אוטומט)" },
+  { id: "A1", title: "אופנוע בינוני", subtitle: "דרגה A1 · ידני / אוטומט", desc: "עד 47 כ״ס — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA, label: "ידני" }, { src: vehScooter, label: "אוטומט" }], icon: Bike, color: "orange", interest: "אופנוע A1 (ידני / אוטומט)" },
+  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "orange", interest: "אופנוע A" },
 ];
 
 function scrollToLead() {
@@ -323,9 +335,20 @@ function Categories() {
                   </div>
                 </div>
 
-                <div className="aspect-[4/3] grid place-items-center my-3 group-hover:scale-105 transition-transform duration-500">
-                  <img src={c.img} alt={`${c.title} ${c.subtitle}`} loading="lazy" width={400} height={300} className="w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]" />
-                </div>
+                {c.imgs ? (
+                  <div className="aspect-[4/3] my-3 grid grid-cols-2 gap-2">
+                    {c.imgs.map((v) => (
+                      <div key={v.label} className="relative rounded-2xl bg-white/[0.03] border border-white/5 grid place-items-center p-2 group-hover:scale-[1.03] transition-transform duration-500">
+                        <img src={v.src} alt={`${c.title} — ${v.label}`} loading="lazy" width={300} height={220} className="w-full h-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.5)]" />
+                        <span className={`absolute bottom-1.5 right-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md ${c.color === "orange" ? "bg-[oklch(0.72_0.18_50_/_0.18)] text-[oklch(0.85_0.14_55)] border border-[oklch(0.72_0.18_50_/_0.35)]" : "bg-[oklch(0.62_0.20_255_/_0.18)] text-[oklch(0.82_0.12_255)] border border-[oklch(0.62_0.20_255_/_0.35)]"}`}>{v.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="aspect-[4/3] grid place-items-center my-3 group-hover:scale-105 transition-transform duration-500">
+                    <img src={c.img} alt={`${c.title} ${c.subtitle}`} loading="lazy" width={400} height={300} className="w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]" />
+                  </div>
+                )}
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
