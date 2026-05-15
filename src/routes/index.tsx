@@ -6,7 +6,7 @@ import {
   Phone, MessageCircle, Instagram, Facebook, Mail, Star, Car, Bike,
   Users, Award, Clock, Shield, Sparkles, MapPin, ChevronDown, Check,
   ArrowLeft, Zap, Heart, GraduationCap, Send, Trophy, Calendar, UserCheck,
-  Smile, Upload,
+  Smile, Upload, Navigation, Play, Image as ImageIcon, Video as VideoIcon,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import heroImg from "@/assets/hero-driving.jpg";
@@ -29,6 +29,7 @@ const INSTAGRAM = "https://instagram.com";
 const FACEBOOK = "https://facebook.com";
 const TIKTOK = "https://tiktok.com";
 const EMAIL = "hen1kahlon@gmail.com";
+const TRAINING_MAP_URL = "https://www.google.com/maps/search/?api=1&query=מגרש+אימונים+אופנוע+אשקלון";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -889,18 +890,22 @@ function FloatingWA() {
 function MobileBar() {
   return (
     <div className="md:hidden fixed bottom-0 inset-x-0 z-40 glass-strong border-t border-white/10">
-      <div className="grid grid-cols-3 gap-1 p-2">
+      <div className="grid grid-cols-4 gap-1 p-2">
         <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 py-2 rounded-xl bg-[#25D366] text-white shadow-[0_8px_20px_-8px_rgba(37,211,102,0.8)]">
-          <MessageCircle size={20} />
-          <span className="text-[11px] font-bold">וואטסאפ</span>
+          <MessageCircle size={18} />
+          <span className="text-[10px] font-bold">וואטסאפ</span>
         </a>
         <a href={`tel:${PHONE}`} className="flex flex-col items-center gap-1 py-2 rounded-xl hover:bg-white/5 transition">
-          <Phone size={20} className="text-[oklch(0.7_0.18_255)]" />
-          <span className="text-[11px] font-bold">שיחה</span>
+          <Phone size={18} className="text-[oklch(0.7_0.18_255)]" />
+          <span className="text-[10px] font-bold">שיחה</span>
         </a>
-        <a href="#lead" className="flex flex-col items-center gap-1 py-2 rounded-xl bg-gradient-orange text-white">
-          <Sparkles size={20} />
-          <span className="text-[11px] font-bold">השאר פרטים</span>
+        <button type="button" onClick={scrollToLead} className="flex flex-col items-center gap-1 py-2 rounded-xl bg-gradient-orange text-white">
+          <Sparkles size={18} />
+          <span className="text-[10px] font-bold">פרטים</span>
+        </button>
+        <a href={TRAINING_MAP_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 py-2 rounded-xl hover:bg-white/5 transition">
+          <Navigation size={18} className="text-accent" />
+          <span className="text-[10px] font-bold">ניווט</span>
         </a>
       </div>
     </div>
@@ -915,8 +920,12 @@ function LandingPage() {
       <main>
         <Hero />
         <Categories />
+        <LicenseMatcher />
         <About />
         <WhyMe />
+        <SuccessGallery />
+        <VideoIntro />
+        <SocialFeed />
         <Reviews />
         <LeadForm />
         <FAQ />
