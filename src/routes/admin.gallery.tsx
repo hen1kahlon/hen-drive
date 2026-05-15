@@ -105,39 +105,6 @@ function GalleryPage() {
 
   const onUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
-    // Validate the session on the server before uploading. getSession() only
-    // reads localStorage and may return a stale (expired) token, which the
-    // server then rejects → auth.uid() is NULL → RLS denies the upload.
-    // getUser() round-trips to /auth/v1/user, which forces autoRefreshToken
-    // to mint a fresh access token if the current one expired.
-    let userId: string | null = null;
-    try {
-      const { data: userData, error: userErr } = await supabase.auth.getUser();
-      if (userErr || !userData.user) throw userErr ?? new Error("no user");
-      userId = userData.user.id;
-    } catch {
-      // Token couldn't be refreshed — try one explicit refresh, then bail.
-      const { data: refreshed } = await supabase.auth.refreshSession();
-      if (!refreshed.session) {
-        toast.error("פג תוקף ההתחברות — מתחבר מחדש...", { duration: 4000 });
-        setTimeout(() => navigate({ to: "/auth" }), 800);
-        return;
-      }
-      userId = refreshed.session.user.id;
-    }
-    // Sanity-check admin role from the live session — fails fast with a clear
-    // message instead of letting every storage upload return a cryptic RLS error.
-    const { data: roleRow } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId)
-      .eq("role", "admin")
-      .maybeSingle();
-    if (!roleRow) {
-      toast.error("החשבון המחובר אינו מנהל — התחברו בחשבון מנהל");
-      setTimeout(() => navigate({ to: "/auth" }), 1200);
-      return;
-    }
     const all = Array.from(files);
     const list: File[] = [];
     const skipped: string[] = [];
@@ -152,40 +119,30 @@ function GalleryPage() {
     }
     if (skipped.length) skipped.forEach((m) => toast.error(m, { duration: 5000 }));
     if (list.length === 0) { toast.error("אין קבצים תקינים להעלאה"); return; }
+    setSelectedPreviews(list.map((file) => ({ name: file.name || "תמונה", url: URL.createObjectURL(file) })));
     setUploading(true);
     setProgress({ done: 0, total: list.length });
     let ok = 0, fail = 0;
     try {
+      try {
+        const { data: userData, error: userErr } = await supabase.auth.getUser();
+        if (userErr || !userData.user) throw userErr ?? new Error("no user");
+      } catch {
+        const { data: refreshed } = await supabase.auth.refreshSession();
+        if (!refreshed.session) {
+          toast.error("פג תוקף ההתחברות — התחברו מחדש", { duration: 5000 });
+          return;
+        }
+      }
       for (const file of list) {
         const fname = file.name || "תמונה";
         try {
           const blob = await compressToWebP(file);
-          const ext = blob.type === "image/jpeg" ? "jpg" : "webp";
-          const path = `${cat}/${crypto.randomUUID()}.${ext}`;
-          const { error } = await supabase.storage.from("gallery").upload(path, blob, {
-            cacheControl: "31536000",
-            contentType: blob.type,
+          const base64 = await blobToBase64(blob);
+          const result = await uploadImage({
+            data: { category: cat, fileName: fname, mimeType: blob.type as "image/jpeg" | "image/png" | "image/webp", base64 },
           });
-          if (error) {
-            const m = error.message.toLowerCase();
-            if (m.includes("row-level security") || m.includes("unauthorized") || m.includes("403")) {
-              throw new Error("אין הרשאת מנהל — התחברו שוב");
-            }
-            throw new Error(`העלאה לאחסון נכשלה: ${error.message}`);
-          }
-          const { data } = supabase.storage.from("gallery").getPublicUrl(path);
-          const { error: insErr } = await supabase.from("gallery_items").insert({
-            image_url: data.publicUrl,
-            category: cat,
-            title: null,
-          });
-          if (insErr) {
-            const m = insErr.message.toLowerCase();
-            if (m.includes("row-level security")) {
-              throw new Error("אין הרשאת מנהל לשמור פריט — התחברו שוב");
-            }
-            throw new Error(`שמירה למסד נכשלה: ${insErr.message}`);
-          }
+          if (result.item) setItems((prev) => [result.item as Item, ...prev]);
           ok++;
         } catch (err) {
           const msg = err instanceof Error ? err.message : "שגיאה לא ידועה";
@@ -203,6 +160,7 @@ function GalleryPage() {
       setUploading(false);
       setProgress(null);
       if (fileRef.current) fileRef.current.value = "";
+      if (ok) setSelectedPreviews([]);
     }
   };
 
