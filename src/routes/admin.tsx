@@ -28,39 +28,59 @@ function AdminLayout() {
     let mounted = true;
 
     const checkAccess = async (uid: string) => {
-      const { data: roles } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", uid)
-        .eq("role", "admin")
-        .maybeSingle();
+      try {
+        const { data: roles } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", uid)
+          .eq("role", "admin")
+          .maybeSingle();
+        if (!mounted) return;
+        setUserId(uid);
+        setIsAdmin(!!roles);
+      } catch (e) {
+        console.error("admin role check failed", e);
+        if (!mounted) return;
+        setUserId(uid);
+        setIsAdmin(false);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    const goToAuth = () => {
       if (!mounted) return;
-      setUserId(uid);
-      setIsAdmin(!!roles);
       setLoading(false);
+      navigate({ to: "/auth" });
     };
 
     // Set up listener first to catch any auth state changes during init
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!mounted) return;
-      if (!session) {
-        navigate({ to: "/auth" });
-      } else {
-        void checkAccess(session.user.id);
-      }
+      if (!session) goToAuth();
+      else void checkAccess(session.user.id);
     });
 
     // Then read the persisted session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!mounted) return;
-      if (!session) {
-        navigate({ to: "/auth" });
-        return;
-      }
-      void checkAccess(session.user.id);
+      if (!session) goToAuth();
+      else void checkAccess(session.user.id);
+    }).catch((e) => {
+      console.error("getSession failed", e);
+      goToAuth();
     });
 
-    return () => { mounted = false; subscription.unsubscribe(); };
+    // Safety timeout — never get stuck on "loading" forever
+    const safety = setTimeout(() => {
+      if (mounted && loading) {
+        console.warn("admin auth check timed out");
+        goToAuth();
+      }
+    }, 6000);
+
+    return () => { mounted = false; subscription.unsubscribe(); clearTimeout(safety); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
   useEffect(() => { setOpen(false); }, [pathname]);
