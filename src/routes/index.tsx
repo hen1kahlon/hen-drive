@@ -1144,7 +1144,7 @@ function SuccessGallery() {
         </motion.div>
 
         {/* Mobile: swipe carousel */}
-        <div className="sm:hidden -mx-4 px-4 overflow-x-auto snap-x snap-mandatory scrollbar-none flex gap-3 pb-3">
+        <div className="sm:hidden -mx-4 px-4 overflow-x-auto snap-x snap-mandatory flex gap-3 pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {items.map((item, i) => (
             <StudentCard key={item.id} item={item} index={i} mobile />
           ))}
