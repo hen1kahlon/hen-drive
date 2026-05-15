@@ -169,7 +169,7 @@ function Hero() {
         <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.72_0.18_50_/_0.28)] blur-[120px] animate-float-slow" style={{ animationDelay: "3s" }} />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12 lg:py-16 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
+      <div className="max-w-7xl mx-auto px-4 py-8 lg:py-16 grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full">
         {/* image - mobile: top, desktop: right (visually first in RTL = right side) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
@@ -289,9 +289,9 @@ function selectInterestAndScroll(interest: string) {
 
 function Categories() {
   return (
-    <section id="categories" className="py-20 sm:py-28 px-4 relative">
+    <section id="categories" className="py-12 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-12 sm:mb-16">
+        <motion.div {...fadeUp} className="text-center mb-8 sm:mb-14">
           <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">בחרו את הדרגה</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             על מה <span className="gradient-text-orange">תרצו ללמוד</span>?
@@ -350,11 +350,11 @@ function About() {
     "הכנה אמיתית לטסט",
   ];
   return (
-    <section id="about" className="py-20 sm:py-28 px-4 relative overflow-hidden">
+    <section id="about" className="py-12 sm:py-24 px-4 relative overflow-hidden">
       <div className="absolute inset-0 -z-10 grid-bg opacity-40" />
       <div className="absolute top-1/2 -translate-y-1/2 right-0 w-96 h-96 rounded-full bg-[oklch(0.72_0.18_50_/_0.12)] blur-[120px] -z-10" />
 
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
         <motion.div {...fadeUp} className="relative order-2 lg:order-1">
           <div className="aspect-[4/5] rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue">
             <img src={portraitImgMobile} srcSet={`${portraitImgMobile} 600w, ${portraitImg} 1200w`} sizes="(max-width: 768px) 100vw, 50vw" alt="חן כחלון - מורה נהיגה" loading="lazy" width={800} height={1000} className="w-full h-full object-cover" />
@@ -414,9 +414,9 @@ const reasons = [
 
 function WhyMe() {
   return (
-    <section id="why" className="py-20 sm:py-28 px-4">
+    <section id="why" className="py-12 sm:py-24 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-12 sm:mb-16">
+        <motion.div {...fadeUp} className="text-center mb-8 sm:mb-14">
           <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">היתרונות שלי</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             למה לבחור <span className="gradient-text-blue">בחן</span>?
@@ -471,10 +471,10 @@ function Reviews() {
       });
   }, []);
   return (
-    <section id="reviews" className="py-20 sm:py-28 px-4 relative">
+    <section id="reviews" className="py-12 sm:py-24 px-4 relative">
       <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-12 sm:mb-16">
+        <motion.div {...fadeUp} className="text-center mb-8 sm:mb-14">
           <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">המלצות תלמידים</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             מה <span className="gradient-text-orange">אומרים עליי</span>
@@ -556,7 +556,7 @@ function SubmitReview() {
   };
 
   return (
-    <motion.div {...fadeUp} className="mt-16 sm:mt-20 max-w-2xl mx-auto">
+    <motion.div {...fadeUp} className="mt-10 sm:mt-16 max-w-2xl mx-auto">
       <div className="text-center mb-6">
         <p className="gradient-text-orange font-bold text-xs tracking-[0.2em] uppercase mb-2">שתפו את החוויה</p>
         <h3 className="text-display text-3xl sm:text-4xl">השאירו ביקורת</h3>
@@ -691,7 +691,7 @@ function LeadForm() {
   ];
 
   return (
-    <section id="lead" className="py-20 sm:py-28 px-4 relative overflow-hidden">
+    <section id="lead" className="py-12 sm:py-24 px-4 relative overflow-hidden">
       <div className="absolute -top-40 left-0 w-[30rem] h-[30rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.18)] blur-[120px] -z-10" />
       <div className="absolute -bottom-40 right-0 w-[30rem] h-[30rem] rounded-full bg-[oklch(0.72_0.18_50_/_0.18)] blur-[120px] -z-10" />
 
@@ -812,7 +812,7 @@ const faqs = [
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="py-20 sm:py-28 px-4">
+    <section id="faq" className="py-12 sm:py-24 px-4">
       <div className="max-w-3xl mx-auto">
         <motion.div {...fadeUp} className="text-center mb-12">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">שאלות נפוצות</p>
@@ -847,7 +847,7 @@ function FAQ() {
 
 function FinalCTA() {
   return (
-    <section className="py-20 sm:py-28 px-4 relative overflow-hidden">
+    <section className="py-12 sm:py-24 px-4 relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.3)] blur-3xl animate-float-slow" />
         <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[oklch(0.72_0.18_50_/_0.3)] blur-3xl animate-float-slow" style={{ animationDelay: "2s" }} />
@@ -982,7 +982,7 @@ function LicenseMatcher() {
   })();
 
   return (
-    <section id="match" className="py-20 sm:py-28 px-4 relative">
+    <section id="match" className="py-12 sm:py-24 px-4 relative">
       <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
       <div className="max-w-5xl mx-auto">
         <motion.div {...fadeUp} className="text-center mb-10 sm:mb-14">
@@ -1067,9 +1067,9 @@ const galleryItems = [
 ];
 function SuccessGallery() {
   return (
-    <section id="gallery" className="py-20 sm:py-28 px-4">
+    <section id="gallery" className="py-12 sm:py-24 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-12 sm:mb-16">
+        <motion.div {...fadeUp} className="text-center mb-8 sm:mb-14">
           <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">גלריית הצלחות</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             תלמידים <span className="gradient-text-orange">שעשו את זה</span>
@@ -1107,7 +1107,7 @@ function SuccessGallery() {
 function VideoIntro() {
   const [playing, setPlaying] = useState(false);
   return (
-    <section id="video" className="py-20 sm:py-28 px-4 relative">
+    <section id="video" className="py-12 sm:py-24 px-4 relative">
       <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.12)] blur-[120px] -z-10" />
       <div className="max-w-5xl mx-auto">
         <motion.div {...fadeUp} className="text-center mb-10 sm:mb-14">
@@ -1163,9 +1163,9 @@ const socialPosts = [
 ];
 function SocialFeed() {
   return (
-    <section id="social" className="py-20 sm:py-28 px-4">
+    <section id="social" className="py-12 sm:py-24 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-12 sm:mb-16">
+        <motion.div {...fadeUp} className="text-center mb-8 sm:mb-14">
           <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">עקבו אחריי</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             הסיפורים שלי <span className="gradient-text-blue">ברשתות</span>
