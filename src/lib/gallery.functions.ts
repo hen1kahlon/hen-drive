@@ -1,0 +1,60 @@
+import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
+
+const GalleryUploadSchema = z.object({
+  category: z.enum(["cars", "motorcycles", "success"]),
+  fileName: z.string().min(1).max(180),
+  mimeType: z.enum(["image/jpeg", "image/png", "image/webp"]),
+  base64: z.string().min(1).max(8_000_000),
+});
+
+const extensionByMime: Record<string, "jpg" | "png" | "webp"> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+};
+
+export const uploadGalleryImage = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => GalleryUploadSchema.parse(input))
+  .handler(async ({ data, context }) => {
+    const { data: roleRow, error: roleError } = await supabaseAdmin
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", context.userId)
+      .eq("role", "admin")
+      .maybeSingle();
+
+    if (roleError) throw new Error(`בדיקת הרשאת מנהל נכשלה: ${roleError.message}`);
+    if (!roleRow) throw new Error("אין הרשאת מנהל — התחברו בחשבון מנהל");
+
+    const bytes = Buffer.from(data.base64, "base64");
+    if (bytes.byteLength === 0) throw new Error("קובץ התמונה ריק");
+    if (bytes.byteLength > 6 * 1024 * 1024) throw new Error("התמונה הדחוסה גדולה מדי");
+
+    const ext = extensionByMime[data.mimeType];
+    const path = `${data.category}/${crypto.randomUUID()}.${ext}`;
+    const { error: uploadError } = await supabaseAdmin.storage.from("gallery").upload(path, bytes, {
+      cacheControl: "31536000",
+      contentType: data.mimeType,
+      upsert: false,
+    });
+
+    if (uploadError) throw new Error(`העלאה לאחסון נכשלה: ${uploadError.message}`);
+
+    const { data: publicUrlData } = supabaseAdmin.storage.from("gallery").getPublicUrl(path);
+    const { data: item, error: insertError } = await supabaseAdmin
+      .from("gallery_items")
+      .insert({ image_url: publicUrlData.publicUrl, category: data.category, title: null })
+      .select("id,image_url,category,title,sort_order")
+      .single();
+
+    if (insertError) {
+      await supabaseAdmin.storage.from("gallery").remove([path]);
+      throw new Error(`שמירה למסד נכשלה: ${insertError.message}`);
+    }
+
+    return { item };
+  });
