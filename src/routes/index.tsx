@@ -960,6 +960,12 @@ function LicenseMatcher() {
     return { code: "A2", title: "אופנוע מתחילים (A2)", note: "צריך להמתין לגיל 16 כדי להתחיל.", interest: "אופנוע A2" };
   })();
 
+  const waMatcherUrl = (() => {
+    if (!recommendation) return "#";
+    const msg = `היי חן, הגעתי דרך האתר.\nבדקתי איזה רישיון מתאים לי:\n\nגיל: ${age}\nיש לי רישיון קודם: ${hasLicense === "yes" ? "כן" : "לא"}\nתחום לימוד: ${vehicle === "car" ? "רכב" : "אופנוע"}\nההמלצה שקיבלתי: ${recommendation.title}\n\nאשמח לקבל פרטים ולהתחיל ללמוד.`;
+    return `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(msg)}`;
+  })();
+
   return (
     <section id="match" className="py-20 sm:py-28 px-4 relative">
       <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
@@ -1011,10 +1017,14 @@ function LicenseMatcher() {
                 <p className="text-xs font-bold tracking-[0.2em] uppercase gradient-text-orange mb-2">ההמלצה שלנו</p>
                 <h3 className="text-display text-3xl sm:text-4xl mb-2">{recommendation.title}</h3>
                 <p className="text-muted-foreground mb-5">{recommendation.note}</p>
-                <button type="button" onClick={() => selectInterestAndScroll(recommendation.interest)}
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3 font-bold text-white shadow-glow-orange hover:scale-105 transition">
-                  השאר פרטים <ArrowLeft size={16} />
-                </button>
+                <a
+                  href={waMatcherUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-white shadow-[0_10px_30px_-10px_rgba(37,211,102,0.8)] hover:scale-105 transition"
+                >
+                  <MessageCircle size={16} /> שלח לי פרטים בוואטסאפ
+                </a>
               </motion.div>
             ) : (
               <div className="text-center text-muted-foreground">
