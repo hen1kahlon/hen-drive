@@ -9,6 +9,7 @@ import {
   Smile, Upload, Navigation, Play, Image as ImageIcon, Video as VideoIcon,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { SiteSettingsProvider, useSiteSettings, waUrl, DEFAULT_SETTINGS } from "@/lib/site-settings";
 import heroImg from "@/assets/hero-driving.webp";
 import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 import portraitImg from "@/assets/instructor-portrait.webp";
@@ -37,16 +38,18 @@ export const Route = createFileRoute("/")({
   component: LandingPage,
 });
 
-const PHONE = "0503250150";
-const PHONE_DISPLAY = "050-3250150";
-const PHONE_INTL = "972503250150";
-const WA_DEFAULT_MSG = "היי חן, הגעתי דרך האתר ואני מעוניין לקבל פרטים על שיעורי נהיגה";
-const WA_URL = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(WA_DEFAULT_MSG)}`;
-const INSTAGRAM = "https://instagram.com";
-const FACEBOOK = "https://facebook.com";
-const TIKTOK = "https://tiktok.com";
-const EMAIL = "hen1kahlon@gmail.com";
-const TRAINING_MAP_URL = "https://www.google.com/maps/search/?api=1&query=מגרש+אימונים+אופנוע+אשקלון";
+// Live runtime values mirroring CMS settings (see SiteSettingsRuntime below).
+// They are mutated when site_settings load and re-render is forced.
+let PHONE = DEFAULT_SETTINGS.contact.phone;
+let PHONE_DISPLAY = DEFAULT_SETTINGS.contact.phone_display;
+let PHONE_INTL = DEFAULT_SETTINGS.contact.phone_intl;
+let WA_DEFAULT_MSG = DEFAULT_SETTINGS.contact.whatsapp_message;
+let WA_URL = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(WA_DEFAULT_MSG)}`;
+let INSTAGRAM = DEFAULT_SETTINGS.social.instagram;
+let FACEBOOK = DEFAULT_SETTINGS.social.facebook;
+let TIKTOK = DEFAULT_SETTINGS.social.tiktok;
+let EMAIL = DEFAULT_SETTINGS.contact.email;
+let TRAINING_MAP_URL = DEFAULT_SETTINGS.contact.training_map_url;
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
