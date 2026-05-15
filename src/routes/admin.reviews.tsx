@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadAdminMediaImage } from "@/lib/admin-media.functions";
+import { imageFileToBase64 } from "@/lib/image-upload.client";
 import { toast } from "sonner";
 import { Star, Check, X, Trash2, Plus, Sparkles, Upload } from "lucide-react";
 
@@ -95,6 +98,7 @@ function ReviewsPage() {
 }
 
 function ReviewModal({ review, onClose, onSaved }: { review: Review; onClose: () => void; onSaved: () => void }) {
+  const uploadImage = useServerFn(uploadAdminMediaImage);
   const [form, setForm] = useState({
     full_name: review.full_name, rating: review.rating, license_type: review.license_type,
     content: review.content, image_url: review.image_url ?? "", status: review.status, is_featured: review.is_featured,
@@ -106,12 +110,9 @@ function ReviewModal({ review, onClose, onSaved }: { review: Review; onClose: ()
   const upload = async (file: File) => {
     setUploading(true);
     try {
-      const ext = file.name.split(".").pop();
-      const path = `${crypto.randomUUID()}.${ext}`;
-      const { error } = await supabase.storage.from("review-images").upload(path, file, { cacheControl: "3600" });
-      if (error) throw error;
-      const { data } = supabase.storage.from("review-images").getPublicUrl(path);
-      setForm((f) => ({ ...f, image_url: data.publicUrl }));
+      const image = await imageFileToBase64(file);
+      const result = await uploadImage({ data: { bucket: "review-images", folder: "reviews", ...image } });
+      setForm((f) => ({ ...f, image_url: result.publicUrl }));
       toast.success("התמונה הועלתה");
     } catch (e) { toast.error(e instanceof Error ? e.message : "שגיאה"); }
     finally { setUploading(false); }

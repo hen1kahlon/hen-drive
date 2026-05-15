@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadAdminMediaImage } from "@/lib/admin-media.functions";
+import { imageFileToBase64 } from "@/lib/image-upload.client";
 import { toast } from "sonner";
 import { Save, Plus, Trash2, Upload, GripVertical } from "lucide-react";
 
@@ -73,6 +76,7 @@ function Page() {
 }
 
 function CardEditor({ card: initial, onSave, onDelete }: { card: Card; onSave: (c: Card) => void; onDelete: () => void }) {
+  const uploadImage = useServerFn(uploadAdminMediaImage);
   const [c, setC] = useState(initial);
   const [up, setUp] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
@@ -80,15 +84,12 @@ function CardEditor({ card: initial, onSave, onDelete }: { card: Card; onSave: (
   useEffect(() => setC(initial), [initial]);
 
   const upload = async (file: File) => {
-    if (file.size > 5 * 1024 * 1024) return toast.error("עד 5MB");
     setUp(true);
     try {
-      const ext = file.name.split(".").pop();
-      const path = `license-cards/${crypto.randomUUID()}.${ext}`;
-      const { error } = await supabase.storage.from("gallery").upload(path, file, { cacheControl: "3600" });
-      if (error) throw error;
-      const { data: pub } = supabase.storage.from("gallery").getPublicUrl(path);
-      setC({ ...c, image_url: pub.publicUrl });
+      const image = await imageFileToBase64(file);
+      const result = await uploadImage({ data: { bucket: "gallery", folder: "license-cards", ...image } });
+      setC({ ...c, image_url: result.publicUrl });
+      toast.success("התמונה הועלתה — לחצו שמור כרטיס");
     } catch (e) { toast.error(e instanceof Error ? e.message : "שגיאה"); }
     finally { setUp(false); }
   };
