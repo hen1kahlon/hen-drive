@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
+import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -46,11 +47,17 @@ const AdminLeadsRoute = AdminLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminGalleryRoute = AdminGalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
+  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/': typeof AdminIndexRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin': typeof AdminIndexRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
+  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/': typeof AdminIndexRoute
@@ -77,16 +86,24 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/admin/gallery'
     | '/admin/leads'
     | '/admin/reviews'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/admin/leads' | '/admin/reviews' | '/admin'
+  to:
+    | '/'
+    | '/auth'
+    | '/admin/gallery'
+    | '/admin/leads'
+    | '/admin/reviews'
+    | '/admin'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/auth'
+    | '/admin/gallery'
     | '/admin/leads'
     | '/admin/reviews'
     | '/admin/'
@@ -142,16 +159,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLeadsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/gallery': {
+      id: '/admin/gallery'
+      path: '/gallery'
+      fullPath: '/admin/gallery'
+      preLoaderRoute: typeof AdminGalleryRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminGalleryRoute: typeof AdminGalleryRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminGalleryRoute: AdminGalleryRoute,
   AdminLeadsRoute: AdminLeadsRoute,
   AdminReviewsRoute: AdminReviewsRoute,
   AdminIndexRoute: AdminIndexRoute,
