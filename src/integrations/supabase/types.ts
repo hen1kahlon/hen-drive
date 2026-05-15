@@ -14,6 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
+      faqs: {
+        Row: {
+          answer: string
+          created_at: string
+          id: string
+          is_active: boolean
+          question: string
+          sort_order: number
+        }
+        Insert: {
+          answer: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          question: string
+          sort_order?: number
+        }
+        Update: {
+          answer?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          question?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      gallery_items: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          image_url: string
+          sort_order: number
+          title: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          image_url: string
+          sort_order?: number
+          title?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+          sort_order?: number
+          title?: string | null
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          license_type: string | null
+          notes: string | null
+          phone: string
+          source: string | null
+          status: Database["public"]["Enums"]["lead_status"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name: string
+          id?: string
+          license_type?: string | null
+          notes?: string | null
+          phone: string
+          source?: string | null
+          status?: Database["public"]["Enums"]["lead_status"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          license_type?: string | null
+          notes?: string | null
+          phone?: string
+          source?: string | null
+          status?: Database["public"]["Enums"]["lead_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           content: string
@@ -21,6 +111,7 @@ export type Database = {
           full_name: string
           id: string
           image_url: string | null
+          is_featured: boolean
           license_type: string
           rating: number
           status: Database["public"]["Enums"]["review_status"]
@@ -32,6 +123,7 @@ export type Database = {
           full_name: string
           id?: string
           image_url?: string | null
+          is_featured?: boolean
           license_type: string
           rating: number
           status?: Database["public"]["Enums"]["review_status"]
@@ -43,9 +135,28 @@ export type Database = {
           full_name?: string
           id?: string
           image_url?: string | null
+          is_featured?: boolean
           license_type?: string
           rating?: number
           status?: Database["public"]["Enums"]["review_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          data: Json
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          data?: Json
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          data?: Json
+          id?: string
           updated_at?: string
         }
         Relationships: []
@@ -86,6 +197,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin"
+      lead_status: "new" | "contacted" | "archived"
       review_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
@@ -215,6 +327,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin"],
+      lead_status: ["new", "contacted", "archived"],
       review_status: ["pending", "approved", "rejected"],
     },
   },
