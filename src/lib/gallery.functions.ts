@@ -34,13 +34,16 @@ export const uploadGalleryImage = createServerFn({ method: "POST" })
     if (bytes.byteLength === 0) throw new Error("קובץ התמונה ריק");
     if (bytes.byteLength > 6 * 1024 * 1024) throw new Error("התמונה הדחוסה גדולה מדי");
 
-    const ext = data.mimeType === "image/jpeg" ? "jpg" : data.mimeType === "image/png" ? "png" : "webp";
+    const ext =
+      data.mimeType === "image/jpeg" ? "jpg" : data.mimeType === "image/png" ? "png" : "webp";
     const path = `${data.category}/${crypto.randomUUID()}.${ext}`;
-    const { error: uploadError } = await context.supabase.storage.from("gallery").upload(path, bytes, {
-      cacheControl: "31536000",
-      contentType: data.mimeType,
-      upsert: false,
-    });
+    const { error: uploadError } = await context.supabase.storage
+      .from("gallery")
+      .upload(path, bytes, {
+        cacheControl: "31536000",
+        contentType: data.mimeType,
+        upsert: false,
+      });
 
     if (uploadError) throw new Error(`העלאה לאחסון נכשלה: ${uploadError.message}`);
 

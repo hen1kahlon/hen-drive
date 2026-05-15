@@ -8,7 +8,13 @@ import { Trash2, Upload, Check, Pencil } from "lucide-react";
 
 export const Route = createFileRoute("/admin/gallery")({ component: GalleryPage });
 
-type Item = { id: string; image_url: string; category: string; title: string | null; sort_order: number };
+type Item = {
+  id: string;
+  image_url: string;
+  category: string;
+  title: string | null;
+  sort_order: number;
+};
 type SelectedPreview = { name: string; url: string };
 const CATS = [
   { id: "cars", label: "רכב" },
@@ -24,12 +30,16 @@ const ALLOWED_MIME = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 async function compressToWebP(file: File): Promise<Blob> {
   // Decode the image. Try createImageBitmap first (fast, handles EXIF),
   // then fall back to HTMLImageElement.
-  let width = 0, height = 0;
+  let width = 0,
+    height = 0;
   let drawSource: CanvasImageSource;
   let cleanup: (() => void) | null = null;
   try {
-    const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" } as ImageBitmapOptions);
-    width = bitmap.width; height = bitmap.height;
+    const bitmap = await createImageBitmap(file, {
+      imageOrientation: "from-image",
+    } as ImageBitmapOptions);
+    width = bitmap.width;
+    height = bitmap.height;
     drawSource = bitmap;
     cleanup = () => bitmap.close?.();
   } catch {
@@ -41,7 +51,8 @@ async function compressToWebP(file: File): Promise<Blob> {
         i.onerror = () => rej(new Error("פורמט תמונה לא נתמך (אולי HEIC?)"));
         i.src = url;
       });
-      width = img.naturalWidth; height = img.naturalHeight;
+      width = img.naturalWidth;
+      height = img.naturalHeight;
       drawSource = img;
       cleanup = () => URL.revokeObjectURL(url);
     } catch (e) {
@@ -49,14 +60,21 @@ async function compressToWebP(file: File): Promise<Blob> {
       throw e;
     }
   }
-  if (!width || !height) { cleanup?.(); throw new Error("לא ניתן לקרוא את מימדי התמונה"); }
+  if (!width || !height) {
+    cleanup?.();
+    throw new Error("לא ניתן לקרוא את מימדי התמונה");
+  }
   const ratio = width > MAX_W ? MAX_W / width : 1;
   const w = Math.max(1, Math.round(width * ratio));
   const h = Math.max(1, Math.round(height * ratio));
   const canvas = document.createElement("canvas");
-  canvas.width = w; canvas.height = h;
+  canvas.width = w;
+  canvas.height = h;
   const ctx = canvas.getContext("2d");
-  if (!ctx) { cleanup?.(); throw new Error("הדפדפן לא תומך בעיבוד תמונה"); }
+  if (!ctx) {
+    cleanup?.();
+    throw new Error("הדפדפן לא תומך בעיבוד תמונה");
+  }
   ctx.drawImage(drawSource, 0, 0, w, h);
   cleanup?.();
   // Try WebP, fall back to JPEG if the browser can't encode WebP (rare on iOS <14).
@@ -83,7 +101,7 @@ function blobToBase64(blob: Blob): Promise<string> {
 function GalleryPage() {
   const uploadImage = useServerFn(uploadGalleryImage);
   const [items, setItems] = useState<Item[]>([]);
-  const [cat, setCat] = useState<typeof CATS[number]["id"]>("cars");
+  const [cat, setCat] = useState<(typeof CATS)[number]["id"]>("cars");
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
   const [selectedPreviews, setSelectedPreviews] = useState<SelectedPreview[]>([]);
@@ -91,15 +109,25 @@ function GalleryPage() {
   const [editValue, setEditValue] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => () => {
-    selectedPreviews.forEach((preview) => URL.revokeObjectURL(preview.url));
-  }, [selectedPreviews]);
+  useEffect(
+    () => () => {
+      selectedPreviews.forEach((preview) => URL.revokeObjectURL(preview.url));
+    },
+    [selectedPreviews],
+  );
 
   const load = useCallback(async () => {
-    const { data, error } = await supabase.from("gallery_items").select("*").order("sort_order").order("created_at", { ascending: false });
-    if (error) toast.error(error.message); else setItems((data ?? []) as Item[]);
+    const { data, error } = await supabase
+      .from("gallery_items")
+      .select("*")
+      .order("sort_order")
+      .order("created_at", { ascending: false });
+    if (error) toast.error(error.message);
+    else setItems((data ?? []) as Item[]);
   }, []);
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const onUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
@@ -108,19 +136,38 @@ function GalleryPage() {
     const skipped: string[] = [];
     for (const f of all) {
       const name = f.name || "תמונה";
-      const isHeic = /\.(heic|heif)$/i.test(name) || f.type === "image/heic" || f.type === "image/heif";
-      if (isHeic) { skipped.push(`${name}: HEIC לא נתמך — המירו ל-JPG`); continue; }
-      if (f.type && !ALLOWED_MIME.includes(f.type)) { skipped.push(`${name}: סוג קובץ לא נתמך (${f.type})`); continue; }
-      if (!f.type && !/\.(jpe?g|png|webp)$/i.test(name)) { skipped.push(`${name}: סוג קובץ לא ידוע`); continue; }
-      if (f.size > MAX_FILE_BYTES) { skipped.push(`${name}: קובץ גדול מ-25MB`); continue; }
+      const isHeic =
+        /\.(heic|heif)$/i.test(name) || f.type === "image/heic" || f.type === "image/heif";
+      if (isHeic) {
+        skipped.push(`${name}: HEIC לא נתמך — המירו ל-JPG`);
+        continue;
+      }
+      if (f.type && !ALLOWED_MIME.includes(f.type)) {
+        skipped.push(`${name}: סוג קובץ לא נתמך (${f.type})`);
+        continue;
+      }
+      if (!f.type && !/\.(jpe?g|png|webp)$/i.test(name)) {
+        skipped.push(`${name}: סוג קובץ לא ידוע`);
+        continue;
+      }
+      if (f.size > MAX_FILE_BYTES) {
+        skipped.push(`${name}: קובץ גדול מ-25MB`);
+        continue;
+      }
       list.push(f);
     }
     if (skipped.length) skipped.forEach((m) => toast.error(m, { duration: 5000 }));
-    if (list.length === 0) { toast.error("אין קבצים תקינים להעלאה"); return; }
-    setSelectedPreviews(list.map((file) => ({ name: file.name || "תמונה", url: URL.createObjectURL(file) })));
+    if (list.length === 0) {
+      toast.error("אין קבצים תקינים להעלאה");
+      return;
+    }
+    setSelectedPreviews(
+      list.map((file) => ({ name: file.name || "תמונה", url: URL.createObjectURL(file) })),
+    );
     setUploading(true);
     setProgress({ done: 0, total: list.length });
-    let ok = 0, fail = 0;
+    let ok = 0,
+      fail = 0;
     try {
       try {
         const { data: userData, error: userErr } = await supabase.auth.getUser();
@@ -138,7 +185,12 @@ function GalleryPage() {
           const blob = await compressToWebP(file);
           const base64 = await blobToBase64(blob);
           const result = await uploadImage({
-            data: { category: cat, fileName: fname, mimeType: blob.type as "image/jpeg" | "image/png" | "image/webp", base64 },
+            data: {
+              category: cat,
+              fileName: fname,
+              mimeType: blob.type as "image/jpeg" | "image/png" | "image/webp",
+              base64,
+            },
           });
           if (result.item) setItems((prev) => [result.item as Item, ...prev]);
           ok++;
@@ -153,8 +205,9 @@ function GalleryPage() {
       if (ok) toast.success(`הועלו ${ok} תמונות${fail ? ` · ${fail} נכשלו` : ""}`);
       else if (!ok && !fail) toast.error("העלאה נכשלה");
       load();
-    } catch (e) { toast.error(e instanceof Error ? e.message : "שגיאה"); }
-    finally {
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "שגיאה");
+    } finally {
       setUploading(false);
       setProgress(null);
       if (fileRef.current) fileRef.current.value = "";
@@ -175,13 +228,18 @@ function GalleryPage() {
       if (error) throw error;
       setItems((p) => p.filter((i) => i.id !== item.id));
       toast.success("נמחק");
-    } catch (e) { toast.error(e instanceof Error ? e.message : "שגיאה"); }
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "שגיאה");
+    }
   };
 
   const saveTitle = async (id: string) => {
     const value = editValue.trim() || null;
     const { error } = await supabase.from("gallery_items").update({ title: value }).eq("id", id);
-    if (error) { toast.error(error.message); return; }
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     setItems((p) => p.map((i) => (i.id === id ? { ...i, title: value } : i)));
     setEditingId(null);
     toast.success("נשמר");
@@ -198,8 +256,11 @@ function GalleryPage() {
 
       <div className="flex flex-wrap gap-2">
         {CATS.map((c) => (
-          <button key={c.id} onClick={() => setCat(c.id)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold ${cat === c.id ? "bg-gradient-orange text-white" : "bg-white/5 text-muted-foreground hover:bg-white/10"}`}>
+          <button
+            key={c.id}
+            onClick={() => setCat(c.id)}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold ${cat === c.id ? "bg-gradient-orange text-white" : "bg-white/5 text-muted-foreground hover:bg-white/10"}`}
+          >
             {c.label} ({items.filter((i) => i.category === c.id).length})
           </button>
         ))}
@@ -208,8 +269,13 @@ function GalleryPage() {
       <label
         htmlFor="gallery-upload"
         className={`block bg-card border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition ${uploading ? "border-white/15 opacity-70" : "border-white/15 hover:border-[oklch(0.72_0.18_50_/_0.6)] hover:bg-white/[0.02]"}`}
-        onDragOver={(e) => { e.preventDefault(); }}
-        onDrop={(e) => { e.preventDefault(); if (!uploading) onUpload(e.dataTransfer.files); }}
+        onDragOver={(e) => {
+          e.preventDefault();
+        }}
+        onDrop={(e) => {
+          e.preventDefault();
+          if (!uploading) onUpload(e.dataTransfer.files);
+        }}
       >
         <Upload size={22} className="mx-auto mb-2 text-muted-foreground" />
         <div className="bg-gradient-orange text-white inline-block px-5 py-2 rounded-xl text-sm font-bold">
@@ -220,7 +286,8 @@ function GalleryPage() {
             : "בחר תמונות / גרור לכאן"}
         </div>
         <p className="text-[11px] text-muted-foreground mt-2">
-          העלאת קבוצה · המרה אוטומטית ל-WebP · עד 1080px · קטגוריה: <b>{CATS.find((c) => c.id === cat)?.label}</b>
+          העלאת קבוצה · המרה אוטומטית ל-WebP · עד 1080px · קטגוריה:{" "}
+          <b>{CATS.find((c) => c.id === cat)?.label}</b>
         </p>
         <input
           ref={fileRef}
@@ -246,10 +313,17 @@ function GalleryPage() {
         <div className="bg-card border border-white/10 rounded-2xl p-3 space-y-3">
           <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
             <span>תמונות שנבחרו ({selectedPreviews.length})</span>
-            {progress && <span>{progress.done}/{progress.total}</span>}
+            {progress && (
+              <span>
+                {progress.done}/{progress.total}
+              </span>
+            )}
           </div>
           {progress && (
-            <div className="h-2 rounded-full bg-white/10 overflow-hidden" aria-label="התקדמות העלאה">
+            <div
+              className="h-2 rounded-full bg-white/10 overflow-hidden"
+              aria-label="התקדמות העלאה"
+            >
               <div
                 className="h-full bg-gradient-orange transition-all duration-300"
                 style={{ width: `${Math.round((progress.done / progress.total) * 100)}%` }}
@@ -258,7 +332,10 @@ function GalleryPage() {
           )}
           <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2">
             {selectedPreviews.map((preview) => (
-              <div key={preview.url} className="aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10">
+              <div
+                key={preview.url}
+                className="aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10"
+              >
                 <img src={preview.url} alt={preview.name} className="w-full h-full object-cover" />
               </div>
             ))}
@@ -266,13 +343,27 @@ function GalleryPage() {
         </div>
       )}
 
-      {filtered.length === 0 ? <p className="text-center text-sm text-muted-foreground py-8">אין תמונות בקטגוריה זו</p> :
+      {filtered.length === 0 ? (
+        <p className="text-center text-sm text-muted-foreground py-8">אין תמונות בקטגוריה זו</p>
+      ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {filtered.map((i) => (
-            <div key={i.id} className="bg-card border border-white/10 rounded-2xl overflow-hidden flex flex-col">
+            <div
+              key={i.id}
+              className="bg-card border border-white/10 rounded-2xl overflow-hidden flex flex-col"
+            >
               <div className="relative group aspect-square">
-                <img src={i.image_url} alt={i.title ?? ""} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
-                <button onClick={() => remove(i)} aria-label="מחק" className="absolute top-2 left-2 bg-red-500/90 hover:bg-red-500 text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 focus:opacity-100 transition">
+                <img
+                  src={i.image_url}
+                  alt={i.title ?? ""}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <button
+                  onClick={() => remove(i)}
+                  aria-label="מחק"
+                  className="absolute top-2 left-2 bg-red-500/90 hover:bg-red-500 text-white p-2 rounded-lg opacity-0 group-hover:opacity-100 focus:opacity-100 transition"
+                >
                   <Trash2 size={14} />
                 </button>
               </div>
@@ -283,17 +374,27 @@ function GalleryPage() {
                       autoFocus
                       value={editValue}
                       onChange={(e) => setEditValue(e.target.value)}
-                      onKeyDown={(e) => { if (e.key === "Enter") saveTitle(i.id); if (e.key === "Escape") setEditingId(null); }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") saveTitle(i.id);
+                        if (e.key === "Escape") setEditingId(null);
+                      }}
                       placeholder="כיתוב..."
                       className="flex-1 bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-xs"
                     />
-                    <button onClick={() => saveTitle(i.id)} className="bg-gradient-orange text-white p-1.5 rounded-lg" aria-label="שמור">
+                    <button
+                      onClick={() => saveTitle(i.id)}
+                      className="bg-gradient-orange text-white p-1.5 rounded-lg"
+                      aria-label="שמור"
+                    >
                       <Check size={12} />
                     </button>
                   </div>
                 ) : (
                   <button
-                    onClick={() => { setEditingId(i.id); setEditValue(i.title ?? ""); }}
+                    onClick={() => {
+                      setEditingId(i.id);
+                      setEditValue(i.title ?? "");
+                    }}
                     className="w-full text-right flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition px-1 py-1"
                   >
                     <Pencil size={11} className="shrink-0" />
@@ -304,7 +405,7 @@ function GalleryPage() {
             </div>
           ))}
         </div>
-      }
+      )}
     </div>
   );
 }
