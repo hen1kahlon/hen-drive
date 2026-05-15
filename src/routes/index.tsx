@@ -962,7 +962,22 @@ function LicenseMatcher() {
 
   const waMatcherUrl = (() => {
     if (!recommendation) return "#";
-    const msg = `היי חן, הגעתי דרך האתר.\nבדקתי איזה רישיון מתאים לי:\n\nגיל: ${age}\nיש לי רישיון קודם: ${hasLicense === "yes" ? "כן" : "לא"}\nתחום לימוד: ${vehicle === "car" ? "רכב" : "אופנוע"}\nההמלצה שקיבלתי: ${recommendation.title}\n\nאשמח לקבל פרטים ולהתחיל ללמוד.`;
+    const vehicleWord = vehicle === "car" ? "רכב" : "אופנוע";
+    const titleHasVehicle = recommendation.title.includes(vehicleWord);
+    const lines = [
+      "היי חן, הגעתי דרך האתר 👋",
+      "",
+      "בדקתי איזה רישיון מתאים לי:",
+      "",
+      `גיל: ${age}`,
+      `יש לי רישיון קודם: ${hasLicense === "yes" ? "כן" : "לא"}`,
+    ];
+    if (!titleHasVehicle) {
+      lines.push(`תחום לימוד: ${vehicleWord}`);
+    }
+    lines.push(`ההמלצה שקיבלתי: ${recommendation.title}`);
+    lines.push("", "אשמח לקבל פרטים ולהתחיל ללמוד 🙌");
+    const msg = lines.join("\n");
     return `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(msg)}`;
   })();
 
