@@ -9,7 +9,7 @@ export const Route = createFileRoute("/admin/leads")({ component: LeadsPage });
 type Lead = {
   id: string; full_name: string; phone: string; license_type: string | null;
   source: string | null; status: "new" | "contacted" | "archived";
-  notes: string | null; created_at: string;
+  notes: string | null; interest: string | null; area: string | null; created_at: string;
 };
 
 function LeadsPage() {
@@ -50,8 +50,8 @@ function LeadsPage() {
   };
 
   const exportCsv = () => {
-    const rows = [["שם", "טלפון", "רישיון", "מקור", "סטטוס", "תאריך"]].concat(
-      filtered.map((l) => [l.full_name, l.phone, l.license_type ?? "", l.source ?? "", l.status, new Date(l.created_at).toLocaleString("he-IL")])
+    const rows = [["שם", "טלפון", "רישיון", "מסלול", "אזור", "הערות", "מקור", "סטטוס", "תאריך"]].concat(
+      filtered.map((l) => [l.full_name, l.phone, l.license_type ?? "", l.interest ?? "", l.area ?? "", l.notes ?? "", l.source ?? "", l.status, new Date(l.created_at).toLocaleString("he-IL")])
     );
     const csv = "\uFEFF" + rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
@@ -119,6 +119,14 @@ function LeadsPage() {
                   <a href={`tel:${l.phone}`} dir="ltr" className="text-sm text-foreground/90 inline-flex items-center gap-1.5 hover:underline">
                     <Phone size={12} /> {l.phone}
                   </a>
+                  {(l.interest || l.area) && (
+                    <div className="text-[11px] text-foreground/70 mt-1">
+                      {l.interest && <span>מסלול: <b className="text-foreground/90">{l.interest}</b></span>}
+                      {l.interest && l.area && <span> · </span>}
+                      {l.area && <span>אזור: <b className="text-foreground/90">{l.area}</b></span>}
+                    </div>
+                  )}
+                  {l.notes && <div className="text-[11px] text-muted-foreground mt-1 whitespace-pre-line">הערות: {l.notes}</div>}
                   <div className="text-[11px] text-muted-foreground mt-1">
                     {l.source && <span>מקור: <b className="text-foreground/80">{l.source}</b> · </span>}
                     {new Date(l.created_at).toLocaleString("he-IL")}
