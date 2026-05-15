@@ -242,6 +242,30 @@ function GalleryPage() {
         />
       </label>
 
+      {selectedPreviews.length > 0 && (
+        <div className="bg-card border border-white/10 rounded-2xl p-3 space-y-3">
+          <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
+            <span>תמונות שנבחרו ({selectedPreviews.length})</span>
+            {progress && <span>{progress.done}/{progress.total}</span>}
+          </div>
+          {progress && (
+            <div className="h-2 rounded-full bg-white/10 overflow-hidden" aria-label="התקדמות העלאה">
+              <div
+                className="h-full bg-gradient-orange transition-all duration-300"
+                style={{ width: `${Math.round((progress.done / progress.total) * 100)}%` }}
+              />
+            </div>
+          )}
+          <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-2">
+            {selectedPreviews.map((preview) => (
+              <div key={preview.url} className="aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10">
+                <img src={preview.url} alt={preview.name} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {filtered.length === 0 ? <p className="text-center text-sm text-muted-foreground py-8">אין תמונות בקטגוריה זו</p> :
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {filtered.map((i) => (
