@@ -903,25 +903,6 @@ function Footer() {
   );
 }
 
-function FloatingWA() {
-  return (
-    <a
-      href={WA_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="פתח וואטסאפ"
-      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 6rem)" }}
-      className="fixed md:!bottom-6 left-4 md:left-6 z-40 inline-flex items-center gap-2 h-12 md:h-16 px-3 md:px-5 rounded-full bg-[#25D366] text-white font-bold shadow-[0_10px_40px_-10px_rgba(37,211,102,0.8)] hover:scale-105 transition animate-bounce-slow"
-    >
-      <span className="relative grid place-items-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/15">
-        <MessageCircle size={20} />
-        <span className="absolute inset-0 rounded-full bg-[#25D366] -z-10 animate-pulse-ring" />
-      </span>
-      <span className="text-sm whitespace-nowrap">דברו בוואטסאפ</span>
-    </a>
-  );
-}
-
 function MobileBar() {
   return (
     <div
@@ -1231,7 +1212,6 @@ function LandingPage() {
         <FinalCTA />
       </main>
       <Footer />
-      <FloatingWA />
       <MobileBar />
     </div>
   );
