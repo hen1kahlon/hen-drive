@@ -9,6 +9,13 @@ const GalleryUploadSchema = z.object({
   base64: z.string().min(1).max(8_000_000),
 });
 
+function base64ToBytes(base64: string) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index++) bytes[index] = binary.charCodeAt(index);
+  return bytes;
+}
+
 export const uploadGalleryImage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => GalleryUploadSchema.parse(input))
@@ -23,7 +30,7 @@ export const uploadGalleryImage = createServerFn({ method: "POST" })
     if (roleError) throw new Error(`בדיקת הרשאת מנהל נכשלה: ${roleError.message}`);
     if (!roleRow) throw new Error("אין הרשאת מנהל — התחברו בחשבון מנהל");
 
-    const bytes = Buffer.from(data.base64, "base64");
+    const bytes = base64ToBytes(data.base64);
     if (bytes.byteLength === 0) throw new Error("קובץ התמונה ריק");
     if (bytes.byteLength > 6 * 1024 * 1024) throw new Error("התמונה הדחוסה גדולה מדי");
 
