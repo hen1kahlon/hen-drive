@@ -888,7 +888,7 @@ function FloatingWA() {
         <MessageCircle size={20} />
         <span className="absolute inset-0 rounded-full bg-[#25D366] -z-10 animate-pulse-ring" />
       </span>
-      <span className="hidden md:inline text-sm whitespace-nowrap">דברו איתי בוואטסאפ</span>
+      <span className="text-sm whitespace-nowrap">דברו בוואטסאפ</span>
     </a>
   );
 }
