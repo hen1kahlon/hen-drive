@@ -6,7 +6,7 @@ import {
   Phone, MessageCircle, Instagram, Facebook, Mail, Star, Car, Bike,
   Users, Award, Clock, Shield, Sparkles, MapPin, ChevronDown, Check,
   ArrowLeft, Zap, Heart, GraduationCap, Send, Trophy, Calendar, UserCheck,
-  Smile, Upload,
+  Smile, Upload, Navigation, Play, Image as ImageIcon, Video as VideoIcon,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import heroImg from "@/assets/hero-driving.jpg";
@@ -29,6 +29,7 @@ const INSTAGRAM = "https://instagram.com";
 const FACEBOOK = "https://facebook.com";
 const TIKTOK = "https://tiktok.com";
 const EMAIL = "hen1kahlon@gmail.com";
+const TRAINING_MAP_URL = "https://www.google.com/maps/search/?api=1&query=מגרש+אימונים+אופנוע+אשקלון";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -889,21 +890,286 @@ function FloatingWA() {
 function MobileBar() {
   return (
     <div className="md:hidden fixed bottom-0 inset-x-0 z-40 glass-strong border-t border-white/10">
-      <div className="grid grid-cols-3 gap-1 p-2">
+      <div className="grid grid-cols-4 gap-1 p-2">
         <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 py-2 rounded-xl bg-[#25D366] text-white shadow-[0_8px_20px_-8px_rgba(37,211,102,0.8)]">
-          <MessageCircle size={20} />
-          <span className="text-[11px] font-bold">וואטסאפ</span>
+          <MessageCircle size={18} />
+          <span className="text-[10px] font-bold">וואטסאפ</span>
         </a>
         <a href={`tel:${PHONE}`} className="flex flex-col items-center gap-1 py-2 rounded-xl hover:bg-white/5 transition">
-          <Phone size={20} className="text-[oklch(0.7_0.18_255)]" />
-          <span className="text-[11px] font-bold">שיחה</span>
+          <Phone size={18} className="text-[oklch(0.7_0.18_255)]" />
+          <span className="text-[10px] font-bold">שיחה</span>
         </a>
-        <a href="#lead" className="flex flex-col items-center gap-1 py-2 rounded-xl bg-gradient-orange text-white">
-          <Sparkles size={20} />
-          <span className="text-[11px] font-bold">השאר פרטים</span>
+        <button type="button" onClick={scrollToLead} className="flex flex-col items-center gap-1 py-2 rounded-xl bg-gradient-orange text-white">
+          <Sparkles size={18} />
+          <span className="text-[10px] font-bold">פרטים</span>
+        </button>
+        <a href={TRAINING_MAP_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 py-2 rounded-xl hover:bg-white/5 transition">
+          <Navigation size={18} className="text-accent" />
+          <span className="text-[10px] font-bold">ניווט</span>
         </a>
       </div>
     </div>
+  );
+}
+
+// ===================== License Matcher =====================
+function LicenseMatcher() {
+  const [age, setAge] = useState<number | "">("");
+  const [hasLicense, setHasLicense] = useState<"yes" | "no" | "">("");
+  const [vehicle, setVehicle] = useState<"car" | "moto" | "">("");
+
+  const recommendation = (() => {
+    if (!age || !hasLicense || !vehicle) return null;
+    const a = Number(age);
+    if (vehicle === "car") {
+      if (a < 16.5) return { code: "B", title: "רכב אוטומט (B)", note: "צריך להמתין לגיל 16.5 כדי להתחיל ללמוד.", interest: "רכב אוטומט דרגה B" };
+      return { code: "B", title: "רכב אוטומט (B)", note: "מתאים לך! נתחיל את התהליך לרישיון רכב פרטי.", interest: "רכב אוטומט דרגה B" };
+    }
+    // moto
+    if (a >= 21 && hasLicense === "yes") return { code: "A", title: "אופנוע ללא הגבלה (A)", note: "ניתן ללמוד דרגה A — בכפוף לוותק על A1.", interest: "אופנוע A" };
+    if (a >= 18) return { code: "A1", title: "אופנוע בינוני (A1)", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" };
+    if (a >= 16) return { code: "A2", title: "אופנוע מתחילים (A2)", note: "התחלה מצוינת — עד 14.7 כ״ס.", interest: "אופנוע A2" };
+    return { code: "A2", title: "אופנוע מתחילים (A2)", note: "צריך להמתין לגיל 16 כדי להתחיל.", interest: "אופנוע A2" };
+  })();
+
+  return (
+    <section id="match" className="py-20 sm:py-28 px-4 relative">
+      <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
+      <div className="max-w-5xl mx-auto">
+        <motion.div {...fadeUp} className="text-center mb-10 sm:mb-14">
+          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">כלי חכם</p>
+          <h2 className="text-display text-4xl sm:text-5xl">
+            איזה <span className="gradient-text-orange">רישיון מתאים לי</span>?
+          </h2>
+          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">ענה על 3 שאלות ונמצא לך את הדרגה המתאימה ביותר.</p>
+        </motion.div>
+
+        <motion.div {...fadeUp} className="glass-strong rounded-[2rem] border border-white/10 p-6 sm:p-8 grid lg:grid-cols-2 gap-8 shadow-card">
+          <div className="space-y-5">
+            <div>
+              <label className="text-xs font-bold mb-2 block text-muted-foreground">גיל</label>
+              <input type="number" min={14} max={99} value={age} onChange={(e) => setAge(e.target.value === "" ? "" : Number(e.target.value))}
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-base outline-none focus:border-accent transition" placeholder="לדוגמה: 18" />
+            </div>
+            <div>
+              <label className="text-xs font-bold mb-2 block text-muted-foreground">יש לך רישיון קיים?</label>
+              <div className="grid grid-cols-2 gap-2">
+                {[{ v: "yes", l: "כן" }, { v: "no", l: "לא" }].map((o) => (
+                  <button key={o.v} type="button" onClick={() => setHasLicense(o.v as "yes" | "no")}
+                    className={`rounded-xl py-3 font-bold text-sm border transition ${hasLicense === o.v ? "bg-gradient-blue text-white border-transparent shadow-glow" : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
+                    {o.l}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="text-xs font-bold mb-2 block text-muted-foreground">רכב או אופנוע?</label>
+              <div className="grid grid-cols-2 gap-2">
+                <button type="button" onClick={() => setVehicle("car")}
+                  className={`rounded-xl py-3 font-bold text-sm border transition flex items-center justify-center gap-2 ${vehicle === "car" ? "bg-gradient-blue text-white border-transparent shadow-glow" : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
+                  <Car size={16} /> רכב
+                </button>
+                <button type="button" onClick={() => setVehicle("moto")}
+                  className={`rounded-xl py-3 font-bold text-sm border transition flex items-center justify-center gap-2 ${vehicle === "moto" ? "bg-gradient-orange text-white border-transparent shadow-glow-orange" : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
+                  <Bike size={16} /> אופנוע
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-background/40 p-6 flex flex-col justify-center min-h-[220px]">
+            {recommendation ? (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                <p className="text-xs font-bold tracking-[0.2em] uppercase gradient-text-orange mb-2">ההמלצה שלנו</p>
+                <h3 className="text-display text-3xl sm:text-4xl mb-2">{recommendation.title}</h3>
+                <p className="text-muted-foreground mb-5">{recommendation.note}</p>
+                <button type="button" onClick={() => selectInterestAndScroll(recommendation.interest)}
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3 font-bold text-white shadow-glow-orange hover:scale-105 transition">
+                  השאר פרטים <ArrowLeft size={16} />
+                </button>
+              </motion.div>
+            ) : (
+              <div className="text-center text-muted-foreground">
+                <Sparkles size={28} className="mx-auto mb-3 text-accent" />
+                <p className="text-sm">מלא/י את 3 השאלות מימין ונמליץ לך על הדרגה המתאימה.</p>
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ===================== Success Gallery =====================
+const galleryItems = [
+  { tag: "טסט", title: "עברתי טסט!", grad: "from-[oklch(0.62_0.20_255)] to-[oklch(0.45_0.18_265)]" },
+  { tag: "אופנוע", title: "שיעור A2", grad: "from-[oklch(0.78_0.20_55)] to-[oklch(0.55_0.22_30)]" },
+  { tag: "רכב", title: "שיעור B", grad: "from-[oklch(0.7_0.18_250)] to-[oklch(0.5_0.20_270)]" },
+  { tag: "הצלחה", title: "רישיון ביד", grad: "from-[oklch(0.75_0.18_40)] to-[oklch(0.5_0.22_25)]" },
+  { tag: "אופנוע", title: "תרגול במגרש", grad: "from-[oklch(0.6_0.20_260)] to-[oklch(0.4_0.18_280)]" },
+  { tag: "טסט", title: "פעם ראשונה!", grad: "from-[oklch(0.78_0.18_55)] to-[oklch(0.6_0.20_255)]" },
+  { tag: "רכב", title: "מוכן לטסט", grad: "from-[oklch(0.5_0.18_265)] to-[oklch(0.3_0.15_270)]" },
+  { tag: "הצלחה", title: "תלמידה מאושרת", grad: "from-[oklch(0.72_0.18_50)] to-[oklch(0.55_0.22_35)]" },
+];
+function SuccessGallery() {
+  return (
+    <section id="gallery" className="py-20 sm:py-28 px-4">
+      <div className="max-w-7xl mx-auto">
+        <motion.div {...fadeUp} className="text-center mb-12 sm:mb-16">
+          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">גלריית הצלחות</p>
+          <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
+            תלמידים <span className="gradient-text-orange">שעשו את זה</span>
+          </h2>
+          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">רגעי הצלחה מתוך השיעורים והטסטים — אווירה צעירה, מקצועית ומלאה במוטיבציה.</p>
+        </motion.div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          {galleryItems.map((g, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.05 }}
+              className={`group relative aspect-square rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br ${g.grad} cursor-pointer`}
+            >
+              <div className="absolute inset-0 grid-bg opacity-20" />
+              <div className="absolute inset-0 grid place-items-center">
+                <ImageIcon size={40} className="text-white/30 group-hover:scale-110 transition-transform duration-500" />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute top-2 right-2 glass-strong rounded-full px-2.5 py-1 text-[10px] font-bold border border-white/10">{g.tag}</div>
+              <div className="absolute bottom-3 right-3 left-3 text-white font-black text-sm sm:text-base translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition">
+                {g.title}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ===================== Video Intro =====================
+function VideoIntro() {
+  const [playing, setPlaying] = useState(false);
+  return (
+    <section id="video" className="py-20 sm:py-28 px-4 relative">
+      <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.12)] blur-[120px] -z-10" />
+      <div className="max-w-5xl mx-auto">
+        <motion.div {...fadeUp} className="text-center mb-10 sm:mb-14">
+          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">וידאו</p>
+          <h2 className="text-display text-4xl sm:text-5xl">
+            תכירו את <span className="gradient-text-orange">חן כחלון</span>
+          </h2>
+          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">סרטון היכרות קצר — הגישה, האווירה והדרך שלי ללמד נהיגה.</p>
+        </motion.div>
+
+        <motion.div {...fadeUp} className="relative aspect-video rounded-[2rem] overflow-hidden border border-white/10 shadow-glow group">
+          {/* placeholder backdrop */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[oklch(0.18_0.04_265)] via-[oklch(0.10_0.02_260)] to-[oklch(0.20_0.06_50)]" />
+          <div className="absolute inset-0 grid-bg opacity-30" />
+          <img src={portraitImg} alt="חן כחלון - מורה נהיגה אשקלון" loading="lazy" width={1280} height={720} className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-60 transition" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
+
+          {!playing ? (
+            <button type="button" onClick={() => setPlaying(true)} aria-label="נגן וידאו" className="absolute inset-0 grid place-items-center">
+              <span className="relative grid place-items-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-orange text-white shadow-glow-orange group-hover:scale-110 transition-transform">
+                <Play size={36} className="ml-1" fill="currentColor" />
+                <span className="absolute inset-0 rounded-full bg-[oklch(0.72_0.18_50)] -z-10 animate-pulse-ring" />
+              </span>
+            </button>
+          ) : (
+            <div className="absolute inset-0 grid place-items-center bg-black/80 text-center text-white p-6">
+              <div>
+                <VideoIcon size={36} className="mx-auto mb-3 text-accent" />
+                <p className="font-bold mb-2">הסרטון יעלה בקרוב</p>
+                <p className="text-sm text-white/70">בינתיים — אפשר ליצור קשר ולשמוע על השיעורים</p>
+              </div>
+            </div>
+          )}
+
+          <div className="absolute bottom-4 right-4 left-4 flex flex-wrap items-center justify-between gap-3">
+            <div className="glass-strong rounded-full px-3 py-1.5 text-xs font-bold border border-white/10">סרטון היכרות · 2:15</div>
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="hidden sm:inline-flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-xs font-bold text-white shadow-card">
+              <MessageCircle size={14} /> שאל אותי שאלה
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+// ===================== Social Feed =====================
+const socialPosts = [
+  { platform: "instagram" as const, caption: "תלמידה עברה טסט מהפעם הראשונה 🎉", likes: "248", grad: "from-[oklch(0.72_0.18_50)] to-[oklch(0.55_0.22_330)]" },
+  { platform: "tiktok" as const, caption: "טיפ חשוב לפני טסט אופנוע 🏍️", likes: "1.2K", grad: "from-[oklch(0.20_0.02_260)] to-[oklch(0.10_0.02_260)]" },
+  { platform: "instagram" as const, caption: "שיעור ראשון על הכלי החדש 🚗", likes: "189", grad: "from-[oklch(0.62_0.20_255)] to-[oklch(0.4_0.18_280)]" },
+  { platform: "tiktok" as const, caption: "מה לבדוק לפני יציאה לכביש?", likes: "892", grad: "from-[oklch(0.78_0.20_55)] to-[oklch(0.5_0.22_30)]" },
+];
+function SocialFeed() {
+  return (
+    <section id="social" className="py-20 sm:py-28 px-4">
+      <div className="max-w-7xl mx-auto">
+        <motion.div {...fadeUp} className="text-center mb-12 sm:mb-16">
+          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">עקבו אחריי</p>
+          <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
+            הסיפורים שלי <span className="gradient-text-blue">ברשתות</span>
+          </h2>
+          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">תכנים חדשים, טיפים, ורגעים מתוך השיעורים — מוזמנים להצטרף.</p>
+        </motion.div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+          {socialPosts.map((p, i) => {
+            const href = p.platform === "tiktok" ? TIKTOK : INSTAGRAM;
+            return (
+              <motion.a
+                key={i}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="group relative aspect-[9/16] rounded-3xl overflow-hidden border border-white/10 block"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${p.grad}`} />
+                <div className="absolute inset-0 grid-bg opacity-20" />
+                <div className="absolute inset-0 grid place-items-center">
+                  <Play size={48} className="text-white/40 group-hover:scale-110 group-hover:text-white/70 transition" fill="currentColor" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+
+                {/* platform badge */}
+                <div className="absolute top-3 right-3 glass-strong rounded-full px-2.5 py-1 flex items-center gap-1.5 border border-white/10">
+                  {p.platform === "instagram" ? <Instagram size={12} /> : <TikTokIcon className="w-3 h-3" />}
+                  <span className="text-[10px] font-bold capitalize">{p.platform}</span>
+                </div>
+
+                {/* caption */}
+                <div className="absolute bottom-3 right-3 left-3 text-white">
+                  <p className="text-xs sm:text-sm font-bold leading-snug mb-2 line-clamp-3">{p.caption}</p>
+                  <div className="flex items-center gap-3 text-[11px] text-white/80">
+                    <span className="inline-flex items-center gap-1"><Heart size={11} /> {p.likes}</span>
+                  </div>
+                </div>
+              </motion.a>
+            );
+          })}
+        </div>
+
+        <div className="text-center mt-10 flex flex-wrap justify-center gap-3">
+          <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-orange px-5 py-3 text-sm font-bold text-white shadow-glow-orange hover:scale-105 transition">
+            <Instagram size={16} /> עקבו באינסטגרם
+          </a>
+          <a href={TIKTOK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3 text-sm font-bold hover:bg-white/5 transition">
+            <TikTokIcon className="w-4 h-4" /> בטיקטוק
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -915,8 +1181,12 @@ function LandingPage() {
       <main>
         <Hero />
         <Categories />
+        <LicenseMatcher />
         <About />
         <WhyMe />
+        <SuccessGallery />
+        <VideoIntro />
+        <SocialFeed />
         <Reviews />
         <LeadForm />
         <FAQ />
