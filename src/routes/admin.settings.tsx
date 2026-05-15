@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadAdminMediaImage } from "@/lib/admin-media.functions";
+import { imageFileToBase64 } from "@/lib/image-upload.client";
 import { toast } from "sonner";
 import { Save, Upload, ExternalLink, Eye } from "lucide-react";
 import { DEFAULT_SETTINGS, mergeSettings, type SiteSettings } from "@/lib/site-settings";
@@ -252,18 +255,16 @@ function SmallTriple({ a, b, c, onA, onB, onC }: { a: [string, string]; b: [stri
 }
 
 function ImageUploader({ label, value, onChange, folder }: { label: string; value: string; onChange: (v: string) => void; folder: string }) {
+  const uploadImage = useServerFn(uploadAdminMediaImage);
   const [up, setUp] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
   const upload = async (file: File) => {
-    if (file.size > 5 * 1024 * 1024) return toast.error("עד 5MB");
     setUp(true);
     try {
-      const ext = file.name.split(".").pop();
-      const path = `${folder}/${crypto.randomUUID()}.${ext}`;
-      const { error } = await supabase.storage.from("gallery").upload(path, file, { cacheControl: "3600" });
-      if (error) throw error;
-      const { data: pub } = supabase.storage.from("gallery").getPublicUrl(path);
-      onChange(pub.publicUrl);
+      const image = await imageFileToBase64(file);
+      const safeFolder = folder === "hero" ? "hero" : "general";
+      const result = await uploadImage({ data: { bucket: "gallery", folder: safeFolder, ...image } });
+      onChange(result.publicUrl);
       toast.success("הועלה — לא לשכוח לשמור");
     } catch (e) { toast.error(e instanceof Error ? e.message : "שגיאה"); }
     finally { setUp(false); }
