@@ -250,3 +250,26 @@
   50% { transform: translateY(-6px); }
 }
 .animate-bounce-slow { animation: bounce-slow 2.4s ease-in-out infinite; }
+
+/* Mobile: tone down expensive blur/shadow/animations for snappier feel */
+@media (max-width: 768px) {
+  .glass, .glass-strong {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .shadow-glow, .shadow-glow-orange {
+    box-shadow: 0 8px 24px -10px oklch(0 0 0 / 0.5);
+  }
+  .animate-float-slow,
+  .animate-pulse-ring::before {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
