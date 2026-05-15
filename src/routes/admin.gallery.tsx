@@ -84,12 +84,37 @@ function GalleryPage() {
 
   const onUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
-    // Verify we still have a live session — RLS rejects with a cryptic
-    // "violates row-level security policy" if the token has expired.
-    const { data: sessionData } = await supabase.auth.getSession();
-    if (!sessionData.session) {
-      toast.error("פג תוקף ההתחברות — מתחבר מחדש...", { duration: 4000 });
-      setTimeout(() => navigate({ to: "/auth" }), 800);
+    // Validate the session on the server before uploading. getSession() only
+    // reads localStorage and may return a stale (expired) token, which the
+    // server then rejects → auth.uid() is NULL → RLS denies the upload.
+    // getUser() round-trips to /auth/v1/user, which forces autoRefreshToken
+    // to mint a fresh access token if the current one expired.
+    let userId: string | null = null;
+    try {
+      const { data: userData, error: userErr } = await supabase.auth.getUser();
+      if (userErr || !userData.user) throw userErr ?? new Error("no user");
+      userId = userData.user.id;
+    } catch {
+      // Token couldn't be refreshed — try one explicit refresh, then bail.
+      const { data: refreshed } = await supabase.auth.refreshSession();
+      if (!refreshed.session) {
+        toast.error("פג תוקף ההתחברות — מתחבר מחדש...", { duration: 4000 });
+        setTimeout(() => navigate({ to: "/auth" }), 800);
+        return;
+      }
+      userId = refreshed.session.user.id;
+    }
+    // Sanity-check admin role from the live session — fails fast with a clear
+    // message instead of letting every storage upload return a cryptic RLS error.
+    const { data: roleRow } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin")
+      .maybeSingle();
+    if (!roleRow) {
+      toast.error("החשבון המחובר אינו מנהל — התחברו בחשבון מנהל");
+      setTimeout(() => navigate({ to: "/auth" }), 1200);
       return;
     }
     const all = Array.from(files);
