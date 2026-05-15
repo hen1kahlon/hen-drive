@@ -876,21 +876,25 @@ function FloatingWA() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="פתח וואטסאפ"
-      className="fixed bottom-24 md:bottom-6 left-4 md:left-6 z-50 inline-flex items-center gap-2 h-14 md:h-16 px-4 md:px-5 rounded-full bg-[#25D366] text-white font-bold shadow-[0_10px_40px_-10px_rgba(37,211,102,0.8)] hover:scale-105 transition animate-bounce-slow"
+      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 6rem)" }}
+      className="fixed md:!bottom-6 left-4 md:left-6 z-40 inline-flex items-center gap-2 h-12 md:h-16 px-3 md:px-5 rounded-full bg-[#25D366] text-white font-bold shadow-[0_10px_40px_-10px_rgba(37,211,102,0.8)] hover:scale-105 transition animate-bounce-slow"
     >
-      <span className="relative grid place-items-center w-9 h-9 rounded-full bg-white/15">
-        <MessageCircle size={22} />
+      <span className="relative grid place-items-center w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/15">
+        <MessageCircle size={20} />
         <span className="absolute inset-0 rounded-full bg-[#25D366] -z-10 animate-pulse-ring" />
       </span>
-      <span className="hidden sm:inline text-sm whitespace-nowrap">דברו איתי בוואטסאפ</span>
+      <span className="hidden md:inline text-sm whitespace-nowrap">דברו איתי בוואטסאפ</span>
     </a>
   );
 }
 
 function MobileBar() {
   return (
-    <div className="md:hidden fixed bottom-0 inset-x-0 z-40 glass-strong border-t border-white/10">
-      <div className="grid grid-cols-4 gap-1 p-2">
+    <div
+      className="md:hidden fixed bottom-0 inset-x-0 z-30 glass-strong border-t border-white/10"
+      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+    >
+      <div className="grid grid-cols-4 gap-1 p-2 max-w-screen-sm mx-auto">
         <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-1 py-2 rounded-xl bg-[#25D366] text-white shadow-[0_8px_20px_-8px_rgba(37,211,102,0.8)]">
           <MessageCircle size={18} />
           <span className="text-[10px] font-bold">וואטסאפ</span>
@@ -1175,10 +1179,10 @@ function SocialFeed() {
 
 function LandingPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Toaster position="top-center" theme="dark" richColors />
       <Nav />
-      <main>
+      <main className="pb-24 md:pb-0">
         <Hero />
         <Categories />
         <LicenseMatcher />
