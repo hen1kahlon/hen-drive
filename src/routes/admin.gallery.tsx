@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Trash2, Upload, Check, Pencil } from "lucide-react";
@@ -66,6 +67,7 @@ async function compressToWebP(file: File): Promise<Blob> {
 }
 
 function GalleryPage() {
+  const navigate = useNavigate();
   const [items, setItems] = useState<Item[]>([]);
   const [cat, setCat] = useState<typeof CATS[number]["id"]>("cars");
   const [uploading, setUploading] = useState(false);
@@ -82,6 +84,14 @@ function GalleryPage() {
 
   const onUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
+    // Verify we still have a live session — RLS rejects with a cryptic
+    // "violates row-level security policy" if the token has expired.
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (!sessionData.session) {
+      toast.error("פג תוקף ההתחברות — מתחבר מחדש...", { duration: 4000 });
+      setTimeout(() => navigate({ to: "/auth" }), 800);
+      return;
+    }
     const all = Array.from(files);
     const list: File[] = [];
     const skipped: string[] = [];
@@ -110,14 +120,26 @@ function GalleryPage() {
             cacheControl: "31536000",
             contentType: blob.type,
           });
-          if (error) throw new Error(`העלאה לאחסון נכשלה: ${error.message}`);
+          if (error) {
+            const m = error.message.toLowerCase();
+            if (m.includes("row-level security") || m.includes("unauthorized") || m.includes("403")) {
+              throw new Error("אין הרשאת מנהל — התחברו שוב");
+            }
+            throw new Error(`העלאה לאחסון נכשלה: ${error.message}`);
+          }
           const { data } = supabase.storage.from("gallery").getPublicUrl(path);
           const { error: insErr } = await supabase.from("gallery_items").insert({
             image_url: data.publicUrl,
             category: cat,
             title: null,
           });
-          if (insErr) throw new Error(`שמירה למסד נכשלה: ${insErr.message}`);
+          if (insErr) {
+            const m = insErr.message.toLowerCase();
+            if (m.includes("row-level security")) {
+              throw new Error("אין הרשאת מנהל לשמור פריט — התחברו שוב");
+            }
+            throw new Error(`שמירה למסד נכשלה: ${insErr.message}`);
+          }
           ok++;
         } catch (err) {
           const msg = err instanceof Error ? err.message : "שגיאה לא ידועה";
