@@ -83,13 +83,19 @@ function blobToBase64(blob: Blob): Promise<string> {
 
 function GalleryPage() {
   const navigate = useNavigate();
+  const uploadImage = useServerFn(uploadGalleryImage);
   const [items, setItems] = useState<Item[]>([]);
   const [cat, setCat] = useState<typeof CATS[number]["id"]>("cars");
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
+  const [selectedPreviews, setSelectedPreviews] = useState<SelectedPreview[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => () => {
+    selectedPreviews.forEach((preview) => URL.revokeObjectURL(preview.url));
+  }, [selectedPreviews]);
 
   const load = useCallback(async () => {
     const { data, error } = await supabase.from("gallery_items").select("*").order("sort_order").order("created_at", { ascending: false });
