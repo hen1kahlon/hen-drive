@@ -7,6 +7,7 @@ import {
   Users, Award, Clock, Shield, Sparkles, MapPin, ChevronDown, Check,
   ArrowLeft, Zap, Heart, GraduationCap, Send, Trophy, Calendar, UserCheck,
   Smile, Upload, Navigation, Play, Image as ImageIcon, Video as VideoIcon,
+  Accessibility, Plus, Minus, Contrast, RotateCcw, X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteSettingsProvider, useSiteSettings, waUrl, DEFAULT_SETTINGS } from "@/lib/site-settings";
@@ -1434,6 +1435,7 @@ function LandingPageInner() {
       </main>
       <Footer />
       <MobileBar />
+      <AccessibilityWidget />
     </div>
   );
 }
