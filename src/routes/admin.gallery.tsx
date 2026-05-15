@@ -15,39 +15,54 @@ const CATS = [
 
 const MAX_W = 1080;
 const WEBP_Q = 0.82;
+const MAX_FILE_BYTES = 25 * 1024 * 1024; // 25MB original
+const ALLOWED_MIME = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 async function compressToWebP(file: File): Promise<Blob> {
-  // Try native createImageBitmap (faster, handles EXIF rotation on modern browsers)
-  let bitmap: ImageBitmap;
+  // Decode the image. Try createImageBitmap first (fast, handles EXIF),
+  // then fall back to HTMLImageElement.
+  let width = 0, height = 0;
+  let drawSource: CanvasImageSource;
+  let cleanup: (() => void) | null = null;
   try {
-    bitmap = await createImageBitmap(file, { imageOrientation: "from-image" } as ImageBitmapOptions);
+    const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" } as ImageBitmapOptions);
+    width = bitmap.width; height = bitmap.height;
+    drawSource = bitmap;
+    cleanup = () => bitmap.close?.();
   } catch {
-    // Fallback via HTMLImageElement
     const url = URL.createObjectURL(file);
-    const img = await new Promise<HTMLImageElement>((res, rej) => {
-      const i = new Image();
-      i.onload = () => res(i);
-      i.onerror = rej;
-      i.src = url;
-    });
-    bitmap = await createImageBitmap(img);
-    URL.revokeObjectURL(url);
+    try {
+      const img = await new Promise<HTMLImageElement>((res, rej) => {
+        const i = new Image();
+        i.onload = () => res(i);
+        i.onerror = () => rej(new Error("פורמט תמונה לא נתמך (אולי HEIC?)"));
+        i.src = url;
+      });
+      width = img.naturalWidth; height = img.naturalHeight;
+      drawSource = img;
+      cleanup = () => URL.revokeObjectURL(url);
+    } catch (e) {
+      URL.revokeObjectURL(url);
+      throw e;
+    }
   }
-  const ratio = bitmap.width > MAX_W ? MAX_W / bitmap.width : 1;
-  const w = Math.round(bitmap.width * ratio);
-  const h = Math.round(bitmap.height * ratio);
+  if (!width || !height) { cleanup?.(); throw new Error("לא ניתן לקרוא את מימדי התמונה"); }
+  const ratio = width > MAX_W ? MAX_W / width : 1;
+  const w = Math.max(1, Math.round(width * ratio));
+  const h = Math.max(1, Math.round(height * ratio));
   const canvas = document.createElement("canvas");
   canvas.width = w; canvas.height = h;
-  const ctx = canvas.getContext("2d")!;
-  ctx.drawImage(bitmap, 0, 0, w, h);
-  bitmap.close?.();
-  return await new Promise<Blob>((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => (blob ? resolve(blob) : reject(new Error("toBlob failed"))),
-      "image/webp",
-      WEBP_Q,
-    );
-  });
+  const ctx = canvas.getContext("2d");
+  if (!ctx) { cleanup?.(); throw new Error("הדפדפן לא תומך בעיבוד תמונה"); }
+  ctx.drawImage(drawSource, 0, 0, w, h);
+  cleanup?.();
+  // Try WebP, fall back to JPEG if the browser can't encode WebP (rare on iOS <14).
+  const tryEncode = (mime: string) =>
+    new Promise<Blob | null>((resolve) => canvas.toBlob((b) => resolve(b), mime, WEBP_Q));
+  let blob = await tryEncode("image/webp");
+  if (!blob) blob = await tryEncode("image/jpeg");
+  if (!blob) throw new Error("דחיסת התמונה נכשלה");
+  return blob;
 }
 
 function GalleryPage() {
@@ -67,37 +82,53 @@ function GalleryPage() {
 
   const onUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
-    const list = Array.from(files).filter((f) => f.type.startsWith("image/"));
-    if (list.length === 0) { toast.error("בחר קבצי תמונה בלבד"); return; }
+    const all = Array.from(files);
+    const list: File[] = [];
+    const skipped: string[] = [];
+    for (const f of all) {
+      const name = f.name || "תמונה";
+      const isHeic = /\.(heic|heif)$/i.test(name) || f.type === "image/heic" || f.type === "image/heif";
+      if (isHeic) { skipped.push(`${name}: HEIC לא נתמך — המירו ל-JPG`); continue; }
+      if (f.type && !ALLOWED_MIME.includes(f.type)) { skipped.push(`${name}: סוג קובץ לא נתמך (${f.type})`); continue; }
+      if (!f.type && !/\.(jpe?g|png|webp)$/i.test(name)) { skipped.push(`${name}: סוג קובץ לא ידוע`); continue; }
+      if (f.size > MAX_FILE_BYTES) { skipped.push(`${name}: קובץ גדול מ-25MB`); continue; }
+      list.push(f);
+    }
+    if (skipped.length) skipped.forEach((m) => toast.error(m, { duration: 5000 }));
+    if (list.length === 0) { toast.error("אין קבצים תקינים להעלאה"); return; }
     setUploading(true);
     setProgress({ done: 0, total: list.length });
     let ok = 0, fail = 0;
     try {
       for (const file of list) {
+        const fname = file.name || "תמונה";
         try {
-          const webp = await compressToWebP(file);
-          const path = `${cat}/${crypto.randomUUID()}.webp`;
-          const { error } = await supabase.storage.from("gallery").upload(path, webp, {
+          const blob = await compressToWebP(file);
+          const ext = blob.type === "image/jpeg" ? "jpg" : "webp";
+          const path = `${cat}/${crypto.randomUUID()}.${ext}`;
+          const { error } = await supabase.storage.from("gallery").upload(path, blob, {
             cacheControl: "31536000",
-            contentType: "image/webp",
+            contentType: blob.type,
           });
-          if (error) throw error;
+          if (error) throw new Error(`העלאה לאחסון נכשלה: ${error.message}`);
           const { data } = supabase.storage.from("gallery").getPublicUrl(path);
           const { error: insErr } = await supabase.from("gallery_items").insert({
             image_url: data.publicUrl,
             category: cat,
             title: null,
           });
-          if (insErr) throw insErr;
+          if (insErr) throw new Error(`שמירה למסד נכשלה: ${insErr.message}`);
           ok++;
         } catch (err) {
-          console.error(err);
+          const msg = err instanceof Error ? err.message : "שגיאה לא ידועה";
+          console.error(`upload failed for ${fname}:`, err);
+          toast.error(`${fname} — ${msg}`, { duration: 6000 });
           fail++;
         }
         setProgress((p) => (p ? { ...p, done: p.done + 1 } : p));
       }
       if (ok) toast.success(`הועלו ${ok} תמונות${fail ? ` · ${fail} נכשלו` : ""}`);
-      else toast.error("העלאה נכשלה");
+      else if (!ok && !fail) toast.error("העלאה נכשלה");
       load();
     } catch (e) { toast.error(e instanceof Error ? e.message : "שגיאה"); }
     finally {
