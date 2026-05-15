@@ -10,7 +10,9 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import heroImg from "@/assets/hero-driving.webp";
+import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 import portraitImg from "@/assets/instructor-portrait.webp";
+import portraitImgMobile from "@/assets/instructor-portrait-mobile.webp";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA2 from "@/assets/vehicle-bike-a2.webp";
 import vehScooter from "@/assets/vehicle-scooter.webp";
@@ -19,7 +21,17 @@ import vehBikeA from "@/assets/vehicle-bike-a.webp";
 export const Route = createFileRoute("/")({
   head: () => ({
     links: [
-      { rel: "preload", as: "image", href: heroImg, fetchPriority: "high" } as any,
+      {
+        rel: "preload",
+        as: "image",
+        href: heroImgMobile,
+        imagesrcset: `${heroImgMobile} 768w, ${heroImg} 1920w`,
+        imagesizes: "(max-width: 768px) 100vw, 60vw",
+        fetchPriority: "high",
+      } as any,
+    ],
+    meta: [
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
     ],
   }),
   component: LandingPage,
@@ -157,7 +169,17 @@ function Hero() {
           className="relative lg:col-span-7 order-1 lg:order-2"
         >
           <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 shadow-glow">
-            <img src={heroImg} alt="חן כחלון בשיעור נהיגה עם תלמידה" width={1920} height={1080} fetchPriority="high" decoding="async" className="w-full h-full object-cover" />
+            <img
+              src={heroImgMobile}
+              srcSet={`${heroImgMobile} 768w, ${heroImg} 1920w`}
+              sizes="(max-width: 768px) 100vw, 60vw"
+              alt="חן כחלון בשיעור נהיגה עם תלמידה"
+              width={1920}
+              height={1080}
+              fetchPriority="high"
+              decoding="async"
+              className="w-full h-full object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/30" />
             {/* corner badge */}
             <div className="absolute top-4 right-4 glass-strong rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5 border border-white/10">
@@ -203,8 +225,15 @@ function Hero() {
               התחל ללמוד עכשיו
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
             </button>
-            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card animate-pulse-ring relative">
-              <MessageCircle size={18} /> וואטסאפ
+            <a
+              href={WA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="וואטסאפ"
+              className="relative z-10 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card"
+            >
+              <MessageCircle size={18} aria-hidden="true" />
+              <span className="text-white opacity-100">וואטסאפ</span>
             </a>
             <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3.5 font-bold hover:bg-white/5 transition">
               <Phone size={18} /> התקשר
@@ -319,7 +348,7 @@ function About() {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <motion.div {...fadeUp} className="relative order-2 lg:order-1">
           <div className="aspect-[4/5] rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue">
-            <img src={portraitImg} alt="חן כחלון - מורה נהיגה" loading="lazy" width={800} height={1000} className="w-full h-full object-cover" />
+            <img src={portraitImgMobile} srcSet={`${portraitImgMobile} 600w, ${portraitImg} 1200w`} sizes="(max-width: 768px) 100vw, 50vw" alt="חן כחלון - מורה נהיגה" loading="lazy" width={800} height={1000} className="w-full h-full object-cover" />
           </div>
           {/* stats overlay */}
           <div className="absolute -bottom-6 inset-x-4 sm:left-auto sm:right-4 sm:max-w-[20rem] glass-strong rounded-2xl p-4 border border-white/10 shadow-card">
@@ -1078,7 +1107,7 @@ function VideoIntro() {
           {/* placeholder backdrop */}
           <div className="absolute inset-0 bg-gradient-to-br from-[oklch(0.18_0.04_265)] via-[oklch(0.10_0.02_260)] to-[oklch(0.20_0.06_50)]" />
           <div className="absolute inset-0 grid-bg opacity-30" />
-          <img src={portraitImg} alt="חן כחלון - מורה נהיגה אשקלון" loading="lazy" width={1280} height={720} className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-60 transition" />
+          <img src={portraitImgMobile} srcSet={`${portraitImgMobile} 600w, ${portraitImg} 1200w`} sizes="100vw" alt="חן כחלון - מורה נהיגה אשקלון" loading="lazy" width={1280} height={720} className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-60 transition" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
 
           {!playing ? (
