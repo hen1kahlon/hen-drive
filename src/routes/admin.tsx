@@ -26,6 +26,9 @@ function AdminLayout() {
 
   useEffect(() => {
     let mounted = true;
+    let settled = false;
+    let safety: ReturnType<typeof setTimeout> | null = null;
+    const clearSafety = () => { if (safety) { clearTimeout(safety); safety = null; } };
 
     const checkAccess = async (uid: string) => {
       try {
@@ -44,12 +47,14 @@ function AdminLayout() {
         setUserId(uid);
         setIsAdmin(false);
       } finally {
-        if (mounted) setLoading(false);
+        if (mounted) { settled = true; clearSafety(); setLoading(false); }
       }
     };
 
     const goToAuth = () => {
       if (!mounted) return;
+      settled = true;
+      clearSafety();
       setLoading(false);
       navigate({ to: "/auth" });
     };
@@ -71,15 +76,18 @@ function AdminLayout() {
       goToAuth();
     });
 
-    // Safety timeout — never get stuck on "loading" forever
-    const safety = setTimeout(() => {
-      if (mounted && loading) {
+    // Safety timeout — never get stuck on "loading" forever.
+    // Uses `settled` flag (not stale `loading` state) so it can't fire
+    // after the admin loaded successfully (e.g. when the Android file
+    // picker backgrounds the tab for >6s).
+    safety = setTimeout(() => {
+      if (mounted && !settled) {
         console.warn("admin auth check timed out");
         goToAuth();
       }
-    }, 6000);
+    }, 8000);
 
-    return () => { mounted = false; subscription.unsubscribe(); clearTimeout(safety); };
+    return () => { mounted = false; subscription.unsubscribe(); clearSafety(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 

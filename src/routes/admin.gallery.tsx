@@ -175,7 +175,15 @@ function GalleryPage() {
           multiple
           hidden
           disabled={uploading}
-          onChange={(e) => onUpload(e.target.files)}
+          onChange={(e) => {
+            // Prevent any accidental form submit / navigation on mobile
+            e.preventDefault();
+            e.stopPropagation();
+            const files = e.target.files;
+            // Defer upload so the picker overlay can fully close on Android
+            // before we kick off async work — avoids focus/back-nav glitches.
+            setTimeout(() => onUpload(files), 0);
+          }}
         />
       </label>
 
