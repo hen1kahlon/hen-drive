@@ -31,7 +31,7 @@ function SettingsPage() {
 
   const save = async () => {
     setSaving(true);
-    const { error } = await supabase.from("site_settings").upsert({ id: "main", data: data as unknown as Record<string, unknown> });
+    const { error } = await supabase.from("site_settings").upsert({ id: "main", data: data as never });
     setSaving(false);
     if (error) toast.error(error.message); else toast.success("נשמר בהצלחה");
   };

@@ -6,14 +6,14 @@ import { LayoutDashboard, Users, Star, Image as ImageIcon, HelpCircle, Settings,
 
 export const Route = createFileRoute("/admin")({ component: AdminLayout });
 
-const NAV = [
+const NAV: { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
   { to: "/admin", label: "סקירה", icon: LayoutDashboard, exact: true },
   { to: "/admin/leads", label: "לידים", icon: Users },
   { to: "/admin/reviews", label: "ביקורות", icon: Star },
   { to: "/admin/gallery", label: "גלריה", icon: ImageIcon },
   { to: "/admin/faqs", label: "שאלות נפוצות", icon: HelpCircle },
   { to: "/admin/settings", label: "הגדרות אתר", icon: Settings },
-] as const;
+];
 
 function AdminLayout() {
   const navigate = useNavigate();
