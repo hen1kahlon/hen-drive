@@ -25,17 +25,41 @@ function AdminLayout() {
 
   useEffect(() => {
     let mounted = true;
-    (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) { navigate({ to: "/auth" }); return; }
-      if (!mounted) return;
-      setUserId(session.user.id);
+
+    const checkAccess = async (uid: string) => {
       const { data: roles } = await supabase
-        .from("user_roles").select("role").eq("user_id", session.user.id).eq("role", "admin").maybeSingle();
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", uid)
+        .eq("role", "admin")
+        .maybeSingle();
+      if (!mounted) return;
+      setUserId(uid);
       setIsAdmin(!!roles);
       setLoading(false);
-    })();
-    return () => { mounted = false; };
+    };
+
+    // Set up listener first to catch any auth state changes during init
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
+      if (!session) {
+        navigate({ to: "/auth" });
+      } else {
+        void checkAccess(session.user.id);
+      }
+    });
+
+    // Then read the persisted session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!mounted) return;
+      if (!session) {
+        navigate({ to: "/auth" });
+        return;
+      }
+      void checkAccess(session.user.id);
+    });
+
+    return () => { mounted = false; subscription.unsubscribe(); };
   }, [navigate]);
 
   useEffect(() => { setOpen(false); }, [pathname]);
