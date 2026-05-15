@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadGalleryImage } from "@/lib/gallery.functions";
 import { toast } from "sonner";
@@ -82,7 +81,6 @@ function blobToBase64(blob: Blob): Promise<string> {
 }
 
 function GalleryPage() {
-  const navigate = useNavigate();
   const uploadImage = useServerFn(uploadGalleryImage);
   const [items, setItems] = useState<Item[]>([]);
   const [cat, setCat] = useState<typeof CATS[number]["id"]>("cars");
