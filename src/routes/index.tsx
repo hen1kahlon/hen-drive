@@ -1200,6 +1200,38 @@ function SocialFeed() {
 
 function LandingPage() {
   return (
+    <SiteSettingsProvider>
+      <SiteSettingsRuntime />
+      <LandingPageInner />
+    </SiteSettingsProvider>
+  );
+}
+
+// Mirrors CMS settings into the module-level constants used throughout this
+// file, then forces a re-render so children pick up the new values.
+function SiteSettingsRuntime() {
+  const s = useSiteSettings();
+  useEffect(() => {
+    PHONE = s.contact.phone;
+    PHONE_DISPLAY = s.contact.phone_display;
+    PHONE_INTL = s.contact.phone_intl;
+    WA_DEFAULT_MSG = s.contact.whatsapp_message;
+    WA_URL = waUrl(s);
+    INSTAGRAM = s.social.instagram;
+    FACEBOOK = s.social.facebook;
+    TIKTOK = s.social.tiktok;
+    EMAIL = s.contact.email;
+    TRAINING_MAP_URL = s.contact.training_map_url;
+    // bump a window event so memoized children may also refresh if needed
+    window.dispatchEvent(new Event("site-settings:updated"));
+  }, [s]);
+  return null;
+}
+
+function LandingPageInner() {
+  // Subscribe to settings so this tree re-renders when CMS values change.
+  useSiteSettings();
+  return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Toaster position="top-center" theme="dark" richColors />
       <Nav />
