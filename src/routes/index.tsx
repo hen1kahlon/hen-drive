@@ -14,6 +14,7 @@ import heroImg from "@/assets/hero-driving.webp";
 import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 import portraitImg from "@/assets/instructor-portrait.webp";
 import portraitImgMobile from "@/assets/instructor-portrait-mobile.webp";
+import chenPortrait from "@/assets/chen-portrait.png";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA2 from "@/assets/vehicle-bike-a2.webp";
 import vehScooter from "@/assets/vehicle-scooter.webp";
@@ -356,25 +357,8 @@ function About() {
 
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
         <motion.div {...fadeUp} className="relative order-2 lg:order-1">
-          <div className="aspect-[4/5] rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue">
-            <img src={portraitImgMobile} srcSet={`${portraitImgMobile} 600w, ${portraitImg} 1200w`} sizes="(max-width: 768px) 100vw, 50vw" alt="חן כחלון - מורה נהיגה" loading="lazy" width={800} height={1000} className="w-full h-full object-cover" />
-          </div>
-          {/* stats overlay */}
-          <div className="absolute -bottom-6 inset-x-4 sm:left-auto sm:right-4 sm:max-w-[20rem] glass-strong rounded-2xl p-4 border border-white/10 shadow-card">
-            <div className="grid grid-cols-3 gap-2 text-center">
-              <div>
-                <div className="text-2xl font-black gradient-text-orange">350+</div>
-                <div className="text-[10px] text-muted-foreground">תלמידים</div>
-              </div>
-              <div className="border-x border-white/10">
-                <div className="text-2xl font-black gradient-text-blue">5</div>
-                <div className="text-[10px] text-muted-foreground">שנות ותק</div>
-              </div>
-              <div>
-                <div className="text-2xl font-black gradient-text-orange">98%</div>
-                <div className="text-[10px] text-muted-foreground">הצלחה</div>
-              </div>
-            </div>
+          <div className="rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue">
+            <img src={chenPortrait} alt="חן כחלון - מורה נהיגה" loading="lazy" width={1240} height={1240} className="w-full h-auto object-cover" />
           </div>
         </motion.div>
 
