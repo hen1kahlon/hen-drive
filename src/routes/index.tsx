@@ -1179,10 +1179,10 @@ function SocialFeed() {
 
 function LandingPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Toaster position="top-center" theme="dark" richColors />
       <Nav />
-      <main>
+      <main className="pb-24 md:pb-0">
         <Hero />
         <Categories />
         <LicenseMatcher />
