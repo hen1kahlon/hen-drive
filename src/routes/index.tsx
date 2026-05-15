@@ -10,7 +10,9 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import heroImg from "@/assets/hero-driving.webp";
+import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 import portraitImg from "@/assets/instructor-portrait.webp";
+import portraitImgMobile from "@/assets/instructor-portrait-mobile.webp";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA2 from "@/assets/vehicle-bike-a2.webp";
 import vehScooter from "@/assets/vehicle-scooter.webp";
@@ -19,7 +21,17 @@ import vehBikeA from "@/assets/vehicle-bike-a.webp";
 export const Route = createFileRoute("/")({
   head: () => ({
     links: [
-      { rel: "preload", as: "image", href: heroImg, fetchPriority: "high" } as any,
+      {
+        rel: "preload",
+        as: "image",
+        href: heroImgMobile,
+        imagesrcset: `${heroImgMobile} 768w, ${heroImg} 1920w`,
+        imagesizes: "(max-width: 768px) 100vw, 60vw",
+        fetchPriority: "high",
+      } as any,
+    ],
+    meta: [
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
     ],
   }),
   component: LandingPage,
@@ -157,7 +169,17 @@ function Hero() {
           className="relative lg:col-span-7 order-1 lg:order-2"
         >
           <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 shadow-glow">
-            <img src={heroImg} alt="חן כחלון בשיעור נהיגה עם תלמידה" width={1920} height={1080} fetchPriority="high" decoding="async" className="w-full h-full object-cover" />
+            <img
+              src={heroImgMobile}
+              srcSet={`${heroImgMobile} 768w, ${heroImg} 1920w`}
+              sizes="(max-width: 768px) 100vw, 60vw"
+              alt="חן כחלון בשיעור נהיגה עם תלמידה"
+              width={1920}
+              height={1080}
+              fetchPriority="high"
+              decoding="async"
+              className="w-full h-full object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/30" />
             {/* corner badge */}
             <div className="absolute top-4 right-4 glass-strong rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5 border border-white/10">
