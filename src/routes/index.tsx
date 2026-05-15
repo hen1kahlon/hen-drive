@@ -1091,7 +1091,9 @@ function SuccessGallery() {
             id: row.id as string,
             image_url: row.image_url as string,
             title: (row.title as string | null) ?? null,
-            caption: SUCCESS_CAPTIONS[i % SUCCESS_CAPTIONS.length],
+            caption:
+              ((row.title as string | null) ?? "").trim() ||
+              SUCCESS_CAPTIONS[i % SUCCESS_CAPTIONS.length],
             // mark roughly every 3rd card as a "first-try" highlight
             isFirstTry: i % 3 === 0,
           })),

@@ -38,3 +38,14 @@ export async function uploadGalleryImageAsAdmin(data: GalleryUploadData) {
 
   return item;
 }
+
+export async function updateGalleryTitleAsAdmin(id: string, title: string | null) {
+  const { data, error } = await supabaseAdmin
+    .from("gallery_items")
+    .update({ title })
+    .eq("id", id)
+    .select("id,title")
+    .single();
+  if (error) throw new Error(`שמירת הכיתוב נכשלה: ${error.message}`);
+  return data;
+}
