@@ -225,11 +225,11 @@ function Hero() {
           <p className="text-display text-2xl sm:text-3xl lg:text-4xl gradient-text-orange mb-5">
             {s.hero.tagline}
           </p>
-          <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0">
+          <p className="text-base sm:text-lg text-muted-foreground mb-6 max-w-xl mx-auto lg:mx-0">
             {s.hero.description}
           </p>
 
-          <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
+          <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
             <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
               {s.hero.cta_primary}
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
@@ -384,7 +384,7 @@ function About() {
             נעים מאוד,<br />
             <span className="gradient-text-orange">חן כחלון</span>
           </h2>
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6">
             מורה נהיגה בעל ותק של 5 שנים בתחום הרכב והאופנועים. אני מאמין בלימוד נהיגה בגישה אישית, רגועה ומקצועית, עם התאמה מלאה לקצב של כל תלמיד. השיעורים מתבצעים על כלים חדשים, נוחים ובטיחותיים, באווירה צעירה ומכבדת — עד שמגיעים מוכנים ובטוחים לטסט.
           </p>
           <ul className="grid sm:grid-cols-2 gap-3">
@@ -705,7 +705,7 @@ function LeadForm() {
           <h2 className="text-display text-4xl sm:text-5xl mb-3">
             <span className="gradient-text-blue">אשקלון</span><br />והסביבה
           </h2>
-          <p className="text-muted-foreground mb-8">שיעורים בכל אזור אשקלון והסביבה בהתאמה מלאה לזמן ולמיקום שלך.</p>
+          <p className="text-muted-foreground mb-6">שיעורים בכל אזור אשקלון והסביבה בהתאמה מלאה לזמן ולמיקום שלך.</p>
 
           <div className="space-y-3">
             {promises.map((p) => (
@@ -876,8 +876,8 @@ function FinalCTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/5 py-12 px-4 pb-28 md:pb-12 relative">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 text-sm">
+    <footer className="border-t border-white/5 py-8 sm:py-12 px-4 pb-28 md:pb-12 relative">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6 sm:gap-8 text-sm">
         <div>
           <Logo />
           <p className="text-muted-foreground mt-4 max-w-xs">מורה נהיגה לרכב ואופנועים — אשקלון והסביבה. מלווה אותך עד הקריאה ״עברת״.</p>
@@ -905,7 +905,7 @@ function Footer() {
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-white/5 text-center text-xs text-muted-foreground">
+      <div className="max-w-7xl mx-auto mt-8 pt-5 border-t border-white/5 text-center text-xs text-muted-foreground">
         © {new Date().getFullYear()} חן כחלון - מורה נהיגה. כל הזכויות שמורות.
       </div>
     </footer>
