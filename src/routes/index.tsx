@@ -9,6 +9,7 @@ import {
   Smile, Upload, Navigation, Play, Image as ImageIcon, Video as VideoIcon,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { SiteSettingsProvider, useSiteSettings, waUrl, DEFAULT_SETTINGS } from "@/lib/site-settings";
 import heroImg from "@/assets/hero-driving.webp";
 import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 import portraitImg from "@/assets/instructor-portrait.webp";
@@ -37,16 +38,18 @@ export const Route = createFileRoute("/")({
   component: LandingPage,
 });
 
-const PHONE = "0503250150";
-const PHONE_DISPLAY = "050-3250150";
-const PHONE_INTL = "972503250150";
-const WA_DEFAULT_MSG = "היי חן, הגעתי דרך האתר ואני מעוניין לקבל פרטים על שיעורי נהיגה";
-const WA_URL = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(WA_DEFAULT_MSG)}`;
-const INSTAGRAM = "https://instagram.com";
-const FACEBOOK = "https://facebook.com";
-const TIKTOK = "https://tiktok.com";
-const EMAIL = "hen1kahlon@gmail.com";
-const TRAINING_MAP_URL = "https://www.google.com/maps/search/?api=1&query=מגרש+אימונים+אופנוע+אשקלון";
+// Live runtime values mirroring CMS settings (see SiteSettingsRuntime below).
+// They are mutated when site_settings load and re-render is forced.
+let PHONE = DEFAULT_SETTINGS.contact.phone;
+let PHONE_DISPLAY = DEFAULT_SETTINGS.contact.phone_display;
+let PHONE_INTL = DEFAULT_SETTINGS.contact.phone_intl;
+let WA_DEFAULT_MSG = DEFAULT_SETTINGS.contact.whatsapp_message;
+let WA_URL = `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(WA_DEFAULT_MSG)}`;
+let INSTAGRAM = DEFAULT_SETTINGS.social.instagram;
+let FACEBOOK = DEFAULT_SETTINGS.social.facebook;
+let TIKTOK = DEFAULT_SETTINGS.social.tiktok;
+let EMAIL = DEFAULT_SETTINGS.contact.email;
+let TRAINING_MAP_URL = DEFAULT_SETTINGS.contact.training_map_url;
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -155,6 +158,9 @@ function Speedometer() {
 }
 
 function Hero() {
+  const s = useSiteSettings();
+  const heroSrc = s.hero.hero_media_url || heroImgMobile;
+  const heroSrcSet = s.hero.hero_media_url ? undefined : `${heroImgMobile} 768w, ${heroImg} 1920w`;
   return (
     <section id="top" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* glow background */}
@@ -173,8 +179,8 @@ function Hero() {
         >
           <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 shadow-glow">
             <img
-              src={heroImgMobile}
-              srcSet={`${heroImgMobile} 768w, ${heroImg} 1920w`}
+              src={heroSrc}
+              srcSet={heroSrcSet}
               sizes="(max-width: 768px) 100vw, 60vw"
               alt="חן כחלון בשיעור נהיגה עם תלמידה"
               width={1920}
@@ -200,8 +206,8 @@ function Hero() {
               <Trophy size={20} />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-black gradient-text-orange leading-none">98%</div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground">הצלחה בטסט</div>
+              <div className="text-xl sm:text-2xl font-black gradient-text-orange leading-none">{s.stats.floating}</div>
+              <div className="text-[10px] sm:text-xs text-muted-foreground">{s.stats.floating_label}</div>
             </div>
           </div>
         </motion.div>
@@ -210,22 +216,22 @@ function Hero() {
         <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="lg:col-span-5 order-2 lg:order-1 text-center lg:text-right">
           <div className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-4 py-1.5 mb-5 text-xs font-medium">
             <Sparkles size={13} className="text-accent" />
-            <span>5 שנות ותק · רכב ואופנועים · אשקלון</span>
+            <span>{s.hero.badge}</span>
           </div>
           <h1 className="text-display text-[2.5rem] sm:text-5xl lg:text-[3.75rem] mb-3">
-            מוציאים רישיון<br />
-            <span className="gradient-text-blue">בביטחון</span>
+            {s.hero.headline_line1}<br />
+            <span className="gradient-text-blue">{s.hero.headline_highlight}</span>
           </h1>
           <p className="text-display text-2xl sm:text-3xl lg:text-4xl gradient-text-orange mb-5">
-            עד ההצלחה!
+            {s.hero.tagline}
           </p>
           <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0">
-            שיעורי נהיגה לרכב אוטומט ואופנועים באווירה צעירה, מקצועית וסבלנית — עם מורה שמלווה אותך עד הקריאה ״עברת!״
+            {s.hero.description}
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
             <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
-              התחל ללמוד עכשיו
+              {s.hero.cta_primary}
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
             </button>
             <a
@@ -236,10 +242,10 @@ function Hero() {
               className="relative z-10 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card"
             >
               <MessageCircle size={18} aria-hidden="true" />
-              <span className="text-white opacity-100">וואטסאפ</span>
+              <span className="text-white opacity-100">{s.buttons.whatsapp}</span>
             </a>
             <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3.5 font-bold hover:bg-white/5 transition">
-              <Phone size={18} /> התקשר
+              <Phone size={18} /> {s.buttons.call}
             </a>
           </div>
 
@@ -1196,6 +1202,38 @@ function SocialFeed() {
 }
 
 function LandingPage() {
+  return (
+    <SiteSettingsProvider>
+      <SiteSettingsRuntime />
+      <LandingPageInner />
+    </SiteSettingsProvider>
+  );
+}
+
+// Mirrors CMS settings into the module-level constants used throughout this
+// file, then forces a re-render so children pick up the new values.
+function SiteSettingsRuntime() {
+  const s = useSiteSettings();
+  useEffect(() => {
+    PHONE = s.contact.phone;
+    PHONE_DISPLAY = s.contact.phone_display;
+    PHONE_INTL = s.contact.phone_intl;
+    WA_DEFAULT_MSG = s.contact.whatsapp_message;
+    WA_URL = waUrl(s);
+    INSTAGRAM = s.social.instagram;
+    FACEBOOK = s.social.facebook;
+    TIKTOK = s.social.tiktok;
+    EMAIL = s.contact.email;
+    TRAINING_MAP_URL = s.contact.training_map_url;
+    // bump a window event so memoized children may also refresh if needed
+    window.dispatchEvent(new Event("site-settings:updated"));
+  }, [s]);
+  return null;
+}
+
+function LandingPageInner() {
+  // Subscribe to settings so this tree re-renders when CMS values change.
+  useSiteSettings();
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Toaster position="top-center" theme="dark" richColors />

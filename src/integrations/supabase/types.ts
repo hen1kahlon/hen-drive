@@ -104,6 +104,54 @@ export type Database = {
         }
         Relationships: []
       }
+      license_cards: {
+        Row: {
+          code: string
+          color: string
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          image_url: string | null
+          interest_label: string
+          is_active: boolean
+          sort_order: number
+          subtitle: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          color?: string
+          created_at?: string
+          description: string
+          icon?: string
+          id?: string
+          image_url?: string | null
+          interest_label: string
+          is_active?: boolean
+          sort_order?: number
+          subtitle: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          color?: string
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          image_url?: string | null
+          interest_label?: string
+          is_active?: boolean
+          sort_order?: number
+          subtitle?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       reviews: {
         Row: {
           content: string
