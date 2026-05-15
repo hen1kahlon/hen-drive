@@ -152,7 +152,7 @@ function Hero() {
           className="relative lg:col-span-7 order-1 lg:order-2"
         >
           <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 shadow-glow">
-            <img src={heroImg} alt="חן כחלון בשיעור נהיגה עם תלמידה" width={1920} height={1080} className="w-full h-full object-cover" />
+            <img src={heroImg} alt="חן כחלון בשיעור נהיגה עם תלמידה" width={1920} height={1080} fetchPriority="high" decoding="async" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/30" />
             {/* corner badge */}
             <div className="absolute top-4 right-4 glass-strong rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5 border border-white/10">
