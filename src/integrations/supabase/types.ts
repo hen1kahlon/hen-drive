@@ -68,9 +68,39 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_notes: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          lead_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          lead_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          lead_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_notes_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
           area: string | null
+          city: string | null
           created_at: string
           full_name: string
           id: string
@@ -84,6 +114,7 @@ export type Database = {
         }
         Insert: {
           area?: string | null
+          city?: string | null
           created_at?: string
           full_name: string
           id?: string
@@ -97,6 +128,7 @@ export type Database = {
         }
         Update: {
           area?: string | null
+          city?: string | null
           created_at?: string
           full_name?: string
           id?: string
@@ -251,7 +283,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin"
-      lead_status: "new" | "contacted" | "archived" | "closed"
+      lead_status: "new" | "contacted" | "archived" | "closed" | "won"
       review_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
@@ -381,7 +413,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin"],
-      lead_status: ["new", "contacted", "archived", "closed"],
+      lead_status: ["new", "contacted", "archived", "closed", "won"],
       review_status: ["pending", "approved", "rejected"],
     },
   },
