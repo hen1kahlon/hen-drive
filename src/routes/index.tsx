@@ -1030,7 +1030,7 @@ function LicenseMatcher() {
         <motion.div {...fadeUp} className="text-center mb-5 sm:mb-14">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">כלי חכם</p>
           <h2 className="text-display text-4xl sm:text-5xl">
-            איזה <span className="gradient-text-blue">רישיון מתאים לי</span>?
+            איזה <span className="text-white">רישיון מתאים לי</span>?
           </h2>
           <p className="text-muted-foreground mt-2 sm:mt-4 max-w-xl mx-auto">ענה על 3 שאלות ונמצא לך את הדרגה המתאימה ביותר.</p>
         </motion.div>
