@@ -988,14 +988,11 @@ function LicenseMatcher() {
       recs.push({ code: "A1", title: "אופנוע/קטנוע A1", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
     } else {
       recs.push({ code: "A1", title: "אופנוע/קטנוע A1", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
-      if (hasA1Year === "yes") {
-        recs.push({ code: "A", title: "אופנוע ללא הגבלה (A)", note: "מתאים לך — בעל/ת רישיון A1 עם ותק של שנה לפחות.", interest: "אופנוע A" });
-      }
+      recs.push({ code: "A", title: "אופנוע ללא הגבלה (A)", note: "מתאים לך — בכפוף לרישיון A1 עם ותק של שנה לפחות.", interest: "אופנוע A" });
     }
     return recs;
   })();
 
-  const showA1YearQuestion = vehicle === "moto" && hasLicense === "yes" && typeof age === "number" && age >= 18;
 
   const hasMultiple = !!recommendations && recommendations.length > 1;
   const activeRec = recommendations
@@ -1013,9 +1010,6 @@ function LicenseMatcher() {
       `גיל: ${age}`,
       `יש לי רישיון קודם: ${hasLicense === "yes" ? "כן" : "לא"}`,
     ];
-    if (showA1YearQuestion && hasA1Year) {
-      lines.push(`רישיון A1 עם ותק שנה+: ${hasA1Year === "yes" ? "כן" : "לא"}`);
-    }
     lines.push(`תחום לימוד: ${vehicleWord}`);
     lines.push(`הדרגה שאני מעוניין/ת בה: ${activeRec.title}`);
     lines.push("", "אשמח לקבל פרטים ולהתחיל ללמוד 🙌");
@@ -1066,19 +1060,6 @@ function LicenseMatcher() {
                 </button>
               </div>
             </div>
-            {showA1YearQuestion && (
-              <div>
-                <label className="text-xs font-bold mb-2 block text-muted-foreground">יש לך רישיון קודם בדרגת A1 עם ותק של שנה לפחות?</label>
-                <div className="grid grid-cols-2 gap-2">
-                  {[{ v: "yes", l: "כן" }, { v: "no", l: "לא" }].map((o) => (
-                    <button key={o.v} type="button" onClick={() => setHasA1Year(o.v as "yes" | "no")}
-                      className={`rounded-xl py-3 font-bold text-sm border transition ${hasA1Year === o.v ? "bg-gradient-blue text-white border-transparent shadow-glow" : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
-                      {o.l}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-background/40 p-4 sm:p-6 flex flex-col justify-center min-h-[140px] sm:min-h-[220px]">
