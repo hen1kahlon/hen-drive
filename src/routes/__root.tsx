@@ -10,6 +10,7 @@ import {
 import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
+import { installGlobalErrorLogger, logError } from "@/lib/log-error";
 
 function NotFoundComponent() {
   return (
@@ -36,6 +37,9 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+  useEffect(() => {
+    void logError({ message: error.message, stack: error.stack, context: { boundary: "root" } });
+  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -161,6 +165,7 @@ function RootComponent() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    installGlobalErrorLogger();
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
