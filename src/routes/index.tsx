@@ -828,14 +828,14 @@ function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
     <section id="faq" className="py-7 sm:py-24 px-4">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <motion.div {...fadeUp} className="text-center mb-12">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">שאלות נפוצות</p>
           <h2 className="text-display text-4xl sm:text-5xl">
             כל מה ש<span className="gradient-text-orange">חשוב לדעת</span>
           </h2>
         </motion.div>
-        <div className="space-y-3">
+        <div className="grid gap-3 lg:grid-cols-2 lg:items-start">
           {faqs.map((f, i) => (
             <motion.div
               key={i}
@@ -1204,7 +1204,7 @@ function SuccessGallery() {
       <div className="absolute -top-32 right-1/3 w-[28rem] h-[28rem] rounded-full bg-[oklch(0.72_0.18_50_/_0.10)] blur-[120px] -z-10" />
       <div className="absolute -bottom-40 left-1/4 w-[28rem] h-[28rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.10)] blur-[120px] -z-10" />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1400px] mx-auto">
         <motion.div {...fadeUp} className="text-center mb-4 sm:mb-10">
           <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">הצלחות אמיתיות</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
@@ -1243,7 +1243,7 @@ function SuccessGallery() {
         </div>
 
         {/* Desktop: masonry-like grid */}
-        <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[180px]">
+        <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 auto-rows-[180px] lg:auto-rows-[200px]">
           {items.map((item, i) => (
             <StudentCard key={item.id} item={item} index={i} />
           ))}
