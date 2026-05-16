@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS reviews_validate_insert_update ON public.reviews;
