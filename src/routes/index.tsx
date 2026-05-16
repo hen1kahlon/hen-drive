@@ -171,7 +171,7 @@ function Hero() {
       {/* glow background */}
       <div className="absolute inset-0 -z-10 grid-bg">
         <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.25)] blur-[120px] animate-float-slow" />
-        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.72_0.18_50_/_0.28)] blur-[120px] animate-float-slow" style={{ animationDelay: "3s" }} />
+        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.28)] blur-[120px] animate-float-slow" style={{ animationDelay: "3s" }} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-4 lg:py-16 grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full">
@@ -380,7 +380,7 @@ function About() {
   return (
     <section id="about" className="py-7 sm:py-24 px-4 relative overflow-hidden">
       <div className="absolute inset-0 -z-10 grid-bg opacity-40" />
-      <div className="absolute top-1/2 -translate-y-1/2 right-0 w-96 h-96 rounded-full bg-[oklch(0.72_0.18_50_/_0.12)] blur-[120px] -z-10" />
+      <div className="absolute top-1/2 -translate-y-1/2 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.12)] blur-[120px] -z-10" />
 
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-5 sm:gap-8 lg:gap-16 items-center">
         <motion.div {...fadeUp} className="relative order-2 lg:order-1">
@@ -1201,7 +1201,7 @@ function SuccessGallery() {
 
   return (
     <section id="gallery" className="py-7 sm:py-24 px-4 relative overflow-hidden">
-      <div className="absolute -top-32 right-1/3 w-[28rem] h-[28rem] rounded-full bg-[oklch(0.72_0.18_50_/_0.10)] blur-[120px] -z-10" />
+      <div className="absolute -top-32 right-1/3 w-[28rem] h-[28rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.10)] blur-[120px] -z-10" />
       <div className="absolute -bottom-40 left-1/4 w-[28rem] h-[28rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.10)] blur-[120px] -z-10" />
 
       <div className="max-w-[1400px] mx-auto">
@@ -1349,7 +1349,7 @@ function VideoIntro() {
             <button type="button" onClick={() => setPlaying(true)} aria-label="נגן וידאו" className="absolute inset-0 grid place-items-center">
               <span className="relative grid place-items-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-blue text-white shadow-glow group-hover:scale-110 transition-transform">
                 <Play size={36} className="ml-1" fill="currentColor" />
-                <span className="absolute inset-0 rounded-full bg-[oklch(0.72_0.18_50)] -z-10 animate-pulse-ring" />
+                <span className="absolute inset-0 rounded-full bg-[oklch(0.62_0.20_255)] -z-10 animate-pulse-ring" />
               </span>
             </button>
           ) : (
@@ -1376,7 +1376,7 @@ function VideoIntro() {
 
 // ===================== Social Feed =====================
 const socialPosts = [
-  { platform: "instagram" as const, caption: "תלמידה עברה טסט מהפעם הראשונה 🎉", likes: "248", grad: "from-[oklch(0.72_0.18_50)] to-[oklch(0.55_0.22_330)]" },
+  { platform: "instagram" as const, caption: "תלמידה עברה טסט מהפעם הראשונה 🎉", likes: "248", grad: "from-[oklch(0.62_0.20_255)] to-[oklch(0.55_0.22_330)]" },
   { platform: "tiktok" as const, caption: "טיפ חשוב לפני טסט אופנוע 🏍️", likes: "1.2K", grad: "from-[oklch(0.20_0.02_260)] to-[oklch(0.10_0.02_260)]" },
   { platform: "instagram" as const, caption: "שיעור ראשון על הכלי החדש 🚗", likes: "189", grad: "from-[oklch(0.62_0.20_255)] to-[oklch(0.4_0.18_280)]" },
   { platform: "tiktok" as const, caption: "מה לבדוק לפני יציאה לכביש?", likes: "892", grad: "from-[oklch(0.78_0.20_55)] to-[oklch(0.5_0.22_30)]" },
