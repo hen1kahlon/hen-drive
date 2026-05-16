@@ -22,6 +22,7 @@ import { Route as AdminLicenseCardsRouteImport } from './routes/admin.license-ca
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
 import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
+import { Route as AdminErrorsRouteImport } from './routes/admin.errors'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -88,6 +89,11 @@ const AdminFaqsRoute = AdminFaqsRouteImport.update({
   path: '/faqs',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminErrorsRoute = AdminErrorsRouteImport.update({
+  id: '/errors',
+  path: '/errors',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/leads': typeof AdminLeadsRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/sitemap.xml'
+    | '/admin/errors'
     | '/admin/faqs'
     | '/admin/gallery'
     | '/admin/leads'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/sitemap.xml'
+    | '/admin/errors'
     | '/admin/faqs'
     | '/admin/gallery'
     | '/admin/leads'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/sitemap.xml'
+    | '/admin/errors'
     | '/admin/faqs'
     | '/admin/gallery'
     | '/admin/leads'
@@ -283,10 +295,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFaqsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/errors': {
+      id: '/admin/errors'
+      path: '/errors'
+      fullPath: '/admin/errors'
+      preLoaderRoute: typeof AdminErrorsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminErrorsRoute: typeof AdminErrorsRoute
   AdminFaqsRoute: typeof AdminFaqsRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
@@ -297,6 +317,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminErrorsRoute: AdminErrorsRoute,
   AdminFaqsRoute: AdminFaqsRoute,
   AdminGalleryRoute: AdminGalleryRoute,
   AdminLeadsRoute: AdminLeadsRoute,
@@ -319,13 +340,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
