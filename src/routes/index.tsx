@@ -1538,8 +1538,8 @@ function LandingPageInner() {
         <LicenseMatcher />
         <About />
         <WhyMe />
-        <FinalCTA />
         <LeadForm />
+        <FinalCTA />
         <SuccessGallery />
         <VideoIntro />
         <SocialFeed />
