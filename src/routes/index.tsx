@@ -987,7 +987,9 @@ function LicenseMatcher() {
       recs.push({ code: "A1", title: "אופנוע/קטנוע A1", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
     } else {
       recs.push({ code: "A1", title: "אופנוע/קטנוע A1", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
-      recs.push({ code: "A", title: "אופנוע ללא הגבלה (A)", note: "מתאים לך — בכפוף לרישיון A1 עם ותק של שנה לפחות.", interest: "אופנוע A" });
+      if (a >= 21) {
+        recs.push({ code: "A", title: "אופנוע ללא הגבלה (A)", note: "מתאים לך — בכפוף לרישיון A1 עם ותק של שנה לפחות.", interest: "אופנוע A" });
+      }
     }
     return recs;
   })();
