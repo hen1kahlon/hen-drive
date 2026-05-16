@@ -29,7 +29,7 @@ export async function logError(input: LogInput) {
       url: typeof window !== "undefined" ? window.location.href.slice(0, 2000) : null,
       user_agent: typeof navigator !== "undefined" ? navigator.userAgent.slice(0, 1000) : null,
       user_id: session?.user?.id ?? null,
-      context: input.context ?? null,
+      context: (input.context ?? null) as never,
     });
   } catch {
     // never throw from logger
