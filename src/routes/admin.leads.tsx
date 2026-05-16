@@ -2,14 +2,21 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Search, Trash2, Check, Download, Phone } from "lucide-react";
+import { Search, Trash2, Check, Download, Phone, XCircle } from "lucide-react";
 
 export const Route = createFileRoute("/admin/leads")({ component: LeadsPage });
 
 type Lead = {
   id: string; full_name: string; phone: string; license_type: string | null;
-  source: string | null; status: "new" | "contacted" | "archived";
+  source: string | null; status: "new" | "contacted" | "closed" | "archived";
   notes: string | null; interest: string | null; area: string | null; created_at: string;
+};
+
+const STATUS_LABEL: Record<Lead["status"], string> = {
+  new: "חדש",
+  contacted: "נוצר קשר",
+  closed: "נסגר",
+  archived: "ארכיון",
 };
 
 function LeadsPage() {
@@ -65,6 +72,7 @@ function LeadsPage() {
     all: leads.length,
     new: leads.filter((l) => l.status === "new").length,
     contacted: leads.filter((l) => l.status === "contacted").length,
+    closed: leads.filter((l) => l.status === "closed").length,
     archived: leads.filter((l) => l.status === "archived").length,
   };
 
@@ -94,10 +102,10 @@ function LeadsPage() {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {(["all", "new", "contacted", "archived"] as const).map((s) => (
+        {(["all", "new", "contacted", "closed"] as const).map((s) => (
           <button key={s} onClick={() => setStatusFilter(s)}
             className={`px-3.5 py-1.5 rounded-full text-xs font-semibold ${statusFilter === s ? "bg-gradient-orange text-white" : "bg-white/5 text-muted-foreground hover:bg-white/10"}`}>
-            {s === "all" ? "הכל" : s === "new" ? "חדשים" : s === "contacted" ? "טופלו" : "ארכיון"} ({counts[s]})
+            {s === "all" ? "הכל" : s === "new" ? "חדשים" : s === "contacted" ? "נוצר קשר" : "נסגרו"} ({counts[s]})
           </button>
         ))}
       </div>
@@ -113,7 +121,7 @@ function LeadsPage() {
                     <span className="font-bold">{l.full_name}</span>
                     {l.license_type && <span className="text-[10px] bg-white/5 px-2 py-0.5 rounded-full">{l.license_type}</span>}
                     <span className={`text-[10px] px-2 py-0.5 rounded-full ${l.status === "new" ? "bg-yellow-500/20 text-yellow-300" : l.status === "contacted" ? "bg-green-500/20 text-green-300" : "bg-white/10 text-muted-foreground"}`}>
-                      {l.status === "new" ? "חדש" : l.status === "contacted" ? "טופל" : "ארכיון"}
+                      {STATUS_LABEL[l.status]}
                     </span>
                   </div>
                   <a href={`tel:${l.phone}`} dir="ltr" className="text-sm text-foreground/90 inline-flex items-center gap-1.5 hover:underline">
@@ -133,9 +141,8 @@ function LeadsPage() {
                   </div>
                 </div>
                 <div className="flex gap-1.5">
-                  {l.status !== "contacted" && (
-                    <button onClick={() => setStatus(l.id, "contacted")} title="סמן כטופל" className="bg-green-500/20 text-green-300 hover:bg-green-500/30 p-2 rounded-lg"><Check size={14} /></button>
-                  )}
+                  {l.status !== "contacted" && <button onClick={() => setStatus(l.id, "contacted")} title="סמן שנוצר קשר" className="bg-green-500/20 text-green-300 hover:bg-green-500/30 p-2 rounded-lg"><Check size={14} /></button>}
+                  {l.status !== "closed" && <button onClick={() => setStatus(l.id, "closed")} title="סמן כסגור" className="bg-white/5 hover:bg-white/10 p-2 rounded-lg"><XCircle size={14} /></button>}
                   <a href={`https://wa.me/${l.phone.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="bg-white/5 hover:bg-white/10 p-2 rounded-lg text-xs" title="וואטסאפ">WA</a>
                   <button onClick={() => remove(l.id)} className="bg-red-500/10 text-red-300 hover:bg-red-500/20 p-2 rounded-lg" title="מחק"><Trash2 size={14} /></button>
                 </div>
