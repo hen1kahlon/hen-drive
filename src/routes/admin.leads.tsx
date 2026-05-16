@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import {
   Search, Trash2, Check, Download, Phone, XCircle, MessageCircle, Trophy,
-  Clock, StickyNote, X, Plus, CalendarClock, GraduationCap, Bell, BellOff, Ban,
+  Clock, StickyNote, X, Plus, CalendarClock, GraduationCap, Bell, BellOff, Ban, Upload,
 } from "lucide-react";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
@@ -231,6 +231,55 @@ function LeadsPage() {
     URL.revokeObjectURL(url);
   };
 
+  const importCsv = async (file: File) => {
+    try {
+      const text = await file.text();
+      const clean = text.replace(/^\uFEFF/, "");
+      const lines = clean.split(/\r?\n/).filter((l) => l.trim());
+      if (lines.length < 2) { toast.error("הקובץ ריק"); return; }
+      // very small CSV parser supporting quoted fields
+      const parseRow = (line: string): string[] => {
+        const out: string[] = []; let cur = ""; let q = false;
+        for (let i = 0; i < line.length; i++) {
+          const c = line[i];
+          if (q) {
+            if (c === '"' && line[i+1] === '"') { cur += '"'; i++; }
+            else if (c === '"') { q = false; }
+            else cur += c;
+          } else {
+            if (c === ',') { out.push(cur); cur = ""; }
+            else if (c === '"') q = true;
+            else cur += c;
+          }
+        }
+        out.push(cur); return out;
+      };
+      const header = parseRow(lines[0]).map((h) => h.trim());
+      const idx = (name: string) => header.findIndex((h) => h === name);
+      const iName = idx("שם"), iPhone = idx("טלפון"), iLic = idx("רישיון");
+      const iInterest = idx("מסלול"), iArea = idx("אזור"), iNotes = idx("הערות"), iSrc = idx("מקור");
+      if (iName < 0 || iPhone < 0) { toast.error("חסר עמודות שם/טלפון"); return; }
+      const rows = lines.slice(1).map(parseRow);
+      const payload = rows.map((r) => ({
+        full_name: (r[iName] ?? "").trim().slice(0, 100),
+        phone: (r[iPhone] ?? "").trim().slice(0, 30),
+        license_type: iLic >= 0 && ["B","A1","A2","A"].includes((r[iLic] ?? "").trim()) ? (r[iLic] ?? "").trim() : null,
+        interest: iInterest >= 0 ? ((r[iInterest] ?? "").trim().slice(0, 200) || null) : null,
+        area: iArea >= 0 ? ((r[iArea] ?? "").trim().slice(0, 200) || null) : null,
+        notes: iNotes >= 0 ? ((r[iNotes] ?? "").trim().slice(0, 2000) || null) : null,
+        source: iSrc >= 0 ? ((r[iSrc] ?? "").trim().slice(0, 100) || "csv-import") : "csv-import",
+      })).filter((r) => r.full_name && r.phone.length >= 5);
+      if (!payload.length) { toast.error("לא נמצאו שורות תקינות"); return; }
+      if (!confirm(`לייבא ${payload.length} לידים?`)) return;
+      const { data, error } = await supabase.from("leads").insert(payload).select();
+      if (error) { toast.error(error.message); return; }
+      toast.success(`יובאו ${data?.length ?? payload.length} לידים`);
+      await load();
+    } catch (e) {
+      toast.error("שגיאה בקריאת הקובץ");
+    }
+  };
+
   const counts = {
     all: leads.length,
     new: leads.filter((l) => l.status === "new").length,
@@ -272,6 +321,12 @@ function LeadsPage() {
           <button onClick={exportCsv} className="bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5">
             <Download size={14} /> ייצא CSV
           </button>
+          <label className="bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 cursor-pointer">
+            <Upload size={14} /> ייבא CSV
+            <input type="file" accept=".csv,text/csv" className="hidden" onChange={(e) => {
+              const f = e.target.files?.[0]; if (f) void importCsv(f); e.target.value = "";
+            }} />
+          </label>
         </div>
       </div>
 
