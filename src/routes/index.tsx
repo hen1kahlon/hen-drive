@@ -960,7 +960,6 @@ function LicenseMatcher() {
   const [age, setAge] = useState<number | "">("");
   const [hasLicense, setHasLicense] = useState<"yes" | "no" | "">("");
   const [vehicle, setVehicle] = useState<"car" | "moto" | "">("");
-  const [hasA1Year, setHasA1Year] = useState<"yes" | "no" | "">("");
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
 
   type Rec = { code: string; title: string; note: string; interest: string };
