@@ -1144,6 +1144,7 @@ type StudentItem = {
   title: string | null;
   caption: string;
   isFirstTry: boolean;
+  media_type: "image" | "video";
 };
 
 function SuccessGallery() {
@@ -1153,7 +1154,7 @@ function SuccessGallery() {
   useEffect(() => {
     supabase
       .from("gallery_items")
-      .select("id,image_url,title,sort_order")
+      .select("id,image_url,title,sort_order,media_type")
       .eq("category", "success")
       .order("sort_order", { ascending: true })
       .then(({ data }) => {
@@ -1168,6 +1169,9 @@ function SuccessGallery() {
               SUCCESS_CAPTIONS[i % SUCCESS_CAPTIONS.length],
             // mark roughly every 3rd card as a "first-try" highlight
             isFirstTry: i % 3 === 0,
+            media_type: ((row as { media_type?: string }).media_type === "video"
+              ? "video"
+              : "image") as "image" | "video",
           })),
         );
       });
@@ -1270,16 +1274,26 @@ function StudentCard({
       />
       <div className="absolute inset-0 bg-black/30" />
 
-      {/* main image — full face, no crop */}
-      <img
-        src={item.image_url}
-        alt={item.title ?? "תלמיד שעבר טסט בהצלחה"}
-        loading={index < 2 ? "eager" : "lazy"}
-        fetchPriority={index < 2 ? "high" : "low"}
-        decoding="async"
-        sizes={mobile ? "78vw" : "(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"}
-        className="relative z-[1] w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-700"
-      />
+      {/* main media — full face, no crop */}
+      {item.media_type === "video" ? (
+        <video
+          src={item.image_url}
+          controls
+          playsInline
+          preload="metadata"
+          className="relative z-[1] w-full h-full object-contain bg-black"
+        />
+      ) : (
+        <img
+          src={item.image_url}
+          alt={item.title ?? "תלמיד שעבר טסט בהצלחה"}
+          loading={index < 2 ? "eager" : "lazy"}
+          fetchPriority={index < 2 ? "high" : "low"}
+          decoding="async"
+          sizes={mobile ? "78vw" : "(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"}
+          className="relative z-[1] w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-700"
+        />
+      )}
 
       {/* readability gradient on top of main image */}
       <div className="absolute inset-0 z-[2] bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none" />

@@ -14,6 +14,7 @@ type Item = {
   category: string;
   title: string | null;
   sort_order: number;
+  media_type?: "image" | "video";
 };
 type SelectedPreview = { name: string; url: string };
 const CATS = [
@@ -25,7 +26,9 @@ const CATS = [
 const MAX_W = 1080;
 const WEBP_Q = 0.82;
 const MAX_FILE_BYTES = 25 * 1024 * 1024; // 25MB original
+const MAX_VIDEO_BYTES = 40 * 1024 * 1024; // 40MB original
 const ALLOWED_MIME = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+const ALLOWED_VIDEO_MIME = ["video/mp4", "video/webm", "video/quicktime"];
 
 async function compressToWebP(file: File): Promise<Blob> {
   // Decode the image. Try createImageBitmap first (fast, handles EXIF),
@@ -143,16 +146,23 @@ function GalleryPage() {
         skipped.push(`${name}: HEIC לא נתמך — המירו ל-JPG`);
         continue;
       }
-      if (f.type && !ALLOWED_MIME.includes(f.type)) {
-        skipped.push(`${name}: סוג קובץ לא נתמך (${f.type})`);
-        continue;
-      }
-      if (!f.type && !/\.(jpe?g|png|webp)$/i.test(name)) {
-        skipped.push(`${name}: סוג קובץ לא ידוע`);
-        continue;
-      }
-      if (f.size > MAX_FILE_BYTES) {
-        skipped.push(`${name}: קובץ גדול מ-25MB`);
+      const isVideo =
+        (f.type && ALLOWED_VIDEO_MIME.includes(f.type)) || /\.(mp4|webm|mov)$/i.test(name);
+      if (!isVideo) {
+        if (f.type && !ALLOWED_MIME.includes(f.type)) {
+          skipped.push(`${name}: סוג קובץ לא נתמך (${f.type})`);
+          continue;
+        }
+        if (!f.type && !/\.(jpe?g|png|webp)$/i.test(name)) {
+          skipped.push(`${name}: סוג קובץ לא ידוע`);
+          continue;
+        }
+        if (f.size > MAX_FILE_BYTES) {
+          skipped.push(`${name}: קובץ גדול מ-25MB`);
+          continue;
+        }
+      } else if (f.size > MAX_VIDEO_BYTES) {
+        skipped.push(`${name}: סרטון גדול מ-40MB`);
         continue;
       }
       list.push(f);
@@ -183,13 +193,32 @@ function GalleryPage() {
       for (const file of list) {
         const fname = file.name || "תמונה";
         try {
-          const blob = await compressToWebP(file);
-          const base64 = await blobToBase64(blob);
+          const isVideo =
+            (file.type && ALLOWED_VIDEO_MIME.includes(file.type)) ||
+            /\.(mp4|webm|mov)$/i.test(fname);
+          let payloadBlob: Blob;
+          let mime: string;
+          if (isVideo) {
+            payloadBlob = file;
+            mime =
+              file.type ||
+              (/\.mp4$/i.test(fname) ? "video/mp4" : /\.webm$/i.test(fname) ? "video/webm" : "video/quicktime");
+          } else {
+            payloadBlob = await compressToWebP(file);
+            mime = payloadBlob.type;
+          }
+          const base64 = await blobToBase64(payloadBlob);
           const result = await uploadImage({
             data: {
               category: cat,
               fileName: fname,
-              mimeType: blob.type as "image/jpeg" | "image/png" | "image/webp",
+              mimeType: mime as
+                | "image/jpeg"
+                | "image/png"
+                | "image/webp"
+                | "video/mp4"
+                | "video/webm"
+                | "video/quicktime",
               base64,
             },
           });
@@ -289,17 +318,17 @@ function GalleryPage() {
             ? progress
               ? `מעלה ${progress.done}/${progress.total}...`
               : "מעלה..."
-            : "בחר תמונות / גרור לכאן"}
+            : "בחר תמונות / סרטונים / גרור לכאן"}
         </div>
         <p className="text-[11px] text-muted-foreground mt-2">
-          העלאת קבוצה · המרה אוטומטית ל-WebP · עד 1080px · קטגוריה:{" "}
+          תמונות (WebP אוטומטי, עד 1080px) או סרטונים (mp4/webm, עד 40MB) · קטגוריה:{" "}
           <b>{CATS.find((c) => c.id === cat)?.label}</b>
         </p>
         <input
           ref={fileRef}
           id="gallery-upload"
           type="file"
-          accept="image/*"
+          accept="image/*,video/mp4,video/webm,video/quicktime"
           multiple
           hidden
           disabled={uploading}
@@ -359,12 +388,22 @@ function GalleryPage() {
               className="bg-card border border-white/10 rounded-2xl overflow-hidden flex flex-col"
             >
               <div className="relative group aspect-square">
-                <img
-                  src={i.image_url}
-                  alt={i.title ?? ""}
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
+                {i.media_type === "video" ? (
+                  <video
+                    src={i.image_url}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    className="absolute inset-0 w-full h-full object-cover bg-black"
+                  />
+                ) : (
+                  <img
+                    src={i.image_url}
+                    alt={i.title ?? ""}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                )}
                 <button
                   onClick={() => remove(i)}
                   aria-label="מחק"

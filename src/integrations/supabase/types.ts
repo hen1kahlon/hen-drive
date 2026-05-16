@@ -47,6 +47,7 @@ export type Database = {
           created_at: string
           id: string
           image_url: string
+          media_type: string
           sort_order: number
           title: string | null
         }
@@ -55,6 +56,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url: string
+          media_type?: string
           sort_order?: number
           title?: string | null
         }
@@ -63,6 +65,7 @@ export type Database = {
           created_at?: string
           id?: string
           image_url?: string
+          media_type?: string
           sort_order?: number
           title?: string | null
         }
@@ -102,6 +105,7 @@ export type Database = {
           area: string | null
           city: string | null
           created_at: string
+          follow_up_at: string | null
           full_name: string
           id: string
           interest: string | null
@@ -116,6 +120,7 @@ export type Database = {
           area?: string | null
           city?: string | null
           created_at?: string
+          follow_up_at?: string | null
           full_name: string
           id?: string
           interest?: string | null
@@ -130,6 +135,7 @@ export type Database = {
           area?: string | null
           city?: string | null
           created_at?: string
+          follow_up_at?: string | null
           full_name?: string
           id?: string
           interest?: string | null
@@ -283,7 +289,14 @@ export type Database = {
     }
     Enums: {
       app_role: "admin"
-      lead_status: "new" | "contacted" | "archived" | "closed" | "won"
+      lead_status:
+        | "new"
+        | "contacted"
+        | "archived"
+        | "closed"
+        | "won"
+        | "lesson_scheduled"
+        | "not_relevant"
       review_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
@@ -413,7 +426,15 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin"],
-      lead_status: ["new", "contacted", "archived", "closed", "won"],
+      lead_status: [
+        "new",
+        "contacted",
+        "archived",
+        "closed",
+        "won",
+        "lesson_scheduled",
+        "not_relevant",
+      ],
       review_status: ["pending", "approved", "rejected"],
     },
   },
