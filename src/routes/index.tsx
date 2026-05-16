@@ -289,7 +289,7 @@ type Category = {
 const categories: Category[] = [
   { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue", interest: "רכב אוטומט דרגה B" },
   { id: "A2", title: "אופנוע/קטנוע A2", subtitle: "דרגה A2 · ידני / אוטומט", desc: "עד 14.7 כ״ס (125 סמ״ק) — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA2Manual, label: "ידני" }, { src: vehScooter, label: "אוטומט" }], icon: Zap, color: "blue", interest: "אופנוע A2 (ידני / אוטומט)" },
-  { id: "A1", title: "אופנוע בינוני", subtitle: "דרגה A1 · ידני / אוטומט", desc: "עד 47 כ״ס — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA1Manual, label: "ידני" }, { src: vehScooterA1Auto, label: "אוטומט" }], icon: Bike, color: "orange", interest: "אופנוע A1 (ידני / אוטומט)" },
+  { id: "A1", title: "אופנוע/קטנוע A1", subtitle: "דרגה A1 · ידני / אוטומט", desc: "עד 47 כ״ס — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA1Manual, label: "ידני" }, { src: vehScooterA1Auto, label: "אוטומט" }], icon: Bike, color: "orange", interest: "אופנוע A1 (ידני / אוטומט)" },
   { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "orange", interest: "אופנוע A" },
 ];
 
@@ -984,9 +984,9 @@ function LicenseMatcher() {
     const recs: Rec[] = [];
     if (hasLicense === "no") {
       recs.push({ code: "A2", title: "אופנוע/קטנוע A2", note: "מתאים לך — עד 14.7 כ״ס (125 סמ״ק).", interest: "אופנוע A2" });
-      recs.push({ code: "A1", title: "אופנוע בינוני (A1)", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
+      recs.push({ code: "A1", title: "אופנוע/קטנוע A1", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
     } else {
-      recs.push({ code: "A1", title: "אופנוע בינוני (A1)", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
+      recs.push({ code: "A1", title: "אופנוע/קטנוע A1", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
       if (hasA1Year === "yes") {
         recs.push({ code: "A", title: "אופנוע ללא הגבלה (A)", note: "מתאים לך — בעל/ת רישיון A1 עם ותק של שנה לפחות.", interest: "אופנוע A" });
       }
