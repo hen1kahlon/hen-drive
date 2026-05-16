@@ -960,25 +960,45 @@ function LicenseMatcher() {
   const [age, setAge] = useState<number | "">("");
   const [hasLicense, setHasLicense] = useState<"yes" | "no" | "">("");
   const [vehicle, setVehicle] = useState<"car" | "moto" | "">("");
+  const [hasA1Year, setHasA1Year] = useState<"yes" | "no" | "">("");
 
-  const recommendation = (() => {
+  type Rec = { code: string; title: string; note: string; interest: string };
+  const recommendations: Rec[] | null = (() => {
     if (!age || !hasLicense || !vehicle) return null;
     const a = Number(age);
     if (vehicle === "car") {
-      if (a < 16.5) return { code: "B", title: "רכב אוטומט (B)", note: "צריך להמתין לגיל 16.5 כדי להתחיל ללמוד.", interest: "רכב אוטומט דרגה B" };
-      return { code: "B", title: "רכב אוטומט (B)", note: "מתאים לך! נתחיל את התהליך לרישיון רכב פרטי.", interest: "רכב אוטומט דרגה B" };
+      if (a < 16.5) return [{ code: "B", title: "רכב אוטומט (B)", note: "צריך להמתין לגיל 16.5 כדי להתחיל ללמוד.", interest: "רכב אוטומט דרגה B" }];
+      return [{ code: "B", title: "רכב אוטומט (B)", note: "מתאים לך! נתחיל את התהליך לרישיון רכב פרטי.", interest: "רכב אוטומט דרגה B" }];
     }
     // moto
-    if (a >= 21 && hasLicense === "yes") return { code: "A", title: "אופנוע ללא הגבלה (A)", note: "ניתן ללמוד דרגה A — בכפוף לוותק על A1.", interest: "אופנוע A" };
-    if (a >= 18) return { code: "A1", title: "אופנוע בינוני (A1)", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" };
-    if (a >= 16) return { code: "A2", title: "אופנוע מתחילים (A2)", note: "התחלה מצוינת — עד 14.7 כ״ס.", interest: "אופנוע A2" };
-    return { code: "A2", title: "אופנוע מתחילים (A2)", note: "צריך להמתין לגיל 16 כדי להתחיל.", interest: "אופנוע A2" };
+    if (a < 16) {
+      return [{ code: "A2", title: "אופנוע מתחילים (A2)", note: "צריך להמתין לגיל 16 כדי להתחיל ללמוד A2.", interest: "אופנוע A2" }];
+    }
+    if (a === 16) {
+      return [{ code: "A2", title: "אופנוע מתחילים (A2)", note: "בגיל 16 ניתן ללמוד A2 בלבד — בכפוף לאישור הורים.", interest: "אופנוע A2 (גיל 16 — דורש אישור הורים)" }];
+    }
+    if (a === 17) {
+      return [{ code: "A2", title: "אופנוע מתחילים (A2)", note: "בגיל 17 ניתן ללמוד A2 — ללא צורך באישור הורים.", interest: "אופנוע A2" }];
+    }
+    // age >= 18
+    const recs: Rec[] = [];
+    if (hasLicense === "no") {
+      recs.push({ code: "A2", title: "אופנוע מתחילים (A2)", note: "מתאים לך — עד 14.7 כ״ס (125 סמ״ק).", interest: "אופנוע A2" });
+      recs.push({ code: "A1", title: "אופנוע בינוני (A1)", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
+    } else {
+      recs.push({ code: "A1", title: "אופנוע בינוני (A1)", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
+      if (hasA1Year === "yes") {
+        recs.push({ code: "A", title: "אופנוע ללא הגבלה (A)", note: "מתאים לך — בעל/ת רישיון A1 עם ותק של שנה לפחות.", interest: "אופנוע A" });
+      }
+    }
+    return recs;
   })();
 
+  const showA1YearQuestion = vehicle === "moto" && hasLicense === "yes" && typeof age === "number" && age >= 18;
+
   const waMatcherUrl = (() => {
-    if (!recommendation) return "#";
+    if (!recommendations || recommendations.length === 0) return "#";
     const vehicleWord = vehicle === "car" ? "רכב" : "אופנוע";
-    const titleHasVehicle = recommendation.title.includes(vehicleWord);
     const lines = [
       "היי חן, הגעתי דרך האתר 👋",
       "",
@@ -987,10 +1007,11 @@ function LicenseMatcher() {
       `גיל: ${age}`,
       `יש לי רישיון קודם: ${hasLicense === "yes" ? "כן" : "לא"}`,
     ];
-    if (!titleHasVehicle) {
-      lines.push(`תחום לימוד: ${vehicleWord}`);
+    if (showA1YearQuestion && hasA1Year) {
+      lines.push(`רישיון A1 עם ותק שנה+: ${hasA1Year === "yes" ? "כן" : "לא"}`);
     }
-    lines.push(`ההמלצה שקיבלתי: ${recommendation.title}`);
+    lines.push(`תחום לימוד: ${vehicleWord}`);
+    lines.push(`ההמלצות שקיבלתי: ${recommendations.map((r) => r.title).join(" / ")}`);
     lines.push("", "אשמח לקבל פרטים ולהתחיל ללמוד 🙌");
     const msg = lines.join("\n");
     return `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(msg)}`;
@@ -1039,14 +1060,33 @@ function LicenseMatcher() {
                 </button>
               </div>
             </div>
+            {showA1YearQuestion && (
+              <div>
+                <label className="text-xs font-bold mb-2 block text-muted-foreground">יש לך רישיון קודם בדרגת A1 עם ותק של שנה לפחות?</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[{ v: "yes", l: "כן" }, { v: "no", l: "לא" }].map((o) => (
+                    <button key={o.v} type="button" onClick={() => setHasA1Year(o.v as "yes" | "no")}
+                      className={`rounded-xl py-3 font-bold text-sm border transition ${hasA1Year === o.v ? "bg-gradient-orange text-white border-transparent shadow-glow-orange" : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
+                      {o.l}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-background/40 p-4 sm:p-6 flex flex-col justify-center min-h-[140px] sm:min-h-[220px]">
-            {recommendation ? (
+            {recommendations && recommendations.length > 0 ? (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
                 <p className="text-xs font-bold tracking-[0.2em] uppercase gradient-text-orange mb-2">ההמלצה שלנו</p>
-                <h3 className="text-display text-3xl sm:text-4xl mb-2">{recommendation.title}</h3>
-                <p className="text-muted-foreground mb-5">{recommendation.note}</p>
+                <div className="space-y-3 mb-5">
+                  {recommendations.map((r) => (
+                    <div key={r.code} className="rounded-xl border border-white/10 bg-white/5 p-3 sm:p-4">
+                      <h3 className="text-display text-2xl sm:text-3xl mb-1">{r.title}</h3>
+                      <p className="text-muted-foreground text-sm">{r.note}</p>
+                    </div>
+                  ))}
+                </div>
                 <a
                   href={waMatcherUrl}
                   target="_blank"
