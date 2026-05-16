@@ -288,7 +288,7 @@ type Category = {
 
 const categories: Category[] = [
   { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue", interest: "רכב אוטומט דרגה B" },
-  { id: "A2", title: "אופנוע מתחילים", subtitle: "דרגה A2 · ידני / אוטומט", desc: "עד 14.7 כ״ס (125 סמ״ק) — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA2Manual, label: "ידני" }, { src: vehScooter, label: "אוטומט" }], icon: Zap, color: "blue", interest: "אופנוע A2 (ידני / אוטומט)" },
+  { id: "A2", title: "אופנוע/קטנוע A2", subtitle: "דרגה A2 · ידני / אוטומט", desc: "עד 14.7 כ״ס (125 סמ״ק) — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA2Manual, label: "ידני" }, { src: vehScooter, label: "אוטומט" }], icon: Zap, color: "blue", interest: "אופנוע A2 (ידני / אוטומט)" },
   { id: "A1", title: "אופנוע בינוני", subtitle: "דרגה A1 · ידני / אוטומט", desc: "עד 47 כ״ס — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA1Manual, label: "ידני" }, { src: vehScooterA1Auto, label: "אוטומט" }], icon: Bike, color: "orange", interest: "אופנוע A1 (ידני / אוטומט)" },
   { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "orange", interest: "אופנוע A" },
 ];
@@ -972,18 +972,18 @@ function LicenseMatcher() {
     }
     // moto
     if (a < 16) {
-      return [{ code: "A2", title: "אופנוע מתחילים (A2)", note: "צריך להמתין לגיל 16 כדי להתחיל ללמוד A2.", interest: "אופנוע A2" }];
+      return [{ code: "A2", title: "אופנוע/קטנוע A2", note: "צריך להמתין לגיל 16 כדי להתחיל ללמוד A2.", interest: "אופנוע A2" }];
     }
     if (a === 16) {
-      return [{ code: "A2", title: "אופנוע מתחילים (A2)", note: "בגיל 16 ניתן ללמוד A2 בלבד — בכפוף לאישור הורים.", interest: "אופנוע A2 (גיל 16 — דורש אישור הורים)" }];
+      return [{ code: "A2", title: "אופנוע/קטנוע A2", note: "בגיל 16 ניתן ללמוד A2 בלבד — בכפוף לאישור הורים.", interest: "אופנוע A2 (גיל 16 — דורש אישור הורים)" }];
     }
     if (a === 17) {
-      return [{ code: "A2", title: "אופנוע מתחילים (A2)", note: "בגיל 17 ניתן ללמוד A2 — ללא צורך באישור הורים.", interest: "אופנוע A2" }];
+      return [{ code: "A2", title: "אופנוע/קטנוע A2", note: "בגיל 17 ניתן ללמוד A2 — ללא צורך באישור הורים.", interest: "אופנוע A2" }];
     }
     // age >= 18
     const recs: Rec[] = [];
     if (hasLicense === "no") {
-      recs.push({ code: "A2", title: "אופנוע מתחילים (A2)", note: "מתאים לך — עד 14.7 כ״ס (125 סמ״ק).", interest: "אופנוע A2" });
+      recs.push({ code: "A2", title: "אופנוע/קטנוע A2", note: "מתאים לך — עד 14.7 כ״ס (125 סמ״ק).", interest: "אופנוע A2" });
       recs.push({ code: "A1", title: "אופנוע בינוני (A1)", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
     } else {
       recs.push({ code: "A1", title: "אופנוע בינוני (A1)", note: "מתאים לך — עד 47 כ״ס.", interest: "אופנוע A1" });
