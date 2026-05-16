@@ -961,6 +961,7 @@ function LicenseMatcher() {
   const [hasLicense, setHasLicense] = useState<"yes" | "no" | "">("");
   const [vehicle, setVehicle] = useState<"car" | "moto" | "">("");
   const [hasA1Year, setHasA1Year] = useState<"yes" | "no" | "">("");
+  const [selectedCode, setSelectedCode] = useState<string | null>(null);
 
   type Rec = { code: string; title: string; note: string; interest: string };
   const recommendations: Rec[] | null = (() => {
@@ -996,8 +997,13 @@ function LicenseMatcher() {
 
   const showA1YearQuestion = vehicle === "moto" && hasLicense === "yes" && typeof age === "number" && age >= 18;
 
+  const hasMultiple = !!recommendations && recommendations.length > 1;
+  const activeRec = recommendations
+    ? recommendations.find((r) => r.code === selectedCode) ?? (hasMultiple ? null : recommendations[0])
+    : null;
+
   const waMatcherUrl = (() => {
-    if (!recommendations || recommendations.length === 0) return "#";
+    if (!activeRec) return "#";
     const vehicleWord = vehicle === "car" ? "רכב" : "אופנוע";
     const lines = [
       "היי חן, הגעתי דרך האתר 👋",
@@ -1011,7 +1017,7 @@ function LicenseMatcher() {
       lines.push(`רישיון A1 עם ותק שנה+: ${hasA1Year === "yes" ? "כן" : "לא"}`);
     }
     lines.push(`תחום לימוד: ${vehicleWord}`);
-    lines.push(`ההמלצות שקיבלתי: ${recommendations.map((r) => r.title).join(" / ")}`);
+    lines.push(`הדרגה שאני מעוניין/ת בה: ${activeRec.title}`);
     lines.push("", "אשמח לקבל פרטים ולהתחיל ללמוד 🙌");
     const msg = lines.join("\n");
     return `https://wa.me/${PHONE_INTL}?text=${encodeURIComponent(msg)}`;
@@ -1078,23 +1084,52 @@ function LicenseMatcher() {
           <div className="rounded-2xl border border-white/10 bg-background/40 p-4 sm:p-6 flex flex-col justify-center min-h-[140px] sm:min-h-[220px]">
             {recommendations && recommendations.length > 0 ? (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                <p className="text-xs font-bold tracking-[0.2em] uppercase gradient-text-orange mb-2">ההמלצה שלנו</p>
+                <p className="text-xs font-bold tracking-[0.2em] uppercase gradient-text-orange mb-2">
+                  {hasMultiple ? "בחר/י את הדרגה שמעניינת אותך" : "ההמלצה שלנו"}
+                </p>
                 <div className="space-y-3 mb-5">
-                  {recommendations.map((r) => (
-                    <div key={r.code} className="rounded-xl border border-white/10 bg-white/5 p-3 sm:p-4">
-                      <h3 className="text-display text-2xl sm:text-3xl mb-1">{r.title}</h3>
-                      <p className="text-muted-foreground text-sm">{r.note}</p>
-                    </div>
-                  ))}
+                  {recommendations.map((r) => {
+                    const selected = activeRec?.code === r.code;
+                    const Tag = hasMultiple ? "button" : "div";
+                    return (
+                      <Tag
+                        key={r.code}
+                        {...(hasMultiple ? { type: "button" as const, onClick: () => setSelectedCode(r.code) } : {})}
+                        className={`w-full text-right rounded-xl border p-3 sm:p-4 transition ${
+                          hasMultiple
+                            ? selected
+                              ? "border-accent bg-accent/10 shadow-glow-orange"
+                              : "border-white/10 bg-white/5 hover:bg-white/10"
+                            : "border-white/10 bg-white/5"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1">
+                            <h3 className="text-display text-2xl sm:text-3xl mb-1">{r.title}</h3>
+                            <p className="text-muted-foreground text-sm">{r.note}</p>
+                          </div>
+                          {hasMultiple && (
+                            <span className={`shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center ${selected ? "border-accent bg-accent" : "border-white/30"}`}>
+                              {selected && <span className="w-2 h-2 rounded-full bg-white" />}
+                            </span>
+                          )}
+                        </div>
+                      </Tag>
+                    );
+                  })}
                 </div>
-                <a
-                  href={waMatcherUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-white shadow-[0_10px_30px_-10px_rgba(37,211,102,0.8)] hover:scale-105 transition"
-                >
-                  <MessageCircle size={16} /> שלח לי פרטים בוואטסאפ
-                </a>
+                {activeRec ? (
+                  <a
+                    href={waMatcherUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-white shadow-[0_10px_30px_-10px_rgba(37,211,102,0.8)] hover:scale-105 transition"
+                  >
+                    <MessageCircle size={16} /> שלח לי פרטים בוואטסאפ
+                  </a>
+                ) : (
+                  <p className="text-xs text-muted-foreground">בחר/י דרגה אחת כדי לשלוח לחן בוואטסאפ.</p>
+                )}
               </motion.div>
             ) : (
               <div className="text-center text-muted-foreground">
