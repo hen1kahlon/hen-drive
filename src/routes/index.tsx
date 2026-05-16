@@ -75,7 +75,7 @@ function Logo({ size = "md" }: { size?: "sm" | "md" }) {
   const dim = size === "sm" ? "w-9 h-9 text-sm" : "w-11 h-11 text-base";
   return (
     <div className="flex items-center gap-2.5">
-      <div className={`${dim} rounded-xl bg-gradient-orange grid place-items-center text-white font-black shadow-glow-orange`}>חכ</div>
+      <div className={`${dim} rounded-xl bg-gradient-blue grid place-items-center text-white font-black shadow-glow`}>חכ</div>
       <div className="leading-tight">
         <div className="font-black text-base">חן כחלון</div>
         <div className="text-[10px] text-muted-foreground -mt-0.5">מורה נהיגה</div>
@@ -97,7 +97,7 @@ function Nav() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 glass-strong border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-        <a href={`tel:${PHONE}`} className="hidden md:inline-flex items-center gap-2 rounded-full bg-gradient-orange px-4 py-2 text-sm font-bold text-white shadow-glow-orange hover:scale-105 transition">
+        <a href={`tel:${PHONE}`} className="hidden md:inline-flex items-center gap-2 rounded-full bg-gradient-blue px-4 py-2 text-sm font-bold text-white shadow-glow hover:scale-105 transition">
           <Phone size={15} /> {PHONE_DISPLAY}
         </a>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
@@ -124,7 +124,7 @@ function Nav() {
               {l.label}
             </a>
           ))}
-          <a href={`tel:${PHONE}`} className="mt-2 flex items-center justify-center gap-2 rounded-full bg-gradient-orange px-4 py-2.5 text-sm font-bold text-white">
+          <a href={`tel:${PHONE}`} className="mt-2 flex items-center justify-center gap-2 rounded-full bg-gradient-blue px-4 py-2.5 text-sm font-bold text-white">
             <Phone size={14} /> {PHONE_DISPLAY}
           </a>
           <a href="/admin" onClick={() => setOpenMenu(false)} className="mt-2 block text-center rounded-lg border border-white/10 bg-white/5 py-2 text-sm font-semibold text-foreground hover:bg-white/10" aria-label="כניסת מנהל">
@@ -211,7 +211,7 @@ function Hero() {
               <Trophy size={20} />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-black gradient-text-orange leading-none">{s.stats.floating}</div>
+              <div className="text-xl sm:text-2xl font-black gradient-text-blue leading-none">{s.stats.floating}</div>
               <div className="text-[10px] sm:text-xs text-muted-foreground">{s.stats.floating_label}</div>
             </div>
           </div>
@@ -227,7 +227,7 @@ function Hero() {
             {s.hero.headline_line1}<br />
             <span className="gradient-text-blue">{s.hero.headline_highlight}</span>
           </h1>
-          <p className="text-display text-2xl sm:text-3xl lg:text-4xl gradient-text-orange mb-5">
+          <p className="text-display text-2xl sm:text-3xl lg:text-4xl gradient-text-blue mb-5">
             {s.hero.tagline}
           </p>
           <p className="text-base sm:text-lg text-muted-foreground mb-6 max-w-xl mx-auto lg:mx-0">
@@ -235,7 +235,7 @@ function Hero() {
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
-            <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-gradient-orange px-6 py-3.5 font-bold text-white shadow-glow-orange hover:scale-105 transition">
+            <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-gradient-blue px-6 py-3.5 font-bold text-white shadow-glow hover:scale-105 transition">
               {s.hero.cta_primary}
               <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
             </button>
@@ -282,15 +282,15 @@ type Category = {
   img?: string;
   imgs?: { src: string; label: string }[];
   icon: typeof Car;
-  color: "blue" | "orange";
+  color: "blue" | "blue";
   interest: string;
 };
 
 const categories: Category[] = [
   { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue", interest: "רכב אוטומט דרגה B" },
   { id: "A2", title: "אופנוע/קטנוע A2", subtitle: "דרגה A2 · ידני / אוטומט", desc: "עד 14.7 כ״ס (125 סמ״ק) — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA2Manual, label: "ידני" }, { src: vehScooter, label: "אוטומט" }], icon: Zap, color: "blue", interest: "אופנוע A2 (ידני / אוטומט)" },
-  { id: "A1", title: "אופנוע/קטנוע A1", subtitle: "דרגה A1 · ידני / אוטומט", desc: "עד 47 כ״ס — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA1Manual, label: "ידני" }, { src: vehScooterA1Auto, label: "אוטומט" }], icon: Bike, color: "orange", interest: "אופנוע A1 (ידני / אוטומט)" },
-  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "orange", interest: "אופנוע A" },
+  { id: "A1", title: "אופנוע/קטנוע A1", subtitle: "דרגה A1 · ידני / אוטומט", desc: "עד 47 כ״ס — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA1Manual, label: "ידני" }, { src: vehScooterA1Auto, label: "אוטומט" }], icon: Bike, color: "blue", interest: "אופנוע A1 (ידני / אוטומט)" },
+  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "blue", interest: "אופנוע A" },
 ];
 
 function scrollToLead() {
@@ -309,9 +309,9 @@ function Categories() {
     <section id="categories" className="py-7 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
         <motion.div {...fadeUp} className="text-center mb-5 sm:mb-14">
-          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">בחרו את הדרגה</p>
+          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">בחרו את הדרגה</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
-            על מה <span className="gradient-text-orange">תרצו ללמוד</span>?
+            על מה <span className="gradient-text-blue">תרצו ללמוד</span>?
           </h2>
         </motion.div>
 
@@ -326,15 +326,15 @@ function Categories() {
               className="group relative bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition-all hover:-translate-y-1 overflow-hidden"
             >
               {/* glow on hover */}
-              <div className={`absolute -top-20 ${c.color === "orange" ? "right-1/2 bg-[oklch(0.72_0.18_50_/_0.4)]" : "left-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]"} w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity`} />
+              <div className={`absolute -top-20 ${c.color === "blue" ? "right-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]" : "left-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]"} w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity`} />
 
               <div className="relative">
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="text-xl font-black leading-tight">{c.title}</h3>
-                    <p className={`text-sm font-bold ${c.color === "orange" ? "gradient-text-orange" : "gradient-text-blue"}`}>{c.subtitle}</p>
+                    <p className={`text-sm font-bold ${c.color === "blue" ? "gradient-text-blue" : "gradient-text-blue"}`}>{c.subtitle}</p>
                   </div>
-                  <div className={`w-10 h-10 rounded-xl ${c.color === "orange" ? "bg-[oklch(0.72_0.18_50_/_0.15)] text-[oklch(0.78_0.18_55)]" : "bg-[oklch(0.62_0.20_255_/_0.15)] text-[oklch(0.7_0.18_255)]"} grid place-items-center border ${c.color === "orange" ? "border-[oklch(0.72_0.18_50_/_0.3)]" : "border-[oklch(0.62_0.20_255_/_0.3)]"}`}>
+                  <div className={`w-10 h-10 rounded-xl ${c.color === "blue" ? "bg-[oklch(0.62_0.20_255_/_0.15)] text-[oklch(0.7_0.18_255)]" : "bg-[oklch(0.62_0.20_255_/_0.15)] text-[oklch(0.7_0.18_255)]"} grid place-items-center border ${c.color === "blue" ? "border-[oklch(0.62_0.20_255_/_0.3)]" : "border-[oklch(0.62_0.20_255_/_0.3)]"}`}>
                     <c.icon size={18} />
                   </div>
                 </div>
@@ -344,7 +344,7 @@ function Categories() {
                     {c.imgs.map((v) => (
                       <div key={v.label} className="relative rounded-2xl bg-white/[0.03] border border-white/5 grid place-items-center p-2 group-hover:scale-[1.03] transition-transform duration-500">
                         <img src={v.src} alt={`${c.title} — ${v.label}`} loading="lazy" width={300} height={220} className="w-full h-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.5)]" />
-                        <span className={`absolute bottom-1.5 right-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md ${c.color === "orange" ? "bg-[oklch(0.72_0.18_50_/_0.18)] text-[oklch(0.85_0.14_55)] border border-[oklch(0.72_0.18_50_/_0.35)]" : "bg-[oklch(0.62_0.20_255_/_0.18)] text-[oklch(0.82_0.12_255)] border border-[oklch(0.62_0.20_255_/_0.35)]"}`}>{v.label}</span>
+                        <span className={`absolute bottom-1.5 right-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md ${c.color === "blue" ? "bg-[oklch(0.62_0.20_255_/_0.18)] text-[oklch(0.82_0.12_255)] border border-[oklch(0.62_0.20_255_/_0.35)]" : "bg-[oklch(0.62_0.20_255_/_0.18)] text-[oklch(0.82_0.12_255)] border border-[oklch(0.62_0.20_255_/_0.35)]"}`}>{v.label}</span>
                       </div>
                     ))}
                   </div>
@@ -356,7 +356,7 @@ function Categories() {
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-orange hover:border-transparent hover:text-white transition-all">
+                <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-blue hover:border-transparent hover:text-white transition-all">
                   אני מעוניין/ת בפרטים
                 </button>
               </div>
@@ -389,7 +389,7 @@ function About() {
             <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 bg-gradient-to-t from-black/85 via-black/55 to-transparent">
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
-                  <div className="text-base sm:text-2xl font-bold gradient-text-orange leading-none">98%</div>
+                  <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">98%</div>
                   <div className="text-[10px] sm:text-xs text-white/80 mt-1">הצלחה</div>
                 </div>
                 <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
@@ -397,7 +397,7 @@ function About() {
                   <div className="text-[10px] sm:text-xs text-white/80 mt-1">שנות ותק</div>
                 </div>
                 <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
-                  <div className="text-base sm:text-2xl font-bold gradient-text-orange leading-none">350+</div>
+                  <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">350+</div>
                   <div className="text-[10px] sm:text-xs text-white/80 mt-1">תלמידים</div>
                 </div>
               </div>
@@ -409,7 +409,7 @@ function About() {
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">קצת עליי</p>
           <h2 className="text-display text-4xl sm:text-5xl mb-6">
             נעים מאוד,<br />
-            <span className="gradient-text-orange">חן כחלון</span>
+            <span className="gradient-text-blue">חן כחלון</span>
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6">
             מורה נהיגה בעל ותק של 5 שנים בתחום הרכב והאופנועים. אני מאמין בלימוד נהיגה בגישה אישית, רגועה ומקצועית, עם התאמה מלאה לקצב של כל תלמיד. השיעורים מתבצעים על כלים חדשים, נוחים ובטיחותיים, באווירה צעירה ומכבדת — עד שמגיעים מוכנים ובטוחים לטסט.
@@ -431,11 +431,11 @@ function About() {
 }
 
 const reasons = [
-  { icon: Heart, title: "יחס אישי וסבלני", desc: "כל תלמיד מקבל התייחסות מלאה.", color: "orange" },
+  { icon: Heart, title: "יחס אישי וסבלני", desc: "כל תלמיד מקבל התייחסות מלאה.", color: "blue" },
   { icon: Smile, title: "אווירה צעירה", desc: "שיעור שמרגיש כמו זמן עם חבר טוב.", color: "blue" },
-  { icon: Shield, title: "כלים חדשים", desc: "רכבים ואופנועים מהדור החדש.", color: "orange" },
+  { icon: Shield, title: "כלים חדשים", desc: "רכבים ואופנועים מהדור החדש.", color: "blue" },
   { icon: GraduationCap, title: "ליווי מקצועי", desc: "מהשיעור הראשון ועד ההצלחה.", color: "blue" },
-  { icon: Calendar, title: "זמינות גמישה", desc: "קביעת שיעורים לפי הזמן שלך.", color: "orange" },
+  { icon: Calendar, title: "זמינות גמישה", desc: "קביעת שיעורים לפי הזמן שלך.", color: "blue" },
   { icon: Trophy, title: "אחוזי הצלחה", desc: "תוצאות אמיתיות שמדברות בעד עצמן.", color: "blue" },
 ];
 
@@ -444,7 +444,7 @@ function WhyMe() {
     <section id="why" className="py-7 sm:py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <motion.div {...fadeUp} className="text-center mb-5 sm:mb-14">
-          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">היתרונות שלי</p>
+          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">היתרונות שלי</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             למה לבחור <span className="gradient-text-blue">בחן</span>?
           </h2>
@@ -459,9 +459,9 @@ function WhyMe() {
               transition={{ duration: 0.5, delay: i * 0.07 }}
               className="group bg-card rounded-3xl p-6 border border-white/5 hover:border-white/15 transition-all hover:-translate-y-1 relative overflow-hidden"
             >
-              <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full ${r.color === "orange" ? "bg-[oklch(0.72_0.18_50_/_0.3)]" : "bg-[oklch(0.62_0.20_255_/_0.3)]"} blur-3xl opacity-0 group-hover:opacity-100 transition-opacity`} />
+              <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full ${r.color === "blue" ? "bg-[oklch(0.62_0.20_255_/_0.3)]" : "bg-[oklch(0.62_0.20_255_/_0.3)]"} blur-3xl opacity-0 group-hover:opacity-100 transition-opacity`} />
               <div className="relative">
-                <div className={`w-12 h-12 rounded-2xl border ${r.color === "orange" ? "border-[oklch(0.72_0.18_50_/_0.3)] bg-[oklch(0.72_0.18_50_/_0.1)] text-[oklch(0.78_0.18_55)]" : "border-[oklch(0.62_0.20_255_/_0.3)] bg-[oklch(0.62_0.20_255_/_0.1)] text-[oklch(0.7_0.18_255)]"} grid place-items-center mb-4`}>
+                <div className={`w-12 h-12 rounded-2xl border ${r.color === "blue" ? "border-[oklch(0.62_0.20_255_/_0.3)] bg-[oklch(0.62_0.20_255_/_0.1)] text-[oklch(0.7_0.18_255)]" : "border-[oklch(0.62_0.20_255_/_0.3)] bg-[oklch(0.62_0.20_255_/_0.1)] text-[oklch(0.7_0.18_255)]"} grid place-items-center mb-4`}>
                   <r.icon size={22} />
                 </div>
                 <h3 className="text-lg font-black mb-1.5">{r.title}</h3>
@@ -502,9 +502,9 @@ function Reviews() {
       <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
       <div className="max-w-7xl mx-auto">
         <motion.div {...fadeUp} className="text-center mb-5 sm:mb-14">
-          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">המלצות תלמידים</p>
+          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">המלצות תלמידים</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
-            מה <span className="gradient-text-orange">אומרים עליי</span>
+            מה <span className="gradient-text-blue">אומרים עליי</span>
           </h2>
         </motion.div>
 
@@ -519,7 +519,7 @@ function Reviews() {
               className="bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition"
             >
               <div className="flex gap-0.5 mb-3">
-                {[...Array(r.rating)].map((_, j) => <Star key={j} size={15} className="fill-[oklch(0.78_0.18_55)] text-[oklch(0.78_0.18_55)]" />)}
+                {[...Array(r.rating)].map((_, j) => <Star key={j} size={15} className="fill-[oklch(0.7_0.18_255)] text-[oklch(0.7_0.18_255)]" />)}
               </div>
               {r.image_url && <img src={r.image_url} alt="" className="rounded-xl mb-3 w-full h-32 object-cover" />}
               <p className="text-sm text-foreground/90 leading-relaxed mb-5 min-h-[80px]">"{r.content}"</p>
@@ -589,7 +589,7 @@ function SubmitReview() {
   return (
     <motion.div {...fadeUp} className="mt-6 sm:mt-16 max-w-2xl mx-auto">
       <div className="text-center mb-6">
-        <p className="gradient-text-orange font-bold text-xs tracking-[0.2em] uppercase mb-2">שתפו את החוויה</p>
+        <p className="gradient-text-blue font-bold text-xs tracking-[0.2em] uppercase mb-2">שתפו את החוויה</p>
         <h3 className="text-display text-3xl sm:text-4xl">השאירו ביקורת</h3>
       </div>
 
@@ -615,7 +615,7 @@ function SubmitReview() {
               {[1,2,3,4,5].map((n) => (
                 <button key={n} type="button" onClick={() => setForm({ ...form, rating: n })}
                   className="p-1 hover:scale-110 transition" aria-label={`${n} כוכבים`}>
-                  <Star size={28} className={n <= form.rating ? "fill-[oklch(0.78_0.18_55)] text-[oklch(0.78_0.18_55)]" : "text-white/20"} />
+                  <Star size={28} className={n <= form.rating ? "fill-[oklch(0.7_0.18_255)] text-[oklch(0.7_0.18_255)]" : "text-white/20"} />
                 </button>
               ))}
             </div>
@@ -648,7 +648,7 @@ function SubmitReview() {
           </div>
 
           <button type="submit" disabled={submitting}
-            className="w-full bg-gradient-orange text-white font-bold rounded-xl py-3.5 shadow-glow-orange disabled:opacity-50 flex items-center justify-center gap-2">
+            className="w-full bg-gradient-blue text-white font-bold rounded-xl py-3.5 shadow-glow disabled:opacity-50 flex items-center justify-center gap-2">
             <Send size={16} />
             {submitting ? "שולח..." : "שלח ביקורת"}
           </button>
@@ -711,7 +711,7 @@ function LeadForm() {
   return (
     <section id="lead" className="py-7 sm:py-24 px-4 relative overflow-hidden">
       <div className="absolute -top-40 left-0 w-[30rem] h-[30rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.18)] blur-[120px] -z-10" />
-      <div className="absolute -bottom-40 right-0 w-[30rem] h-[30rem] rounded-full bg-[oklch(0.72_0.18_50_/_0.18)] blur-[120px] -z-10" />
+      <div className="absolute -bottom-40 right-0 w-[30rem] h-[30rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.18)] blur-[120px] -z-10" />
 
       <div className="max-w-6xl mx-auto grid lg:grid-cols-5 gap-8 lg:gap-12 items-start">
         {/* left: areas + promises */}
@@ -728,7 +728,7 @@ function LeadForm() {
           <div className="space-y-3">
             {promises.map((p) => (
               <div key={p.title} className="flex items-center gap-4 p-3 rounded-2xl glass border border-white/10">
-                <div className="w-11 h-11 rounded-xl bg-gradient-orange grid place-items-center text-white flex-shrink-0">
+                <div className="w-11 h-11 rounded-xl bg-gradient-blue grid place-items-center text-white flex-shrink-0">
                   <p.icon size={20} />
                 </div>
                 <div>
@@ -743,13 +743,13 @@ function LeadForm() {
         {/* right: form */}
         <motion.div {...fadeUp} className="lg:col-span-3 glass-strong rounded-[2rem] p-6 sm:p-8 border border-white/10 shadow-card relative">
           <div className="mb-6">
-            <p className="gradient-text-orange font-bold text-xs tracking-[0.2em] uppercase mb-2">השאירו פרטים</p>
-            <h3 className="text-2xl sm:text-3xl font-black">חן יחזור אליך <span className="gradient-text-orange">בהקדם</span></h3>
+            <p className="gradient-text-blue font-bold text-xs tracking-[0.2em] uppercase mb-2">השאירו פרטים</p>
+            <h3 className="text-2xl sm:text-3xl font-black">חן יחזור אליך <span className="gradient-text-blue">בהקדם</span></h3>
           </div>
 
           {submitted ? (
             <div className="text-center py-10">
-              <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-gradient-orange grid place-items-center text-white shadow-glow-orange">
+              <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-gradient-blue grid place-items-center text-white shadow-glow">
                 <Check size={32} strokeWidth={3} />
               </div>
               <h3 className="text-2xl font-black mb-2">תודה!</h3>
@@ -786,7 +786,7 @@ function LeadForm() {
                 <textarea rows={3} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} maxLength={500}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition resize-none" placeholder="כל מה שחשוב שנדע..." />
               </Field>
-              <button type="submit" className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-orange px-6 py-4 font-bold text-white shadow-glow-orange hover:scale-[1.01] transition">
+              <button type="submit" className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-blue px-6 py-4 font-bold text-white shadow-glow hover:scale-[1.01] transition">
                 <Send size={18} /> שלח/י פרטים
               </button>
               <p className="text-[11px] text-center text-muted-foreground">בלחיצה על שליחה את/ה מאשר/ת שנחזור אליך בקרוב</p>
@@ -832,7 +832,7 @@ function FAQ() {
         <motion.div {...fadeUp} className="text-center mb-12">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">שאלות נפוצות</p>
           <h2 className="text-display text-4xl sm:text-5xl">
-            כל מה ש<span className="gradient-text-orange">חשוב לדעת</span>
+            כל מה ש<span className="gradient-text-blue">חשוב לדעת</span>
           </h2>
         </motion.div>
         <div className="grid gap-3 lg:grid-cols-2 lg:items-start">
@@ -865,22 +865,22 @@ function FinalCTA() {
     <section className="py-7 sm:py-24 px-4 relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.3)] blur-3xl animate-float-slow" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[oklch(0.72_0.18_50_/_0.3)] blur-3xl animate-float-slow" style={{ animationDelay: "2s" }} />
+        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.3)] blur-3xl animate-float-slow" style={{ animationDelay: "2s" }} />
       </div>
       <motion.div {...fadeUp} className="max-w-4xl mx-auto text-center glass-strong rounded-[2.5rem] border border-white/10 p-8 sm:p-14 shadow-card">
-        <div className="inline-flex items-center gap-2 rounded-full bg-gradient-orange px-4 py-1.5 mb-6 text-xs font-bold text-white">
+        <div className="inline-flex items-center gap-2 rounded-full bg-gradient-blue px-4 py-1.5 mb-6 text-xs font-bold text-white">
           <Sparkles size={14} /> בואו נתחיל
         </div>
         <h2 className="text-display text-4xl sm:text-6xl mb-4">
           מתחילים את הדרך<br />
-          <span className="gradient-text-orange">לרישיון</span>?
+          <span className="gradient-text-blue">לרישיון</span>?
         </h2>
         <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">דבר אחד מפריד בינך לבין הרישיון — ההחלטה שלך</p>
         <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-7 py-4 font-bold text-white hover:scale-105 transition shadow-card">
             <MessageCircle size={20} /> שלחו הודעה בוואטסאפ
           </a>
-          <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full bg-gradient-orange px-7 py-4 font-bold text-white hover:scale-105 transition shadow-glow-orange">
+          <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full bg-gradient-blue px-7 py-4 font-bold text-white hover:scale-105 transition shadow-glow">
             <Phone size={20} /> התקשרו עכשיו
           </a>
         </div>
@@ -908,7 +908,7 @@ function Footer() {
         <div>
           <h4 className="font-black mb-4 text-base">עקבו אחריי</h4>
           <div className="flex gap-3">
-            <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-gradient-orange hover:border-transparent hover:text-white transition">
+            <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-gradient-blue hover:border-transparent hover:text-white transition">
               <Instagram size={18} />
             </a>
             <a href={FACEBOOK} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-gradient-blue hover:border-transparent hover:text-white transition">
@@ -942,7 +942,7 @@ function MobileBar() {
           <Phone size={18} className="text-[oklch(0.7_0.18_255)]" />
           <span className="text-[10px] font-bold">שיחה</span>
         </a>
-        <button type="button" onClick={scrollToLead} className="flex flex-col items-center gap-1 py-2 rounded-xl bg-gradient-orange text-white">
+        <button type="button" onClick={scrollToLead} className="flex flex-col items-center gap-1 py-2 rounded-xl bg-gradient-blue text-white">
           <Sparkles size={18} />
           <span className="text-[10px] font-bold">פרטים</span>
         </button>
@@ -1030,7 +1030,7 @@ function LicenseMatcher() {
         <motion.div {...fadeUp} className="text-center mb-5 sm:mb-14">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">כלי חכם</p>
           <h2 className="text-display text-4xl sm:text-5xl">
-            איזה <span className="gradient-text-orange">רישיון מתאים לי</span>?
+            איזה <span className="gradient-text-blue">רישיון מתאים לי</span>?
           </h2>
           <p className="text-muted-foreground mt-2 sm:mt-4 max-w-xl mx-auto">ענה על 3 שאלות ונמצא לך את הדרגה המתאימה ביותר.</p>
         </motion.div>
@@ -1061,7 +1061,7 @@ function LicenseMatcher() {
                   <Car size={16} /> רכב
                 </button>
                 <button type="button" onClick={() => setVehicle("moto")}
-                  className={`rounded-xl py-3 font-bold text-sm border transition flex items-center justify-center gap-2 ${vehicle === "moto" ? "bg-gradient-orange text-white border-transparent shadow-glow-orange" : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
+                  className={`rounded-xl py-3 font-bold text-sm border transition flex items-center justify-center gap-2 ${vehicle === "moto" ? "bg-gradient-blue text-white border-transparent shadow-glow" : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
                   <Bike size={16} /> אופנוע
                 </button>
               </div>
@@ -1072,7 +1072,7 @@ function LicenseMatcher() {
                 <div className="grid grid-cols-2 gap-2">
                   {[{ v: "yes", l: "כן" }, { v: "no", l: "לא" }].map((o) => (
                     <button key={o.v} type="button" onClick={() => setHasA1Year(o.v as "yes" | "no")}
-                      className={`rounded-xl py-3 font-bold text-sm border transition ${hasA1Year === o.v ? "bg-gradient-orange text-white border-transparent shadow-glow-orange" : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
+                      className={`rounded-xl py-3 font-bold text-sm border transition ${hasA1Year === o.v ? "bg-gradient-blue text-white border-transparent shadow-glow" : "border-white/10 bg-white/5 hover:bg-white/10"}`}>
                       {o.l}
                     </button>
                   ))}
@@ -1084,7 +1084,7 @@ function LicenseMatcher() {
           <div className="rounded-2xl border border-white/10 bg-background/40 p-4 sm:p-6 flex flex-col justify-center min-h-[140px] sm:min-h-[220px]">
             {recommendations && recommendations.length > 0 ? (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                <p className="text-xs font-bold tracking-[0.2em] uppercase gradient-text-orange mb-2">
+                <p className="text-xs font-bold tracking-[0.2em] uppercase gradient-text-blue mb-2">
                   {hasMultiple ? "בחר/י את הדרגה שמעניינת אותך" : "ההמלצה שלנו"}
                 </p>
                 <div className="space-y-3 mb-5">
@@ -1098,7 +1098,7 @@ function LicenseMatcher() {
                         className={`w-full text-right rounded-xl border p-3 sm:p-4 transition ${
                           hasMultiple
                             ? selected
-                              ? "border-accent bg-accent/10 shadow-glow-orange"
+                              ? "border-primary bg-primary/10 shadow-glow"
                               : "border-white/10 bg-white/5 hover:bg-white/10"
                             : "border-white/10 bg-white/5"
                         }`}
@@ -1206,9 +1206,9 @@ function SuccessGallery() {
 
       <div className="max-w-[1400px] mx-auto">
         <motion.div {...fadeUp} className="text-center mb-4 sm:mb-10">
-          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">הצלחות אמיתיות</p>
+          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">הצלחות אמיתיות</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
-            תלמידים <span className="gradient-text-orange">שעשו את זה</span>
+            תלמידים <span className="gradient-text-blue">שעשו את זה</span>
           </h2>
           <p className="text-muted-foreground mt-3 max-w-xl mx-auto text-sm sm:text-base">
             רגעי הצלחה אמיתיים — מהשיעור הראשון ועד הקריאה ״עברת!״
@@ -1223,9 +1223,9 @@ function SuccessGallery() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="glass-strong rounded-2xl border border-white/10 px-2 py-3 sm:px-5 sm:py-5 text-center hover:border-[oklch(0.72_0.18_50_/_0.5)] transition"
+              className="glass-strong rounded-2xl border border-white/10 px-2 py-3 sm:px-5 sm:py-5 text-center hover:border-[oklch(0.62_0.20_255_/_0.5)] transition"
             >
-              <div className="text-2xl sm:text-4xl font-black gradient-text-orange leading-none mb-1">
+              <div className="text-2xl sm:text-4xl font-black gradient-text-blue leading-none mb-1">
                 {stat.value}
               </div>
               <div className="text-[10px] sm:text-xs text-muted-foreground font-medium">
@@ -1272,7 +1272,7 @@ function StudentCard({
       transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.4) }}
       className={[
         "group relative overflow-hidden rounded-2xl border border-white/10 glass shadow-card",
-        "hover:border-[oklch(0.72_0.18_50_/_0.5)] hover:-translate-y-1 hover:shadow-glow-orange",
+        "hover:border-[oklch(0.62_0.20_255_/_0.5)] hover:-translate-y-1 hover:shadow-glow",
         "transition-all duration-500",
         mobile ? "snap-start shrink-0 w-[78%] aspect-[3/4]" : tall ? "row-span-2" : "row-span-1",
       ].join(" ")}
@@ -1304,7 +1304,7 @@ function StudentCard({
 
       {/* top badges */}
       <div className="absolute z-[3] top-2.5 right-2.5 left-2.5 flex items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1 rounded-full bg-[#ff7a00] text-white px-2.5 py-1 text-[10px] font-black shadow-glow-orange">
+        <span className="inline-flex items-center gap-1 rounded-full bg-primary text-white px-2.5 py-1 text-[10px] font-black shadow-glow">
           <Check size={11} strokeWidth={3} />
           עבר/ה טסט
         </span>
@@ -1333,7 +1333,7 @@ function VideoIntro() {
         <motion.div {...fadeUp} className="text-center mb-5 sm:mb-14">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">וידאו</p>
           <h2 className="text-display text-4xl sm:text-5xl">
-            תכירו את <span className="gradient-text-orange">חן כחלון</span>
+            תכירו את <span className="gradient-text-blue">חן כחלון</span>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-xl mx-auto">סרטון היכרות קצר — הגישה, האווירה והדרך שלי ללמד נהיגה.</p>
         </motion.div>
@@ -1347,7 +1347,7 @@ function VideoIntro() {
 
           {!playing ? (
             <button type="button" onClick={() => setPlaying(true)} aria-label="נגן וידאו" className="absolute inset-0 grid place-items-center">
-              <span className="relative grid place-items-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-orange text-white shadow-glow-orange group-hover:scale-110 transition-transform">
+              <span className="relative grid place-items-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-blue text-white shadow-glow group-hover:scale-110 transition-transform">
                 <Play size={36} className="ml-1" fill="currentColor" />
                 <span className="absolute inset-0 rounded-full bg-[oklch(0.72_0.18_50)] -z-10 animate-pulse-ring" />
               </span>
@@ -1386,7 +1386,7 @@ function SocialFeed() {
     <section id="social" className="py-7 sm:py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <motion.div {...fadeUp} className="text-center mb-5 sm:mb-14">
-          <p className="gradient-text-orange font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">עקבו אחריי</p>
+          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">עקבו אחריי</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             הסיפורים שלי <span className="gradient-text-blue">ברשתות</span>
           </h2>
@@ -1434,7 +1434,7 @@ function SocialFeed() {
         </div>
 
         <div className="text-center mt-10 flex flex-wrap justify-center gap-3">
-          <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-orange px-5 py-3 text-sm font-bold text-white shadow-glow-orange hover:scale-105 transition">
+          <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-blue px-5 py-3 text-sm font-bold text-white shadow-glow hover:scale-105 transition">
             <Instagram size={16} /> עקבו באינסטגרם
           </a>
           <a href={TIKTOK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3 text-sm font-bold hover:bg-white/5 transition">
