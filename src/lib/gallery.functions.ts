@@ -6,8 +6,15 @@ import { uploadGalleryImageAsAdmin, updateGalleryTitleAsAdmin } from "./gallery-
 const GalleryUploadSchema = z.object({
   category: z.enum(["cars", "motorcycles", "success"]),
   fileName: z.string().min(1).max(180),
-  mimeType: z.enum(["image/jpeg", "image/png", "image/webp"]),
-  base64: z.string().min(1).max(8_000_000),
+  mimeType: z.enum([
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "video/mp4",
+    "video/webm",
+    "video/quicktime",
+  ]),
+  base64: z.string().min(1).max(60_000_000),
 });
 
 export const uploadGalleryImage = createServerFn({ method: "POST" })
