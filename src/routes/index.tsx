@@ -698,37 +698,6 @@ function LeadForm() {
       toast.error(err instanceof Error ? `שגיאה בשמירה: ${err.message}` : "שגיאה בשמירת הפרטים");
       return;
     }
-    const lines = [
-      `שם: ${form.name}`,
-      `טלפון: ${form.phone}`,
-      `מסלול מבוקש: ${form.interest}`,
-      `אזור מגורים: ${form.area}`,
-      `הערות: ${form.notes || "—"}`,
-      ``,
-      `נשלח מהאתר של חן כחלון`,
-    ];
-    const subject = encodeURIComponent("ליד חדש מהאתר - " + form.name);
-    const body = encodeURIComponent(lines.join("\n"));
-
-    // 1) Open WhatsApp with prefilled lead details to Hen
-    const waText = encodeURIComponent(
-      [
-        `היי חן! 👋`,
-        `מילאתי טופס באתר ואשמח שתחזור אליי:`,
-        ``,
-        `🙋 שם: ${form.name}`,
-        `📱 טלפון: ${form.phone}`,
-        `🚗 מסלול: ${form.interest}`,
-        `📍 אזור: ${form.area}`,
-        form.notes ? `📝 הערות: ${form.notes}` : ``,
-      ].filter(Boolean).join("\n")
-    );
-    window.open(`https://wa.me/${PHONE_INTL}?text=${waText}`, "_blank");
-
-    // 2) Also fire mailto so Hen receives an email copy
-    setTimeout(() => {
-      window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-    }, 400);
     setSubmitted(true);
     toast.success("תודה! הפרטים התקבלו, חן יחזור אליך בהקדם.");
   };
@@ -784,10 +753,7 @@ function LeadForm() {
                 <Check size={32} strokeWidth={3} />
               </div>
               <h3 className="text-2xl font-black mb-2">תודה!</h3>
-              <p className="text-muted-foreground mb-6">הפרטים התקבלו, חן יחזור אליך בהקדם.</p>
-              <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 font-bold text-white hover:scale-105 transition">
-                <MessageCircle size={18} /> שלחו גם בוואטסאפ
-              </a>
+              <p className="text-muted-foreground">הפרטים התקבלו, חן יחזור אליך בהקדם.</p>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="grid gap-4">
