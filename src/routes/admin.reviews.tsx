@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadAdminMediaImage } from "@/lib/admin-media.functions";
-import { imageFileToBase64 } from "@/lib/image-upload.client";
+import { imageFileToBase64 } from "@/lib/image-upload";
 import { toast } from "sonner";
 import { Star, Check, X, Trash2, Plus, Sparkles, Upload } from "lucide-react";
 
