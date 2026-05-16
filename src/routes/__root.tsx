@@ -69,8 +69,11 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
+  head: () => {
+    const GA4_ID = (import.meta.env.VITE_GA4_ID as string | undefined)?.trim();
+    const SITE_VERIFICATION = (import.meta.env.VITE_GOOGLE_SITE_VERIFICATION as string | undefined)?.trim();
+
+    const meta: Array<Record<string, string>> = [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "חן כחלון | מורה נהיגה באשקלון – לימוד נהיגה רכב ואופנוע" },
@@ -87,17 +90,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "חן כחלון – מורה נהיגה" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#0a0a14" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" } as any,
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" },
-    ],
-    scripts: [
+    ];
+    if (SITE_VERIFICATION) {
+      meta.push({ name: "google-site-verification", content: SITE_VERIFICATION });
+    }
+
+    const scripts: Array<Record<string, string>> = [
       {
         type: "application/ld+json",
         children: JSON.stringify({
@@ -113,8 +111,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           aggregateRating: { "@type": "AggregateRating", ratingValue: "5", reviewCount: "120" },
         }),
       },
-    ],
-  }),
+    ];
+    if (GA4_ID) {
+      scripts.push({
+        src: `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`,
+        async: "true",
+      } as any);
+      scripts.push({
+        children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA4_ID}',{anonymize_ip:true});`,
+      });
+    }
+
+    return {
+      meta,
+      links: [
+      {
+        rel: "stylesheet",
+        href: appCss,
+      },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" } as any,
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" },
+      ],
+      scripts,
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

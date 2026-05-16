@@ -700,6 +700,13 @@ function LeadForm() {
     }
     setSubmitted(true);
     toast.success("תודה! הפרטים התקבלו, חן יחזור אליך בהקדם.");
+    // GA4 conversion event — fires only if GA4 is wired up
+    if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
+      (window as any).gtag("event", "generate_lead", {
+        event_category: "engagement",
+        license_type: license_type || "unknown",
+      });
+    }
   };
 
   const promises = [
