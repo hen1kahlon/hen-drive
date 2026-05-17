@@ -167,7 +167,7 @@ function Hero() {
   const heroSrc = s.hero.hero_media_url || heroImgMobile;
   const heroSrcSet = s.hero.hero_media_url ? undefined : `${heroImgMobile} 768w, ${heroImg} 1920w`;
   return (
-    <section id="top" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section id="top" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
       {/* glow background */}
       <div className="absolute inset-0 -z-10 grid-bg">
         <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.25)] blur-[120px] animate-float-slow" />
