@@ -215,7 +215,39 @@ function RootComponent() {
       }
     };
     document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+
+    // Clear any stale Radix/Sonner body locks or orphan overlays when the
+    // page is restored from bfcache (e.g. returning from WhatsApp/tel).
+    const cleanupOverlays = () => {
+      const body = document.body;
+      if (!body) return;
+      body.style.pointerEvents = "";
+      body.style.overflow = "";
+      body.removeAttribute("data-scroll-locked");
+      // Remove orphaned Radix overlays that lost their owner
+      document
+        .querySelectorAll<HTMLElement>('[data-radix-portal] [data-state="open"]')
+        .forEach((el) => {
+          if (!el.isConnected) return;
+          // If the trigger that owns it is no longer in the DOM, hide it
+          const id = el.getAttribute("aria-labelledby");
+          if (id && !document.getElementById(id)) el.remove();
+        });
+    };
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) cleanupOverlays();
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") cleanupOverlays();
+    };
+    window.addEventListener("pageshow", onPageShow);
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      document.removeEventListener("click", onClick);
+      window.removeEventListener("pageshow", onPageShow);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
   }, []);
 
   return (
