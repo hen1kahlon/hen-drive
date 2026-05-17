@@ -35,9 +35,31 @@ export const Route = createFileRoute("/")({
         imageSizes: "(max-width: 768px) 100vw, 60vw",
         fetchPriority: "high",
       } as any,
+      { rel: "canonical", href: "/" },
     ],
     meta: [
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { property: "og:url", content: "/" },
+      { property: "og:image", content: heroImg },
+      { property: "og:image:width", content: "1920" },
+      { property: "og:image:height", content: "1080" },
+      { name: "twitter:image", content: heroImg },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            { "@type": "Question", name: "כמה זמן לוקח להוציא רישיון?", acceptedAnswer: { "@type": "Answer", text: "לרכב (דרגה B) משך הלימוד נע בדרך כלל בין חודשיים ל-4 חודשים. לאופנוע (A / A1 / A2) התהליך מהיר יותר וניתן לסיים גם בתוך שבוע, בהתאם לזמינות וניסיון קודם." } },
+            { "@type": "Question", name: "באיזה אזורים מתקיימים השיעורים?", acceptedAnswer: { "@type": "Answer", text: "לרכב באשקלון והסביבה עם אפשרות איסוף מבית התלמיד בתיאום מראש. לאופנוע במגרש ייעודי בתיאום מראש." } },
+            { "@type": "Question", name: "האם אפשר ללמוד גם רכב וגם אופנוע?", acceptedAnswer: { "@type": "Answer", text: "בהחלט! אני מלמד את שני התחומים ואפשר לשלב." } },
+            { "@type": "Question", name: "איך קובעים שיעור ראשון?", acceptedAnswer: { "@type": "Answer", text: "פשוט שולחים הודעת וואטסאפ או מתקשרים — ונמצא יחד את הזמן הכי נוח לכם." } },
+            { "@type": "Question", name: "איזה דרגות אופנוע אפשר ללמוד?", acceptedAnswer: { "@type": "Answer", text: "ניתן ללמוד את כל דרגות האופנוע: A מגיל 21, A1 ידני/אוטומט מגיל 18, ו-A2 ידני/אוטומט מגיל 16." } },
+          ],
+        }),
+      },
     ],
   }),
   component: LandingPage,
