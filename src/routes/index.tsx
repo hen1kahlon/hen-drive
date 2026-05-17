@@ -820,7 +820,7 @@ function LeadForm() {
         </motion.div>
 
         {/* right: form */}
-        <motion.div {...fadeUp} className="lg:col-span-3 glass-strong rounded-[2rem] p-6 sm:p-8 border border-white/10 shadow-card relative">
+        <motion.div id="lead-form" {...fadeUp} className="lg:col-span-3 glass-strong rounded-[2rem] p-6 sm:p-8 border border-white/10 shadow-card relative scroll-mt-24">
           <div className="mb-6">
             <p className="gradient-text-blue font-bold text-xs tracking-[0.2em] uppercase mb-2">השאירו פרטים</p>
             <h3 className="text-2xl sm:text-3xl font-black">חן יחזור אליך <span className="gradient-text-blue">בהקדם</span></h3>
