@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import {
   Phone, MessageCircle, Instagram, Facebook, Mail, Star, Car, Bike,
@@ -667,7 +667,7 @@ function LeadForm() {
   // honeypot — bots fill all inputs; humans never see this one
   const [website, setWebsite] = useState("");
   // page-mount timestamp — instant-submit bots fail this
-  const mountedAt = React.useRef<number>(Date.now());
+  const mountedAt = useRef<number>(Date.now());
 
   useEffect(() => { setMounted(true); }, []);
 
