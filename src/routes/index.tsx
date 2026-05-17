@@ -293,24 +293,49 @@ const categories: Category[] = [
   { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "blue", interest: "אופנוע A" },
 ];
 
+function getLeadScrollOffset() {
+  const header = document.querySelector("header");
+  const headerHeight = header?.getBoundingClientRect().height ?? 64;
+  return Math.ceil(headerHeight + 14);
+}
+
+function getLeadScrollTop(target: HTMLElement) {
+  return Math.max(0, Math.round(target.getBoundingClientRect().top + window.scrollY - getLeadScrollOffset()));
+}
+
+function alignLeadAfterScroll(target: HTMLElement) {
+  let done = false;
+  let settleTimer = 0;
+  let safetyTimer = 0;
+
+  const finish = () => {
+    if (done) return;
+    done = true;
+    window.clearTimeout(settleTimer);
+    window.clearTimeout(safetyTimer);
+    window.removeEventListener("scroll", onScroll);
+    const delta = target.getBoundingClientRect().top - getLeadScrollOffset();
+    if (Math.abs(delta) > 4) window.scrollBy({ top: delta, behavior: "smooth" });
+  };
+
+  const scheduleFinish = () => {
+    window.clearTimeout(settleTimer);
+    settleTimer = window.setTimeout(finish, 160);
+  };
+
+  const onScroll = () => scheduleFinish();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  scheduleFinish();
+  safetyTimer = window.setTimeout(finish, 1800);
+}
+
 function scrollToLead() {
-  const target = document.getElementById("lead-form") || document.getElementById("lead");
+  const target = (document.getElementById("lead-form") || document.getElementById("lead")) as HTMLElement | null;
   if (!target) return;
-  const headerOffset = 88;
-  // Pre-pass: force layout of any content-visibility:auto sections above the target
-  // by doing an instant jump close to it first, so the smooth scroll has a stable distance.
-  const computeTop = () => target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-  const finalTop = computeTop();
-  const distance = Math.abs(finalTop - window.pageYOffset);
-  if (distance > window.innerHeight * 2) {
-    // Long-distance scroll: jump near the target instantly, then smooth-scroll the remainder.
-    window.scrollTo({ top: finalTop - window.innerHeight, behavior: "auto" });
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: computeTop(), behavior: "smooth" });
-    });
-  } else {
-    window.scrollTo({ top: finalTop, behavior: "smooth" });
-  }
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: getLeadScrollTop(target), behavior: "smooth" });
+    alignLeadAfterScroll(target);
+  });
 }
 
 function selectInterestAndScroll(interest: string) {
