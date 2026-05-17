@@ -93,7 +93,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:locale", content: "he_IL" },
       { property: "og:site_name", content: "חן כחלון – מורה נהיגה" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "חן כחלון | מורה נהיגה באשקלון – רכב ואופנוע" },
+      { name: "twitter:description", content: "מוציאים רישיון בביטחון — מורה שמלווה אותך עד ההצלחה. רכב ואופנוע, אשקלון והסביבה." },
       { name: "theme-color", content: "#0a0a14" },
+      { name: "color-scheme", content: "dark" },
+      { name: "format-detection", content: "telephone=yes" },
     ];
     if (SITE_VERIFICATION) {
       meta.push({ name: "google-site-verification", content: SITE_VERIFICATION });
@@ -136,6 +140,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" } as any,
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" },
+      { rel: "dns-prefetch", href: "https://mtsxyebkjvcitpdsasem.supabase.co" },
+      { rel: "preconnect", href: "https://mtsxyebkjvcitpdsasem.supabase.co", crossOrigin: "anonymous" } as any,
       ],
       scripts,
     };
