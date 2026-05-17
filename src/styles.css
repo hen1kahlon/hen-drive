@@ -160,6 +160,8 @@
        This prevents unexpected scroll jumps after typing in inputs or
        clicking unrelated buttons. */
     scroll-behavior: auto;
+    /* Offset for fixed 64px header so anchored sections aren't hidden under it */
+    scroll-padding-top: 80px;
     overflow-anchor: none;
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
@@ -227,6 +229,15 @@
   }
   .ring-glow-blue {
     box-shadow: 0 0 0 1px oklch(0.62 0.20 255 / 0.4), 0 10px 40px -10px oklch(0.62 0.20 255 / 0.4);
+  }
+  /* Premium wider container on large desktops (>=1536px) without touching markup */
+  @media (min-width: 1536px) {
+    .max-w-7xl { max-width: 88rem; }
+  }
+  /* Defer rendering cost of below-the-fold sections until scrolled near */
+  section[id] {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 800px;
   }
 }
 
