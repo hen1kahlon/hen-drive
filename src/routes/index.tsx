@@ -168,10 +168,10 @@ function Hero() {
   const heroSrcSet = s.hero.hero_media_url ? undefined : `${heroImgMobile} 768w, ${heroImg} 1920w`;
   return (
     <section id="top" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
-      {/* premium dark background */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.18_0.03_260)_0%,oklch(0.10_0.02_260)_45%,oklch(0.06_0.01_260)_100%)]">
-        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.10)] blur-[140px] animate-float-slow" />
-        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.10)] blur-[140px] animate-float-slow" style={{ animationDelay: "3s" }} />
+      {/* premium pure-dark background — no blue tint */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.16_0_0)_0%,oklch(0.09_0_0)_45%,oklch(0.04_0_0)_100%)]">
+        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.30_0_0_/_0.25)] blur-[140px] animate-float-slow" />
+        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.30_0_0_/_0.25)] blur-[140px] animate-float-slow" style={{ animationDelay: "3s" }} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-4 lg:py-16 grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full">
@@ -294,11 +294,18 @@ const categories: Category[] = [
 ];
 
 function scrollToLead() {
-  const el = document.getElementById("lead");
-  if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
-  // Re-align after content-visibility expands neighboring sections and layout settles
-  setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 500);
+  const target = document.getElementById("lead-form") || document.getElementById("lead");
+  if (!target) return;
+  const doScroll = () => {
+    const headerOffset = 88;
+    const rect = target.getBoundingClientRect();
+    const top = rect.top + window.pageYOffset - headerOffset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+  doScroll();
+  // Re-align after content-visibility / lazy sections expand
+  setTimeout(doScroll, 350);
+  setTimeout(doScroll, 800);
 }
 
 function selectInterestAndScroll(interest: string) {
@@ -813,7 +820,7 @@ function LeadForm() {
         </motion.div>
 
         {/* right: form */}
-        <motion.div {...fadeUp} className="lg:col-span-3 glass-strong rounded-[2rem] p-6 sm:p-8 border border-white/10 shadow-card relative">
+        <motion.div id="lead-form" {...fadeUp} className="lg:col-span-3 glass-strong rounded-[2rem] p-6 sm:p-8 border border-white/10 shadow-card relative scroll-mt-24">
           <div className="mb-6">
             <p className="gradient-text-blue font-bold text-xs tracking-[0.2em] uppercase mb-2">השאירו פרטים</p>
             <h3 className="text-2xl sm:text-3xl font-black">חן יחזור אליך <span className="gradient-text-blue">בהקדם</span></h3>
