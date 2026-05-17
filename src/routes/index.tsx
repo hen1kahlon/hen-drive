@@ -781,7 +781,7 @@ function LeadForm() {
   ];
 
   return (
-    <section id="lead" className="py-7 sm:py-24 px-4 relative overflow-hidden">
+    <section id="lead" className="py-7 sm:py-24 px-4 relative overflow-hidden scroll-mt-20">
       <div className="absolute -top-40 left-0 w-[30rem] h-[30rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.18)] blur-[120px] -z-10" />
       <div className="absolute -bottom-40 right-0 w-[30rem] h-[30rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.18)] blur-[120px] -z-10" />
 
