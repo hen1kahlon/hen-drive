@@ -18,9 +18,9 @@ import portraitImg from "@/assets/instructor-portrait.webp";
 import portraitImgMobile from "@/assets/instructor-portrait-mobile.webp";
 import chenPortrait from "@/assets/chen-portrait.webp";
 import vehSedan from "@/assets/vehicle-sedan.webp";
-import vehBikeA2Manual from "@/assets/vehicle-bike-a2-manual.png";
-import vehBikeA1Manual from "@/assets/vehicle-bike-a1-manual.png";
-import vehScooterA1Auto from "@/assets/vehicle-scooter-a1-auto.png";
+import vehBikeA2Manual from "@/assets/vehicle-bike-a2-manual.webp";
+import vehBikeA1Manual from "@/assets/vehicle-bike-a1-manual.webp";
+import vehScooterA1Auto from "@/assets/vehicle-scooter-a1-auto.webp";
 import vehScooter from "@/assets/vehicle-scooter.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
 
