@@ -214,8 +214,20 @@ function RootComponent() {
         }
       }
 
-      if (href.startsWith("tel:") || href.includes("wa.me") || href.includes("api.whatsapp.com")) {
+      const isWhatsAppLink = href.includes("wa.me") || href.includes("api.whatsapp.com");
+      const isMobileExternal = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+
+      if (href.startsWith("tel:") || isWhatsAppLink) {
         markExternalNavigation();
+      }
+
+      // On mobile Chrome/Samsung Internet, opening WhatsApp in a new tab can
+      // leave a restored blank white popup/iframe over the site. Use the same
+      // browsing context on mobile while keeping normal new-tab behavior on desktop.
+      if (isWhatsAppLink && isMobileExternal) {
+        e.preventDefault();
+        window.location.assign(href);
+        return;
       }
 
       if (!href.startsWith("#")) return;
