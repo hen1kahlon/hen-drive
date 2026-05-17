@@ -839,13 +839,17 @@ function LeadForm() {
             </div>
           ) : (
             <form onSubmit={onSubmit} className="grid gap-4">
+              {/* honeypot — invisible to humans, irresistible to bots */}
+              <div aria-hidden="true" className="absolute opacity-0 pointer-events-none -z-10" style={{ left: "-9999px", height: 0, overflow: "hidden" }}>
+                <label>אתר אינטרנט<input type="text" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} /></label>
+              </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 <Field label="שם מלא *">
                   <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={60}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition" placeholder="ישראל ישראלי" />
                 </Field>
                 <Field label="טלפון *">
-                  <input required type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20}
+                  <input required type="tel" inputMode="tel" autoComplete="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition" placeholder="050-0000000" />
                 </Field>
               </div>
@@ -868,8 +872,8 @@ function LeadForm() {
                 <textarea rows={3} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} maxLength={500}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition resize-none" placeholder="כל מה שחשוב שנדע..." />
               </Field>
-              <button type="submit" className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-blue px-6 py-4 font-bold text-white shadow-glow hover:scale-[1.01] transition">
-                <Send size={18} /> שלח/י פרטים
+              <button type="submit" disabled={submitting} className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-blue px-6 py-4 font-bold text-white shadow-glow hover:scale-[1.01] transition disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100">
+                <Send size={18} /> {submitting ? "שולח..." : "שלח/י פרטים"}
               </button>
               <p className="text-[11px] text-center text-muted-foreground">בלחיצה על שליחה את/ה מאשר/ת שנחזור אליך בקרוב</p>
             </form>
