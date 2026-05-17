@@ -18,9 +18,9 @@ import portraitImg from "@/assets/instructor-portrait.webp";
 import portraitImgMobile from "@/assets/instructor-portrait-mobile.webp";
 import chenPortrait from "@/assets/chen-portrait.webp";
 import vehSedan from "@/assets/vehicle-sedan.webp";
-import vehBikeA2Manual from "@/assets/vehicle-bike-a2-manual.png";
-import vehBikeA1Manual from "@/assets/vehicle-bike-a1-manual.png";
-import vehScooterA1Auto from "@/assets/vehicle-scooter-a1-auto.png";
+import vehBikeA2Manual from "@/assets/vehicle-bike-a2-manual.webp";
+import vehBikeA1Manual from "@/assets/vehicle-bike-a1-manual.webp";
+import vehScooterA1Auto from "@/assets/vehicle-scooter-a1-auto.webp";
 import vehScooter from "@/assets/vehicle-scooter.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
 
@@ -167,7 +167,7 @@ function Hero() {
   const heroSrc = s.hero.hero_media_url || heroImgMobile;
   const heroSrcSet = s.hero.hero_media_url ? undefined : `${heroImgMobile} 768w, ${heroImg} 1920w`;
   return (
-    <section id="top" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section id="top" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
       {/* glow background */}
       <div className="absolute inset-0 -z-10 grid-bg">
         <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.25)] blur-[120px] animate-float-slow" />
