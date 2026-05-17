@@ -16,7 +16,7 @@ type Item = {
   sort_order: number;
   media_type?: "image" | "video";
 };
-type SelectedPreview = { name: string; url: string };
+type SelectedPreview = { name: string; url: string; isVideo: boolean };
 const CATS = [
   { id: "cars", label: "רכב" },
   { id: "motorcycles", label: "אופנוע" },
@@ -173,7 +173,12 @@ function GalleryPage() {
       return;
     }
     setSelectedPreviews(
-      list.map((file) => ({ name: file.name || "תמונה", url: URL.createObjectURL(file) })),
+      list.map((file) => {
+        const name = file.name || "קובץ";
+        const isVideo =
+          (file.type && ALLOWED_VIDEO_MIME.includes(file.type)) || /\.(mp4|webm|mov)$/i.test(name);
+        return { name, url: URL.createObjectURL(file), isVideo };
+      }),
     );
     setUploading(true);
     setProgress({ done: 0, total: list.length });
@@ -232,9 +237,8 @@ function GalleryPage() {
         }
         setProgress((p) => (p ? { ...p, done: p.done + 1 } : p));
       }
-      if (ok) toast.success(`הועלו ${ok} תמונות${fail ? ` · ${fail} נכשלו` : ""}`);
+      if (ok) toast.success(`הועלו ${ok} קבצים${fail ? ` · ${fail} נכשלו` : ""}`);
       else if (!ok && !fail) toast.error("העלאה נכשלה");
-      load();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "שגיאה");
     } finally {
@@ -371,7 +375,11 @@ function GalleryPage() {
                 key={preview.url}
                 className="aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10"
               >
-                <img src={preview.url} alt={preview.name} className="w-full h-full object-cover" />
+                {preview.isVideo ? (
+                  <video src={preview.url} muted playsInline className="w-full h-full object-cover bg-black" />
+                ) : (
+                  <img src={preview.url} alt={preview.name} className="w-full h-full object-cover" />
+                )}
               </div>
             ))}
           </div>

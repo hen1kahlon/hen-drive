@@ -297,7 +297,14 @@ function LeadsPage() {
   const monthWon = monthLeads.filter((l) => l.status === "won").length;
   const monthClosed = monthLeads.filter((l) => l.status === "closed" || l.status === "won").length;
   const conversion = monthLeads.length ? Math.round((monthWon / monthLeads.length) * 100) : 0;
-  const overdueCount = leads.filter((l) => l.follow_up_at && new Date(l.follow_up_at).getTime() < Date.now() && l.status !== "won" && l.status !== "closed" && l.status !== "not_relevant").length;
+  const overdueCount = leads.filter((l) =>
+    l.follow_up_at &&
+    new Date(l.follow_up_at).getTime() < Date.now() &&
+    l.status !== "won" &&
+    l.status !== "closed" &&
+    l.status !== "not_relevant" &&
+    l.status !== "archived"
+  ).length;
 
   return (
     <div className="space-y-5">
