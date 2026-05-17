@@ -184,6 +184,18 @@ function RootComponent() {
     // Intercept hash anchor clicks: smooth-scroll to the target without
     // mutating the URL hash. Prevents the browser from auto-scrolling on
     // subsequent re-renders / focus events and stops unrelated bubbling.
+    const scheduleOverlayCleanup = () => {
+      window.setTimeout(cleanupOverlays, 50);
+      window.setTimeout(cleanupOverlays, 250);
+      window.setTimeout(cleanupOverlays, 900);
+    };
+
+    const markExternalNavigation = () => {
+      document.documentElement.dataset.externalReturnCleanup = "true";
+      window.sessionStorage.setItem("external-return-cleanup", "true");
+      scheduleOverlayCleanup();
+    };
+
     const onClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
@@ -202,6 +214,10 @@ function RootComponent() {
         }
       }
 
+      if (href.startsWith("tel:") || href.includes("wa.me") || href.includes("api.whatsapp.com")) {
+        markExternalNavigation();
+      }
+
       if (!href.startsWith("#")) return;
       e.preventDefault();
       const id = href.slice(1);
@@ -216,11 +232,13 @@ function RootComponent() {
     };
     document.addEventListener("click", onClick);
 
-    // Clear any stale Radix/Sonner body locks or orphan overlays when the
-    // page is restored from bfcache (e.g. returning from WhatsApp/tel).
+    // Clear any stale body locks, orphan overlays, or injected editor badges
+    // when returning from external apps (WhatsApp/tel) or browser bfcache.
     const cleanupOverlays = () => {
       const body = document.body;
       if (!body) return;
+      document.documentElement.removeAttribute("data-external-return-cleanup");
+      window.sessionStorage.removeItem("external-return-cleanup");
       body.style.pointerEvents = "";
       body.style.overflow = "";
       body.removeAttribute("data-scroll-locked");
@@ -233,19 +251,50 @@ function RootComponent() {
           const id = el.getAttribute("aria-labelledby");
           if (id && !document.getElementById(id)) el.remove();
         });
+      // Some mobile browsers restore injected preview/editor iframes as a blank
+      // white fixed panel after returning from WhatsApp. Hide only top-level,
+      // textless light overlays so normal page UI remains untouched.
+      Array.from(body.children).forEach((node) => {
+        if (!(node instanceof HTMLElement)) return;
+        const style = window.getComputedStyle(node);
+        const rect = node.getBoundingClientRect();
+        const text = node.innerText?.trim() ?? "";
+        const isExternalBadge =
+          node.matches('[data-lovable-badge], [id*="lovable" i], [class*="lovable" i], [id*="gpteng" i], [class*="gpteng" i]') ||
+          (node instanceof HTMLIFrameElement && /lovable|gpteng/i.test(node.src || ""));
+        const isSuspiciousBlankPanel =
+          text.length === 0 &&
+          (style.position === "fixed" || style.position === "absolute") &&
+          rect.width >= 70 &&
+          rect.width <= 240 &&
+          rect.height >= 90 &&
+          rect.height <= 340 &&
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.top < window.innerHeight &&
+          rect.left < window.innerWidth &&
+          /rgb\(2[3-5]\d, 2[3-5]\d, 2[3-5]\d\)|rgba\(2[3-5]\d, 2[3-5]\d, 2[3-5]\d/.test(style.backgroundColor);
+        if (isExternalBadge || isSuspiciousBlankPanel) {
+          node.style.setProperty("display", "none", "important");
+          node.style.setProperty("pointer-events", "none", "important");
+        }
+      });
     };
     const onPageShow = (e: PageTransitionEvent) => {
-      if (e.persisted) cleanupOverlays();
+      if (e.persisted || window.sessionStorage.getItem("external-return-cleanup")) scheduleOverlayCleanup();
     };
     const onVisibility = () => {
-      if (document.visibilityState === "visible") cleanupOverlays();
+      if (document.visibilityState === "visible") scheduleOverlayCleanup();
     };
+    const onFocus = () => scheduleOverlayCleanup();
     window.addEventListener("pageshow", onPageShow);
+    window.addEventListener("focus", onFocus);
     document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
       document.removeEventListener("click", onClick);
       window.removeEventListener("pageshow", onPageShow);
+      window.removeEventListener("focus", onFocus);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
