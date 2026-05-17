@@ -661,7 +661,10 @@ function SubmitReview() {
 
 function LeadForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", interest: "רכב אוטומט דרגה B", area: "אשקלון", notes: "" });
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -761,6 +764,19 @@ function LeadForm() {
               </div>
               <h3 className="text-2xl font-black mb-2">תודה!</h3>
               <p className="text-muted-foreground">הפרטים התקבלו, חן יחזור אליך בהקדם.</p>
+            </div>
+          ) : !mounted ? (
+            <div className="grid gap-4" aria-hidden="true">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="h-[68px] rounded-xl bg-white/5 border border-white/10" />
+                <div className="h-[68px] rounded-xl bg-white/5 border border-white/10" />
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="h-[68px] rounded-xl bg-white/5 border border-white/10" />
+                <div className="h-[68px] rounded-xl bg-white/5 border border-white/10" />
+              </div>
+              <div className="h-[92px] rounded-xl bg-white/5 border border-white/10" />
+              <div className="h-[56px] rounded-xl bg-gradient-blue opacity-70" />
             </div>
           ) : (
             <form onSubmit={onSubmit} className="grid gap-4">
