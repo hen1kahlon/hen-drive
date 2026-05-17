@@ -190,7 +190,19 @@ function RootComponent() {
       const anchor = target.closest("a") as HTMLAnchorElement | null;
       if (!anchor) return;
       const href = anchor.getAttribute("href");
-      if (!href || !href.startsWith("#")) return;
+      if (!href) return;
+
+      // GA4 conversion tracking for tap-to-call / WhatsApp clicks
+      const gtag = (window as any).gtag;
+      if (typeof gtag === "function") {
+        if (href.startsWith("tel:")) {
+          gtag("event", "click_call", { event_category: "contact", value: 1 });
+        } else if (href.includes("wa.me") || href.includes("api.whatsapp.com")) {
+          gtag("event", "click_whatsapp", { event_category: "contact", value: 1 });
+        }
+      }
+
+      if (!href.startsWith("#")) return;
       e.preventDefault();
       const id = href.slice(1);
       if (!id || id === "top") {
