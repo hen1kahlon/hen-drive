@@ -168,10 +168,10 @@ function Hero() {
   const heroSrcSet = s.hero.hero_media_url ? undefined : `${heroImgMobile} 768w, ${heroImg} 1920w`;
   return (
     <section id="top" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
-      {/* glow background */}
-      <div className="absolute inset-0 -z-10 grid-bg">
-        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.25)] blur-[120px] animate-float-slow" />
-        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.28)] blur-[120px] animate-float-slow" style={{ animationDelay: "3s" }} />
+      {/* premium dark background */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.18_0.03_260)_0%,oklch(0.10_0.02_260)_45%,oklch(0.06_0.01_260)_100%)]">
+        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.10)] blur-[140px] animate-float-slow" />
+        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.62_0.20_255_/_0.10)] blur-[140px] animate-float-slow" style={{ animationDelay: "3s" }} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-4 lg:py-16 grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full">
@@ -295,13 +295,16 @@ const categories: Category[] = [
 
 function scrollToLead() {
   const el = document.getElementById("lead");
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!el) return;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  // Re-align after content-visibility expands neighboring sections and layout settles
+  setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 500);
 }
 
 function selectInterestAndScroll(interest: string) {
   window.dispatchEvent(new CustomEvent("lead:set-interest", { detail: interest }));
-  // small delay so the form state updates before scrolling
-  setTimeout(scrollToLead, 30);
+  // wait a frame so the form state updates before scrolling
+  requestAnimationFrame(() => requestAnimationFrame(scrollToLead));
 }
 
 function Categories() {
