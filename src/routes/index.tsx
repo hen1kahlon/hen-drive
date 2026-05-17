@@ -578,21 +578,21 @@ function Reviews() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition"
+              className="bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition flex flex-col"
             >
-              <div className="flex gap-0.5 mb-3">
-                {[...Array(r.rating)].map((_, j) => <Star key={j} size={15} className="fill-[oklch(0.7_0.18_255)] text-[oklch(0.7_0.18_255)]" />)}
-              </div>
-              {r.image_url && <img src={r.image_url} alt="" className="rounded-xl mb-3 w-full h-32 object-cover" />}
-              <p className="text-sm text-foreground/90 leading-relaxed mb-5 min-h-[80px]">"{r.content}"</p>
-              <div className="flex items-center gap-3 pt-4 border-t border-white/5">
-                <div className="w-10 h-10 rounded-full bg-gradient-blue grid place-items-center text-white font-black text-sm">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-blue grid place-items-center text-white font-black text-sm shrink-0">
                   {r.full_name.charAt(0)}
                 </div>
-                <div>
-                  <p className="font-bold text-sm">{r.full_name}</p>
-                  <p className="text-[11px] text-muted-foreground">דרגה {r.license_type}</p>
-                </div>
+                <p className="font-black text-base leading-tight">{r.full_name}</p>
+              </div>
+              <div className="flex gap-0.5 mb-3">
+                {[...Array(r.rating)].map((_, j) => <Star key={j} size={14} className="fill-[oklch(0.7_0.18_255)] text-[oklch(0.7_0.18_255)]" />)}
+              </div>
+              {r.image_url && <img src={r.image_url} alt="" className="rounded-xl mb-3 w-full h-32 object-cover" />}
+              <p className="text-sm text-foreground/85 leading-relaxed mb-4 min-h-[80px] font-normal">"{r.content}"</p>
+              <div className="mt-auto pt-3 border-t border-white/5">
+                <p className="text-[11px] text-muted-foreground">דרגה {r.license_type}</p>
               </div>
             </motion.div>
           ))}
