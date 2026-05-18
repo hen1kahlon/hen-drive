@@ -1747,9 +1747,11 @@ function SiteSettingsRuntime() {
 function LandingPageInner() {
   // Subscribe to settings so this tree re-renders when CMS values change.
   useSiteSettings();
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => { setHydrated(true); }, []);
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Toaster position="top-center" theme="dark" richColors />
+      {hydrated && <Toaster position="top-center" theme="dark" richColors />}
       <Nav />
       <main className="pb-24 md:pb-0">
         <Hero />
