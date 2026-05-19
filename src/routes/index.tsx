@@ -1041,6 +1041,10 @@ function FinalCTA() {
 }
 
 function Footer() {
+  const s = useSiteSettings();
+  const instagram = s.social.instagram || INSTAGRAM;
+  const facebook = s.social.facebook || FACEBOOK;
+  const tiktok = s.social.tiktok || TIKTOK;
   return (
     <footer className="border-t border-white/5 py-8 sm:py-12 px-4 pb-28 md:pb-12 relative">
       <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6 sm:gap-8 text-sm">
@@ -1059,13 +1063,13 @@ function Footer() {
         <div>
           <h4 className="font-black mb-4 text-base">עקבו אחריי</h4>
           <div className="flex gap-3">
-            <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-gradient-blue hover:border-transparent hover:text-white transition">
+            <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-gradient-blue hover:border-transparent hover:text-white transition">
               <Instagram size={18} />
             </a>
-            <a href={FACEBOOK} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-gradient-blue hover:border-transparent hover:text-white transition">
+            <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-gradient-blue hover:border-transparent hover:text-white transition">
               <Facebook size={18} />
             </a>
-            <a href={TIKTOK} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-foreground hover:text-background hover:border-transparent transition">
+            <a href={tiktok} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="w-11 h-11 rounded-full glass-strong border border-white/10 grid place-items-center hover:bg-foreground hover:text-background hover:border-transparent transition">
               <TikTokIcon className="w-[18px] h-[18px]" />
             </a>
           </div>
@@ -1529,6 +1533,9 @@ const socialPosts = [
   { platform: "tiktok" as const, caption: "מה לבדוק לפני יציאה לכביש?", likes: "892", grad: "from-[oklch(0.78_0.20_55)] to-[oklch(0.5_0.22_30)]" },
 ];
 function SocialFeed() {
+  const s = useSiteSettings();
+  const instagram = s.social.instagram || INSTAGRAM;
+  const tiktok = s.social.tiktok || TIKTOK;
   return (
     <section id="social" className="py-7 sm:py-24 px-4">
       <div className="max-w-7xl mx-auto">
@@ -1542,7 +1549,7 @@ function SocialFeed() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
           {socialPosts.map((p, i) => {
-            const href = p.platform === "tiktok" ? TIKTOK : INSTAGRAM;
+            const href = p.platform === "tiktok" ? tiktok : instagram;
             return (
               <motion.a
                 key={i}
@@ -1581,10 +1588,10 @@ function SocialFeed() {
         </div>
 
         <div className="text-center mt-10 flex flex-wrap justify-center gap-3">
-          <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-blue px-5 py-3 text-sm font-bold text-white shadow-glow hover:scale-105 transition">
+          <a href={instagram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-blue px-5 py-3 text-sm font-bold text-white shadow-glow hover:scale-105 transition">
             <Instagram size={16} /> עקבו באינסטגרם
           </a>
-          <a href={TIKTOK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3 text-sm font-bold hover:bg-white/5 transition">
+          <a href={tiktok} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3 text-sm font-bold hover:bg-white/5 transition">
             <TikTokIcon className="w-4 h-4" /> בטיקטוק
           </a>
         </div>
