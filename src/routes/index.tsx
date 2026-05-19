@@ -10,7 +10,14 @@ import {
   Accessibility, Plus, Minus, Contrast, RotateCcw, X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { SiteSettingsProvider, useSiteSettings, waUrl, DEFAULT_SETTINGS } from "@/lib/site-settings";
+import {
+  SiteSettingsProvider,
+  useSiteSettings,
+  waUrl,
+  DEFAULT_SETTINGS,
+  mergeSettings,
+  type SiteSettings,
+} from "@/lib/site-settings";
 import { getSafeImageMimeType } from "@/lib/image-upload";
 import heroImg from "@/assets/hero-driving.webp";
 import heroImgMobile from "@/assets/hero-driving-mobile.webp";
@@ -25,6 +32,18 @@ import vehScooter from "@/assets/vehicle-scooter.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    try {
+      const { data } = await supabase
+        .from("site_settings")
+        .select("data")
+        .eq("id", "main")
+        .maybeSingle();
+      return { initialSettings: data?.data ? mergeSettings(data.data) : DEFAULT_SETTINGS };
+    } catch {
+      return { initialSettings: DEFAULT_SETTINGS };
+    }
+  },
   head: () => ({
     links: [
       {
@@ -1601,8 +1620,9 @@ function SocialFeed() {
 }
 
 function LandingPage() {
+  const { initialSettings } = Route.useLoaderData() as { initialSettings: SiteSettings };
   return (
-    <SiteSettingsProvider>
+    <SiteSettingsProvider initialSettings={initialSettings}>
       <SiteSettingsRuntime />
       <LandingPageInner />
     </SiteSettingsProvider>
