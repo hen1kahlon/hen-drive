@@ -852,6 +852,12 @@ function LeadForm() {
         currency: "ILS",
         transport_type: "beacon",
       });
+      (window as any).gtag("event", "form_submit", {
+        event_category: "engagement",
+        form_id: "lead-form",
+        license_type: license_type || "unknown",
+        transport_type: "beacon",
+      });
     }
   };
 
