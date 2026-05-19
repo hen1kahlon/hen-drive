@@ -208,9 +208,19 @@ function RootComponent() {
       const gtag = (window as any).gtag;
       if (typeof gtag === "function") {
         if (href.startsWith("tel:")) {
-          gtag("event", "click_call", { event_category: "contact", value: 1 });
+          gtag("event", "click_call", {
+            event_category: "contact",
+            event_label: href.replace("tel:", ""),
+            value: 1,
+            transport_type: "beacon",
+          });
         } else if (href.includes("wa.me") || href.includes("api.whatsapp.com")) {
-          gtag("event", "click_whatsapp", { event_category: "contact", value: 1 });
+          gtag("event", "click_whatsapp", {
+            event_category: "contact",
+            event_label: href,
+            value: 1,
+            transport_type: "beacon",
+          });
         }
       }
 
