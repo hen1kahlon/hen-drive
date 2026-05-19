@@ -126,8 +126,14 @@ export function mergeSettings(partial: unknown): SiteSettings {
 
 const Ctx = createContext<SiteSettings>(DEFAULT_SETTINGS);
 
-export function SiteSettingsProvider({ children }: { children: ReactNode }) {
-  const [s, setS] = useState<SiteSettings>(DEFAULT_SETTINGS);
+export function SiteSettingsProvider({
+  children,
+  initialSettings,
+}: {
+  children: ReactNode;
+  initialSettings?: SiteSettings;
+}) {
+  const [s, setS] = useState<SiteSettings>(initialSettings ?? DEFAULT_SETTINGS);
   useEffect(() => {
     supabase.from("site_settings").select("data").eq("id", "main").maybeSingle()
       .then(({ data }) => { if (data?.data) setS(mergeSettings(data.data)); });
