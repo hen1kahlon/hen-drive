@@ -829,6 +829,9 @@ function LeadForm() {
       (window as any).gtag("event", "generate_lead", {
         event_category: "engagement",
         license_type: license_type || "unknown",
+        value: 1,
+        currency: "ILS",
+        transport_type: "beacon",
       });
     }
   };
