@@ -1533,6 +1533,9 @@ const socialPosts = [
   { platform: "tiktok" as const, caption: "מה לבדוק לפני יציאה לכביש?", likes: "892", grad: "from-[oklch(0.78_0.20_55)] to-[oklch(0.5_0.22_30)]" },
 ];
 function SocialFeed() {
+  const s = useSiteSettings();
+  const instagram = s.social.instagram || INSTAGRAM;
+  const tiktok = s.social.tiktok || TIKTOK;
   return (
     <section id="social" className="py-7 sm:py-24 px-4">
       <div className="max-w-7xl mx-auto">
@@ -1546,7 +1549,7 @@ function SocialFeed() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
           {socialPosts.map((p, i) => {
-            const href = p.platform === "tiktok" ? TIKTOK : INSTAGRAM;
+            const href = p.platform === "tiktok" ? tiktok : instagram;
             return (
               <motion.a
                 key={i}
@@ -1585,10 +1588,10 @@ function SocialFeed() {
         </div>
 
         <div className="text-center mt-10 flex flex-wrap justify-center gap-3">
-          <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-blue px-5 py-3 text-sm font-bold text-white shadow-glow hover:scale-105 transition">
+          <a href={instagram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-blue px-5 py-3 text-sm font-bold text-white shadow-glow hover:scale-105 transition">
             <Instagram size={16} /> עקבו באינסטגרם
           </a>
-          <a href={TIKTOK} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3 text-sm font-bold hover:bg-white/5 transition">
+          <a href={tiktok} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3 text-sm font-bold hover:bg-white/5 transition">
             <TikTokIcon className="w-4 h-4" /> בטיקטוק
           </a>
         </div>
