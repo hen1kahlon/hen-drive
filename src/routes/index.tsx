@@ -10,8 +10,14 @@ import {
   Accessibility, Plus, Minus, Contrast, RotateCcw, X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { SiteSettingsProvider, useSiteSettings, waUrl, DEFAULT_SETTINGS } from "@/lib/site-settings";
-import { mergeSettings, type SiteSettings } from "@/lib/site-settings";
+import {
+  SiteSettingsProvider,
+  useSiteSettings,
+  waUrl,
+  DEFAULT_SETTINGS,
+  mergeSettings,
+  type SiteSettings,
+} from "@/lib/site-settings";
 import { getSafeImageMimeType } from "@/lib/image-upload";
 import heroImg from "@/assets/hero-driving.webp";
 import heroImgMobile from "@/assets/hero-driving-mobile.webp";
