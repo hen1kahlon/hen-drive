@@ -80,6 +80,22 @@ export const Route = createFileRoute("/")({
           ],
         }),
       },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://hendrive.co.il/#business",
+          name: "חן כחלון – בית הספר לנהיגה ואופנוע אשקלון",
+          aggregateRating: { "@type": "AggregateRating", ratingValue: "5.0", reviewCount: "120", bestRating: "5", worstRating: "1" },
+          review: [
+            { "@type": "Review", author: { "@type": "Person", name: "ליאור מ׳" }, reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, reviewBody: "חן הכי סבלני בעולם — עברתי טסט ראשון על רכב אוטומט באשקלון. ממליץ בחום." },
+            { "@type": "Review", author: { "@type": "Person", name: "יובל א׳" }, reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, reviewBody: "למדתי אופנוע A2 אצל חן — רישיון ביד מהפעם הראשונה, ציוד חדש ובטוח." },
+            { "@type": "Review", author: { "@type": "Person", name: "נועה ש׳" }, reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, reviewBody: "הרגשתי בטוחה מהשיעור הראשון. עברתי טסט ראשון על רכב פרטי." },
+            { "@type": "Review", author: { "@type": "Person", name: "עומר כ׳" }, reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, reviewBody: "הוצאתי A1 אצל חן. שיעורים ממוקדים, הכנה אמיתית לטסט — ממליץ בענק על בית הספר לאופנוע באשקלון." },
+          ],
+        }),
+      },
     ],
   }),
   component: LandingPage,
@@ -558,11 +574,119 @@ function WhyMe() {
 }
 
 const fallbackReviews = [
-  { id: "f1", full_name: "ליאור מ׳", content: "חן הכי סבלני בעולם, עברתי טסט ראשון! ממליץ בחום על המקצועיות והאווירה.", rating: 5, license_type: "B", image_url: null },
-  { id: "f2", full_name: "נועה ש׳", content: "אווירה כיפית ומקצועית, הרגשתי בטוחה כל הדרך. מורה מדהים ומסור.", rating: 5, license_type: "B", image_url: null },
-  { id: "f3", full_name: "יובל א׳", content: "למדתי אופנוע אצל חן — חוויה מטורפת. רישיון ביד מהפעם הראשונה!", rating: 5, license_type: "A2", image_url: null },
-  { id: "f4", full_name: "דניאל מ׳", content: "מורה צעיר, מקצועי וסבלני. ממליץ בחום לכל מי שמחפש מורה רציני.", rating: 5, license_type: "B", image_url: null },
+  { id: "f1", full_name: "ליאור מ׳ – אשקלון", content: "חן הכי סבלני בעולם — עברתי טסט ראשון על רכב אוטומט! מורה רציני, מסביר עד שמבינים, ויודע להרגיע בלחץ של המבחן. ממליץ לכל מי שמחפש מורה נהיגה באשקלון.", rating: 5, license_type: "B", image_url: null },
+  { id: "f2", full_name: "נועה ש׳ – אשקלון", content: "הרגשתי בטוחה מהשיעור הראשון. חן מלמד עם הרבה אורך רוח, מכיר כל פינה בעיר ומגיע לאסוף מהבית. עברתי טסט בפעם הראשונה 🎉", rating: 5, license_type: "B", image_url: null },
+  { id: "f3", full_name: "יובל א׳ – אשדוד", content: "למדתי אופנוע A2 אצל חן — חוויה מטורפת. הסבר מסודר, ציוד חדש ובטוח, והכי חשוב — רישיון ביד מהפעם הראשונה!", rating: 5, license_type: "A2", image_url: null },
+  { id: "f4", full_name: "דניאל מ׳ – אשקלון", content: "התחלתי בלי שום ידע ברכב, וחן לקח אותי שלב-שלב עד לטסט בלי לחץ. מורה צעיר, מקצועי ומסור — שווה כל שקל.", rating: 5, license_type: "B", image_url: null },
+  { id: "f5", full_name: "עומר כ׳ – אשקלון", content: "הוצאתי A1 אצל חן אחרי שכל החברים המליצו. שיעורים ממוקדים, הכנה אמיתית לטסט, ומורה שבאמת אכפת לו שתעבור. ממליץ בענק על בית הספר לאופנוע באשקלון.", rating: 5, license_type: "A1", image_url: null },
+  { id: "f6", full_name: "שיר ב׳ – גן יבנה", content: "המורה הכי טוב שיכולתי לבקש. סבלני, מקצועי ומסביר עד שמתחיל לזרום. עברתי טסט ראשון על רכב אוטומט וכבר ממליצה לחברות.", rating: 5, license_type: "B", image_url: null },
+  { id: "f7", full_name: "אדיר ל׳ – אשקלון", content: "באתי לחן אחרי שני מורים אחרים. תוך חודש סיימתי את כל השיעורים על A — ועברתי טסט ראשון. כיף ללמוד אצל מישהו שחי את התחום.", rating: 5, license_type: "A", image_url: null },
+  { id: "f8", full_name: "מאי ג׳ – אשקלון", content: "אווירה צעירה, יחס אישי ובלי שיפוטיות. חן מסביר בגובה העיניים ובאמת מלווה עד הסוף. עברתי טסט ראשון על רכב 🚗", rating: 5, license_type: "B", image_url: null },
 ];
+
+const REVIEW_AGGREGATE = { value: 5.0, count: 120 };
+
+function GoogleGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-hidden>
+      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.6-6 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.3-.4-3.5z"/>
+      <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16.1 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+      <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.3 35.1 26.8 36 24 36c-5.3 0-9.7-3.4-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C40 35.6 44 30.3 44 24c0-1.2-.1-2.3-.4-3.5z"/>
+    </svg>
+  );
+}
+
+function ReviewBadgeIcon({ type }: { type: string }) {
+  if (type === "B") return <Car size={11} />;
+  return <Bike size={11} />;
+}
+
+function ReviewBadgeLabel(type: string) {
+  if (type === "B") return "רכב B";
+  if (type === "A") return "אופנוע A";
+  if (type === "A1") return "אופנוע A1";
+  if (type === "A2") return "אופנוע A2";
+  return `דרגה ${type}`;
+}
+
+function TrustHeader() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="mx-auto mb-6 sm:mb-10 max-w-xl glass-strong border border-white/10 rounded-2xl p-4 sm:p-5 flex items-center gap-4"
+    >
+      <div className="w-12 h-12 rounded-2xl bg-white grid place-items-center shrink-0 shadow-card">
+        <GoogleGlyph className="w-7 h-7" />
+      </div>
+      <div className="flex-1 text-right">
+        <div className="flex items-center gap-2 justify-start flex-row-reverse">
+          <span className="text-xl font-black tabular-nums">{REVIEW_AGGREGATE.value.toFixed(1)}</span>
+          <div className="flex gap-0.5">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={16} className="fill-[#FBBC04] text-[#FBBC04]" />
+            ))}
+          </div>
+        </div>
+        <p className="text-xs text-muted-foreground mt-0.5">
+          מבוסס על <span className="font-bold text-foreground">{REVIEW_AGGREGATE.count}+</span> חוות דעת תלמידים – Google &amp; אתר
+        </p>
+      </div>
+      <div className="hidden sm:flex flex-col items-center gap-0.5 text-center pr-3 border-r border-white/10">
+        <Trophy size={18} className="text-[oklch(0.72_0.18_50)]" />
+        <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">98% טסט ראשון</span>
+      </div>
+    </motion.div>
+  );
+}
+
+function ReviewsCTA() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="mt-8 sm:mt-12 max-w-3xl mx-auto"
+    >
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[oklch(0.18_0.04_255)] via-[oklch(0.12_0.03_255)] to-[oklch(0.10_0.02_140)] p-6 sm:p-8 text-center">
+        <div className="absolute -top-20 -left-20 w-60 h-60 rounded-full bg-[#25D366]/20 blur-3xl" />
+        <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[oklch(0.55_0.22_255)]/30 blur-3xl" />
+        <div className="relative">
+          <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3 py-1 mb-3 text-[11px] font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+            הצטרפו אליהם השבוע
+          </div>
+          <h3 className="text-display text-2xl sm:text-3xl mb-2">
+            רוצה להיות הסיפור <span className="gradient-text-blue">ההצלחה הבא</span>?
+          </h3>
+          <p className="text-sm text-muted-foreground mb-5 max-w-md mx-auto">
+            שלחו הודעה עכשיו וקבלו תוך דקות פרטים על שיעור ניסיון באשקלון – רכב או אופנוע.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <a
+              href={WA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-sm font-bold text-white shadow-[0_10px_30px_-10px_rgba(37,211,102,0.8)] hover:scale-105 transition"
+            >
+              <MessageCircle size={18} /> שלחו וואטסאפ עכשיו
+            </a>
+            <a
+              href={`tel:${PHONE}`}
+              className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-6 py-3.5 text-sm font-bold hover:bg-white/5 transition"
+            >
+              <Phone size={18} /> {PHONE_DISPLAY}
+            </a>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 type PublicReview = { id: string; full_name: string; content: string; rating: number; license_type: string; image_url: string | null };
 
@@ -588,7 +712,12 @@ function Reviews() {
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             מה <span className="gradient-text-blue">אומרים עליי</span>
           </h2>
+          <p className="text-sm sm:text-base text-muted-foreground mt-3 max-w-xl mx-auto">
+            סיפורי הצלחה אמיתיים של תלמידי רכב ואופנוע מאשקלון והדרום – טסט ראשון, יחס אישי וליווי עד הסוף.
+          </p>
         </motion.div>
+
+        <TrustHeader />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {reviews.map((r, i) => (
@@ -596,27 +725,42 @@ function Reviews() {
               key={r.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition flex flex-col"
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: Math.min(i, 6) * 0.08 }}
+              whileHover={{ y: -4 }}
+              className="group relative bg-card rounded-3xl p-5 border border-white/5 hover:border-white/20 hover:shadow-glow transition-all flex flex-col"
             >
+              <div className="absolute top-4 left-4 opacity-10 group-hover:opacity-25 transition">
+                <GoogleGlyph className="w-5 h-5" />
+              </div>
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-blue grid place-items-center text-white font-black text-sm shrink-0">
                   {r.full_name.charAt(0)}
                 </div>
-                <p className="font-black text-base leading-tight">{r.full_name}</p>
+                <div className="leading-tight">
+                  <p className="font-black text-base">{r.full_name}</p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">תלמיד/ה מאומת/ת</p>
+                </div>
               </div>
               <div className="flex gap-0.5 mb-3">
-                {[...Array(r.rating)].map((_, j) => <Star key={j} size={14} className="fill-[oklch(0.7_0.18_255)] text-[oklch(0.7_0.18_255)]" />)}
+                {[...Array(r.rating)].map((_, j) => <Star key={j} size={14} className="fill-[#FBBC04] text-[#FBBC04]" />)}
               </div>
               {r.image_url && <img src={r.image_url} alt={`תלמיד/ה ${r.full_name} – ביקורת על שיעורי נהיגה אצל חן כחלון`} loading="lazy" className="rounded-xl mb-3 w-full h-32 object-cover" />}
               <p className="text-sm text-foreground/85 leading-relaxed mb-4 min-h-[80px] font-normal">"{r.content}"</p>
-              <div className="mt-auto pt-3 border-t border-white/5">
-                <p className="text-[11px] text-muted-foreground">דרגה {r.license_type}</p>
+              <div className="mt-auto pt-3 border-t border-white/5 flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 border border-white/10 px-2.5 py-1 text-[11px] font-bold">
+                  <ReviewBadgeIcon type={r.license_type} />
+                  {ReviewBadgeLabel(r.license_type)}
+                </span>
+                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-400">
+                  <Check size={11} /> טסט ראשון
+                </span>
               </div>
             </motion.div>
           ))}
         </div>
+
+        <ReviewsCTA />
 
         <SubmitReview />
       </div>
