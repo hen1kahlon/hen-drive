@@ -17,6 +17,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CarLessonsAshkelonRouteImport } from './routes/car-lessons-ashkelon'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as A1MotorcycleLessonsRouteImport } from './routes/a1-motorcycle-lessons'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
@@ -73,6 +74,11 @@ const AuthRoute = AuthRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const A1MotorcycleLessonsRoute = A1MotorcycleLessonsRouteImport.update({
+  id: '/a1-motorcycle-lessons',
+  path: '/a1-motorcycle-lessons',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -156,6 +162,7 @@ const LovableEmailQueueProcessRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/a1-motorcycle-lessons': typeof A1MotorcycleLessonsRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/car-lessons-ashkelon': typeof CarLessonsAshkelonRoute
@@ -181,6 +188,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/a1-motorcycle-lessons': typeof A1MotorcycleLessonsRoute
   '/auth': typeof AuthRoute
   '/car-lessons-ashkelon': typeof CarLessonsAshkelonRoute
   '/dashboard': typeof DashboardRoute
@@ -206,6 +214,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/a1-motorcycle-lessons': typeof A1MotorcycleLessonsRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/car-lessons-ashkelon': typeof CarLessonsAshkelonRoute
@@ -233,6 +242,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/a1-motorcycle-lessons'
     | '/admin'
     | '/auth'
     | '/car-lessons-ashkelon'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/a1-motorcycle-lessons'
     | '/auth'
     | '/car-lessons-ashkelon'
     | '/dashboard'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/a1-motorcycle-lessons'
     | '/admin'
     | '/auth'
     | '/car-lessons-ashkelon'
@@ -308,6 +320,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  A1MotorcycleLessonsRoute: typeof A1MotorcycleLessonsRoute
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   CarLessonsAshkelonRoute: typeof CarLessonsAshkelonRoute
@@ -380,6 +393,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/a1-motorcycle-lessons': {
+      id: '/a1-motorcycle-lessons'
+      path: '/a1-motorcycle-lessons'
+      fullPath: '/a1-motorcycle-lessons'
+      preLoaderRoute: typeof A1MotorcycleLessonsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -516,6 +536,7 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  A1MotorcycleLessonsRoute: A1MotorcycleLessonsRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   CarLessonsAshkelonRoute: CarLessonsAshkelonRoute,
