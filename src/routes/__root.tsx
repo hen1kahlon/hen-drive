@@ -74,7 +74,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => {
-    const GA4_ID = "G-GBPLC0BYXD";
+    const GA4_ID = "G-PPTGL967ZY";
     const SITE_VERIFICATION = (import.meta.env.VITE_GOOGLE_SITE_VERIFICATION as string | undefined)?.trim();
 
     const meta: Array<Record<string, string>> = [
