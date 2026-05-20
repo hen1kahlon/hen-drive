@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as MotorcycleLessonsAshkelonRouteImport } from './routes/motorcycle-lessons-ashkelon'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DrivingInstructorAshkelonRouteImport } from './routes/driving-instructor-ashkelon'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -36,6 +37,12 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MotorcycleLessonsAshkelonRoute =
+  MotorcycleLessonsAshkelonRouteImport.update({
+    id: '/motorcycle-lessons-ashkelon',
+    path: '/motorcycle-lessons-ashkelon',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -148,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/driving-instructor-ashkelon': typeof DrivingInstructorAshkelonRoute
   '/login': typeof LoginRoute
+  '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
@@ -170,6 +178,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/driving-instructor-ashkelon': typeof DrivingInstructorAshkelonRoute
   '/login': typeof LoginRoute
+  '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
@@ -194,6 +203,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/driving-instructor-ashkelon': typeof DrivingInstructorAshkelonRoute
   '/login': typeof LoginRoute
+  '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/driving-instructor-ashkelon'
     | '/login'
+    | '/motorcycle-lessons-ashkelon'
     | '/sitemap.xml'
     | '/admin/errors'
     | '/admin/faqs'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/driving-instructor-ashkelon'
     | '/login'
+    | '/motorcycle-lessons-ashkelon'
     | '/sitemap.xml'
     | '/admin/errors'
     | '/admin/faqs'
@@ -264,6 +276,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/driving-instructor-ashkelon'
     | '/login'
+    | '/motorcycle-lessons-ashkelon'
     | '/sitemap.xml'
     | '/admin/errors'
     | '/admin/faqs'
@@ -288,6 +301,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   DrivingInstructorAshkelonRoute: typeof DrivingInstructorAshkelonRoute
   LoginRoute: typeof LoginRoute
+  MotorcycleLessonsAshkelonRoute: typeof MotorcycleLessonsAshkelonRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
   ApiPublicLeadRoute: typeof ApiPublicLeadRoute
@@ -304,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motorcycle-lessons-ashkelon': {
+      id: '/motorcycle-lessons-ashkelon'
+      path: '/motorcycle-lessons-ashkelon'
+      fullPath: '/motorcycle-lessons-ashkelon'
+      preLoaderRoute: typeof MotorcycleLessonsAshkelonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -480,6 +501,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   DrivingInstructorAshkelonRoute: DrivingInstructorAshkelonRoute,
   LoginRoute: LoginRoute,
+  MotorcycleLessonsAshkelonRoute: MotorcycleLessonsAshkelonRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
   ApiPublicLeadRoute: ApiPublicLeadRoute,
@@ -491,3 +513,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
