@@ -671,7 +671,6 @@ function ReviewsCTA() {
     </motion.div>
   );
 }
-];
 
 type PublicReview = { id: string; full_name: string; content: string; rating: number; license_type: string; image_url: string | null };
 
