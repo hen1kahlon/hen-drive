@@ -136,7 +136,7 @@ export const Route = createFileRoute('/api/public/lead')({
 </td></tr>
 </table>
 </body></html>`
-        const text = `🚗 ליד חדש מהאתר - Hendrive\n\n👤 שם: ${leadInput.full_name}\n📞 טלפון: ${leadInput.phone}\n💬 וואטסאפ: https://wa.me/${waNumber}\n🚘 סוג רישיון: ${leadInput.license_type || 'לא צוין'}\n📍 אזור: ${leadInput.area || 'לא צוין'}\n📝 פרטים: ${leadInput.notes || 'אין פירוט נוסף'}\n🕒 זמן שליחה: ${formatTime(submittedAt)}`
+        const text = `🚗 ליד חדש מהאתר - Hendrive\n\n👤 שם: ${leadInput.full_name}\n📞 טלפון: ${leadInput.phone}\n💬 וואטסאפ: https://wa.me/${waNumber}\n🚘 סוג רישיון: ${leadInput.license_type || 'לא צוין'}\n📍 אזור: ${leadInput.area || 'לא צוין'}\n📝 פרטים: ${leadInput.notes || 'אין פירוט נוסף'}\n🕒 זמן שליחה: ${formatTime(submittedAt)}\n\n📩 מייל זה נשלח אוטומטית ממערכת Hendrive.\nאין להשיב למייל זה.\nליצירת קשר מהיר ניתן לחייג או לשלוח WhatsApp דרך הכפתורים במייל.`
 
         await supabase.from('email_send_log').insert({
           message_id: messageId,
