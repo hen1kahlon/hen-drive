@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
@@ -458,6 +458,49 @@ function Categories() {
                   אני מעוניין/ת בפרטים
                 </button>
               </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const seoLandingLinks = [
+  { to: "/driving-instructor-ashkelon", title: "מורה נהיגה באשקלון", desc: "רכב ואופנוע עם חן כחלון" },
+  { to: "/motorcycle-lessons-ashkelon", title: "שיעורי אופנוע באשקלון", desc: "A, A1, A2 ידני ואוטומט" },
+  { to: "/car-lessons-ashkelon", title: "שיעורי רכב באשקלון", desc: "רכב אוטומט חדש והכנה לטסט" },
+  { to: "/a1-motorcycle-lessons", title: "אופנוע A1", desc: "עד 500 סמ״ק, מגיל 18" },
+  { to: "/a2-motorcycle-lessons", title: "אופנוע A2", desc: "רישיון אופנוע ראשון מגיל 16" },
+  { to: "/first-test-preparation-ashkelon", title: "הכנה לטסט ראשון", desc: "מסלולי טסט אמיתיים באשקלון" },
+] as const;
+
+function SeoLandingLinksSection() {
+  return (
+    <section id="seo-pages" className="py-7 sm:py-20 px-4">
+      <div className="max-w-7xl mx-auto">
+        <motion.div {...fadeUp} className="text-center mb-5 sm:mb-10">
+          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">מסלולי לימוד באשקלון</p>
+          <h2 className="text-display text-4xl sm:text-5xl">
+            בחרו דף מתאים <span className="gradient-text-blue">והתחילו עכשיו</span>
+          </h2>
+          <p className="text-sm text-muted-foreground mt-3 max-w-xl mx-auto">
+            דפי מידע מלאים עם שאלות נפוצות, המלצות תלמידים וכפתורי וואטסאפ לכל מסלול.
+          </p>
+        </motion.div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {seoLandingLinks.map((item, i) => (
+            <motion.div key={item.to} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.04 }}>
+              <Link to={item.to} className="group block rounded-2xl border border-white/10 bg-card p-5 hover:-translate-y-1 hover:border-white/20 transition-all shadow-card">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-blue text-white shadow-glow">
+                  <ArrowLeft size={18} />
+                </div>
+                <h3 className="text-lg font-black mb-1">{item.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">{item.desc}</p>
+                <span className="inline-flex items-center gap-2 text-xs font-bold text-accent">
+                  פתחו דף מלא <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" />
+                </span>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -1798,10 +1841,12 @@ function ExitIntent() {
   const triggered = useRef(false);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const forceExitIntent = params.get("showExitIntent") === "1";
     // Suppress for 7 days after dismiss/submit
     try {
       const ts = Number(localStorage.getItem("exit-intent:dismissed") ?? "0");
-      if (Date.now() - ts < 7 * 24 * 60 * 60 * 1000) return;
+      if (!forceExitIntent && Date.now() - ts < 7 * 24 * 60 * 60 * 1000) return;
     } catch { /* ignore */ }
 
     const trigger = () => {
@@ -1815,6 +1860,11 @@ function ExitIntent() {
         }
       } catch { /* ignore */ }
     };
+
+    if (forceExitIntent) {
+      const t = window.setTimeout(trigger, 350);
+      return () => window.clearTimeout(t);
+    }
 
     const isMobile = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
 
@@ -2154,6 +2204,7 @@ function LandingPageInner() {
       <main className="pb-24 md:pb-0">
         <Hero />
         <Categories />
+        <SeoLandingLinksSection />
         <LicenseMatcher />
         <About />
         <WhyMe />
