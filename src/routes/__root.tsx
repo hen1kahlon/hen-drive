@@ -75,14 +75,16 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => {
     const GA4_ID = "G-PPTGL967ZY";
-    const SITE_VERIFICATION = (import.meta.env.VITE_GOOGLE_SITE_VERIFICATION as string | undefined)?.trim();
+    const SITE_VERIFICATION =
+      (import.meta.env.VITE_GOOGLE_SITE_VERIFICATION as string | undefined)?.trim() ||
+      "KASmw16sVNguMFCtBDmK5quyVvk5nxdGTChHOtaTd0E";
 
     const meta: Array<Record<string, string>> = [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "מורה נהיגה באשקלון וביבנה | רכב ואופנוע – חן כחלון" },
-      { name: "description", content: "מורה נהיגה מומלץ באשקלון וביבנה – שיעורי נהיגה לרכב אוטומט ואופנוע (A / A1 / A2), הכנה לטסט וטסט ראשון, ליווי אישי עד ההצלחה. חייגו 050-3250150" },
-      { name: "keywords", content: "מורה נהיגה אשקלון, מורה נהיגה יבנה, מורה נהיגה לאופנוע, מורה נהיגה מומלץ, שיעורי נהיגה, הכנה לטסט, טסט ראשון, לימוד נהיגה אופנוע, לימוד נהיגה אשקלון, לימוד נהיגה יבנה, מורה אופנוע אשקלון, רישיון נהיגה אשקלון, חן כחלון" },
+      { name: "description", content: "מורה נהיגה מומלץ באשקלון, יבנה, ראשון לציון, חולון ובת ים – שיעורי נהיגה לרכב אוטומט ואופנוע (A / A1 / A2), הכנה לטסט וליווי אישי עד ההצלחה. חייגו 050-3250150" },
+      { name: "keywords", content: "מורה נהיגה אשקלון, מורה נהיגה יבנה, מורה נהיגה ראשון לציון, מורה נהיגה חולון, מורה נהיגה בת ים, מורה נהיגה לאופנוע, מורה נהיגה מומלץ, שיעורי נהיגה, הכנה לטסט, טסט ראשון, לימוד נהיגה אופנוע, לימוד נהיגה אשקלון, לימוד נהיגה יבנה, מורה אופנוע אשקלון, רישיון נהיגה אשקלון, חן כחלון" },
       { name: "author", content: "חן כחלון" },
       { name: "robots", content: "index, follow, max-image-preview:large" },
       { name: "geo.region", content: "IL" },
@@ -126,6 +128,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             { "@type": "City", name: "אשדוד" },
             { "@type": "City", name: "קרית מלאכי" },
             { "@type": "City", name: "גן יבנה" },
+            { "@type": "City", name: "ראשון לציון" },
+            { "@type": "City", name: "חולון" },
+            { "@type": "City", name: "בת ים" },
+            { "@type": "City", name: "רחובות" },
+            { "@type": "City", name: "נס ציונה" },
           ],
           address: { "@type": "PostalAddress", addressLocality: "אשקלון", addressRegion: "דרום", addressCountry: "IL" },
           geo: { "@type": "GeoCoordinates", latitude: 31.6688, longitude: 34.5743 },
@@ -143,10 +150,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             "@type": "OfferCatalog",
             name: "שיעורי נהיגה",
             itemListElement: [
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "שיעורי נהיגה רכב אוטומט (דרגה B)", areaServed: ["אשקלון", "יבנה"] } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "לימוד נהיגה אופנוע A", areaServed: ["אשקלון", "יבנה"] } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "לימוד נהיגה אופנוע A1 / A2 ידני ואוטומט", areaServed: ["אשקלון", "יבנה"] } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "הכנה לטסט וטסט ראשון", areaServed: ["אשקלון", "יבנה"] } },
+              { "@type": "Offer", itemOffered: { "@type": "Service", name: "שיעורי נהיגה רכב אוטומט (דרגה B)", areaServed: ["אשקלון", "יבנה", "ראשון לציון", "חולון", "בת ים"] } },
+              { "@type": "Offer", itemOffered: { "@type": "Service", name: "לימוד נהיגה אופנוע A", areaServed: ["אשקלון", "יבנה", "ראשון לציון", "חולון", "בת ים"] } },
+              { "@type": "Offer", itemOffered: { "@type": "Service", name: "לימוד נהיגה אופנוע A1 / A2 ידני ואוטומט", areaServed: ["אשקלון", "יבנה", "ראשון לציון", "חולון", "בת ים"] } },
+              { "@type": "Offer", itemOffered: { "@type": "Service", name: "הכנה לטסט וטסט ראשון", areaServed: ["אשקלון", "יבנה", "ראשון לציון", "חולון", "בת ים"] } },
             ],
           },
           aggregateRating: { "@type": "AggregateRating", ratingValue: "5", reviewCount: "120" },
@@ -161,7 +168,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           jobTitle: "מורה נהיגה לרכב ואופנוע",
           worksFor: { "@id": "https://hendrive.co.il/#business" },
           telephone: "+972503250150",
-          areaServed: ["אשקלון", "יבנה"],
+          areaServed: ["אשקלון", "יבנה", "ראשון לציון", "חולון", "בת ים"],
         }),
       },
       {
