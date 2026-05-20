@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as MotorcycleLessonsAshkelonRouteImport } from './routes/motorcycle-lessons-ashkelon'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as FirstTestPreparationAshkelonRouteImport } from './routes/first-test-preparation-ashkelon'
 import { Route as DrivingInstructorAshkelonRouteImport } from './routes/driving-instructor-ashkelon'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CarLessonsAshkelonRouteImport } from './routes/car-lessons-ashkelon'
@@ -51,6 +52,12 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FirstTestPreparationAshkelonRoute =
+  FirstTestPreparationAshkelonRouteImport.update({
+    id: '/first-test-preparation-ashkelon',
+    path: '/first-test-preparation-ashkelon',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DrivingInstructorAshkelonRoute =
   DrivingInstructorAshkelonRouteImport.update({
     id: '/driving-instructor-ashkelon',
@@ -175,6 +182,7 @@ export interface FileRoutesByFullPath {
   '/car-lessons-ashkelon': typeof CarLessonsAshkelonRoute
   '/dashboard': typeof DashboardRoute
   '/driving-instructor-ashkelon': typeof DrivingInstructorAshkelonRoute
+  '/first-test-preparation-ashkelon': typeof FirstTestPreparationAshkelonRoute
   '/login': typeof LoginRoute
   '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -201,6 +209,7 @@ export interface FileRoutesByTo {
   '/car-lessons-ashkelon': typeof CarLessonsAshkelonRoute
   '/dashboard': typeof DashboardRoute
   '/driving-instructor-ashkelon': typeof DrivingInstructorAshkelonRoute
+  '/first-test-preparation-ashkelon': typeof FirstTestPreparationAshkelonRoute
   '/login': typeof LoginRoute
   '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -229,6 +238,7 @@ export interface FileRoutesById {
   '/car-lessons-ashkelon': typeof CarLessonsAshkelonRoute
   '/dashboard': typeof DashboardRoute
   '/driving-instructor-ashkelon': typeof DrivingInstructorAshkelonRoute
+  '/first-test-preparation-ashkelon': typeof FirstTestPreparationAshkelonRoute
   '/login': typeof LoginRoute
   '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/car-lessons-ashkelon'
     | '/dashboard'
     | '/driving-instructor-ashkelon'
+    | '/first-test-preparation-ashkelon'
     | '/login'
     | '/motorcycle-lessons-ashkelon'
     | '/sitemap.xml'
@@ -284,6 +295,7 @@ export interface FileRouteTypes {
     | '/car-lessons-ashkelon'
     | '/dashboard'
     | '/driving-instructor-ashkelon'
+    | '/first-test-preparation-ashkelon'
     | '/login'
     | '/motorcycle-lessons-ashkelon'
     | '/sitemap.xml'
@@ -311,6 +323,7 @@ export interface FileRouteTypes {
     | '/car-lessons-ashkelon'
     | '/dashboard'
     | '/driving-instructor-ashkelon'
+    | '/first-test-preparation-ashkelon'
     | '/login'
     | '/motorcycle-lessons-ashkelon'
     | '/sitemap.xml'
@@ -339,6 +352,7 @@ export interface RootRouteChildren {
   CarLessonsAshkelonRoute: typeof CarLessonsAshkelonRoute
   DashboardRoute: typeof DashboardRoute
   DrivingInstructorAshkelonRoute: typeof DrivingInstructorAshkelonRoute
+  FirstTestPreparationAshkelonRoute: typeof FirstTestPreparationAshkelonRoute
   LoginRoute: typeof LoginRoute
   MotorcycleLessonsAshkelonRoute: typeof MotorcycleLessonsAshkelonRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -371,6 +385,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/first-test-preparation-ashkelon': {
+      id: '/first-test-preparation-ashkelon'
+      path: '/first-test-preparation-ashkelon'
+      fullPath: '/first-test-preparation-ashkelon'
+      preLoaderRoute: typeof FirstTestPreparationAshkelonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/driving-instructor-ashkelon': {
@@ -563,6 +584,7 @@ const rootRouteChildren: RootRouteChildren = {
   CarLessonsAshkelonRoute: CarLessonsAshkelonRoute,
   DashboardRoute: DashboardRoute,
   DrivingInstructorAshkelonRoute: DrivingInstructorAshkelonRoute,
+  FirstTestPreparationAshkelonRoute: FirstTestPreparationAshkelonRoute,
   LoginRoute: LoginRoute,
   MotorcycleLessonsAshkelonRoute: MotorcycleLessonsAshkelonRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
