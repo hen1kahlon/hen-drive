@@ -199,7 +199,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" } as any,
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" },
       { rel: "dns-prefetch", href: "https://mtsxyebkjvcitpdsasem.supabase.co" },
       { rel: "preconnect", href: "https://mtsxyebkjvcitpdsasem.supabase.co", crossOrigin: "anonymous" } as any,
       ],
