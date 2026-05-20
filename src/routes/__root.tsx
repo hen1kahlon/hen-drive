@@ -150,10 +150,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             "@type": "OfferCatalog",
             name: "שיעורי נהיגה",
             itemListElement: [
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "שיעורי נהיגה רכב אוטומט (דרגה B)", areaServed: ["אשקלון", "יבנה"] } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "לימוד נהיגה אופנוע A", areaServed: ["אשקלון", "יבנה"] } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "לימוד נהיגה אופנוע A1 / A2 ידני ואוטומט", areaServed: ["אשקלון", "יבנה"] } },
-              { "@type": "Offer", itemOffered: { "@type": "Service", name: "הכנה לטסט וטסט ראשון", areaServed: ["אשקלון", "יבנה"] } },
+              { "@type": "Offer", itemOffered: { "@type": "Service", name: "שיעורי נהיגה רכב אוטומט (דרגה B)", areaServed: ["אשקלון", "יבנה", "ראשון לציון", "חולון", "בת ים"] } },
+              { "@type": "Offer", itemOffered: { "@type": "Service", name: "לימוד נהיגה אופנוע A", areaServed: ["אשקלון", "יבנה", "ראשון לציון", "חולון", "בת ים"] } },
+              { "@type": "Offer", itemOffered: { "@type": "Service", name: "לימוד נהיגה אופנוע A1 / A2 ידני ואוטומט", areaServed: ["אשקלון", "יבנה", "ראשון לציון", "חולון", "בת ים"] } },
+              { "@type": "Offer", itemOffered: { "@type": "Service", name: "הכנה לטסט וטסט ראשון", areaServed: ["אשקלון", "יבנה", "ראשון לציון", "חולון", "בת ים"] } },
             ],
           },
           aggregateRating: { "@type": "AggregateRating", ratingValue: "5", reviewCount: "120" },
@@ -168,7 +168,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           jobTitle: "מורה נהיגה לרכב ואופנוע",
           worksFor: { "@id": "https://hendrive.co.il/#business" },
           telephone: "+972503250150",
-          areaServed: ["אשקלון", "יבנה"],
+          areaServed: ["אשקלון", "יבנה", "ראשון לציון", "חולון", "בת ים"],
         }),
       },
       {
