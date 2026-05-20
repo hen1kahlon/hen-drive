@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as DrivingInstructorAshkelonRouteImport } from './routes/driving-instructor-ashkelon'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -40,6 +41,12 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DrivingInstructorAshkelonRoute =
+  DrivingInstructorAshkelonRouteImport.update({
+    id: '/driving-instructor-ashkelon',
+    path: '/driving-instructor-ashkelon',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -139,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/driving-instructor-ashkelon': typeof DrivingInstructorAshkelonRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
@@ -160,6 +168,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/driving-instructor-ashkelon': typeof DrivingInstructorAshkelonRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
@@ -183,6 +192,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
+  '/driving-instructor-ashkelon': typeof DrivingInstructorAshkelonRoute
   '/login': typeof LoginRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/dashboard'
+    | '/driving-instructor-ashkelon'
     | '/login'
     | '/sitemap.xml'
     | '/admin/errors'
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/dashboard'
+    | '/driving-instructor-ashkelon'
     | '/login'
     | '/sitemap.xml'
     | '/admin/errors'
@@ -250,6 +262,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/dashboard'
+    | '/driving-instructor-ashkelon'
     | '/login'
     | '/sitemap.xml'
     | '/admin/errors'
@@ -273,6 +286,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRoute
+  DrivingInstructorAshkelonRoute: typeof DrivingInstructorAshkelonRoute
   LoginRoute: typeof LoginRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   EmailUnsubscribeRoute: typeof EmailUnsubscribeRoute
@@ -297,6 +311,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/driving-instructor-ashkelon': {
+      id: '/driving-instructor-ashkelon'
+      path: '/driving-instructor-ashkelon'
+      fullPath: '/driving-instructor-ashkelon'
+      preLoaderRoute: typeof DrivingInstructorAshkelonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -457,6 +478,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRoute,
+  DrivingInstructorAshkelonRoute: DrivingInstructorAshkelonRoute,
   LoginRoute: LoginRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   EmailUnsubscribeRoute: EmailUnsubscribeRoute,
