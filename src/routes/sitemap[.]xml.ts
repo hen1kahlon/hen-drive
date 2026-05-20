@@ -5,6 +5,12 @@ import type {} from "@tanstack/react-start";
 // Admin/dashboard/login pages are intentionally excluded (private).
 const entries = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
+  { path: "/driving-instructor-ashkelon", changefreq: "weekly", priority: "0.9" },
+  { path: "/motorcycle-lessons-ashkelon", changefreq: "weekly", priority: "0.9" },
+  { path: "/car-lessons-ashkelon", changefreq: "weekly", priority: "0.9" },
+  { path: "/a1-motorcycle-lessons", changefreq: "weekly", priority: "0.8" },
+  { path: "/a2-motorcycle-lessons", changefreq: "weekly", priority: "0.8" },
+  { path: "/first-test-preparation-ashkelon", changefreq: "weekly", priority: "0.9" },
 ];
 
 export const Route = createFileRoute("/sitemap.xml")({
