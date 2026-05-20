@@ -129,10 +129,14 @@ export const Route = createFileRoute('/api/public/lead')({
 <div style="margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">📝 פרטים</div><div style="font-size:15px;color:#111;line-height:1.6;background:#f9fafb;padding:14px 16px;border-radius:10px">${safeNotes.replace(/\n/g, '<br>')}</div></div>
 <div style="margin-bottom:4px"><div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">🕒 זמן שליחה</div><div style="font-size:14px;color:#6b7280">${safeTime}</div></div>
 </td></tr>
-<tr><td style="padding:16px 28px;background:#f9fafb;text-align:center;font-size:12px;color:#9ca3af">Hendrive · מערכת לידים</td></tr>
+<tr><td style="padding:20px 28px;background:#f9fafb;text-align:center;font-size:12px;color:#6b7280;line-height:1.7">
+<div style="margin-bottom:8px">📩 מייל זה נשלח אוטומטית ממערכת Hendrive.</div>
+<div style="margin-bottom:8px">אין להשיב למייל זה.</div>
+<div>ליצירת קשר מהיר ניתן לחייג או לשלוח WhatsApp דרך הכפתורים במייל.</div>
+</td></tr>
 </table>
 </body></html>`
-        const text = `🚗 ליד חדש מהאתר - Hendrive\n\n👤 שם: ${leadInput.full_name}\n📞 טלפון: ${leadInput.phone}\n💬 וואטסאפ: https://wa.me/${waNumber}\n🚘 סוג רישיון: ${leadInput.license_type || 'לא צוין'}\n📍 אזור: ${leadInput.area || 'לא צוין'}\n📝 פרטים: ${leadInput.notes || 'אין פירוט נוסף'}\n🕒 זמן שליחה: ${formatTime(submittedAt)}`
+        const text = `🚗 ליד חדש מהאתר - Hendrive\n\n👤 שם: ${leadInput.full_name}\n📞 טלפון: ${leadInput.phone}\n💬 וואטסאפ: https://wa.me/${waNumber}\n🚘 סוג רישיון: ${leadInput.license_type || 'לא צוין'}\n📍 אזור: ${leadInput.area || 'לא צוין'}\n📝 פרטים: ${leadInput.notes || 'אין פירוט נוסף'}\n🕒 זמן שליחה: ${formatTime(submittedAt)}\n\n📩 מייל זה נשלח אוטומטית ממערכת Hendrive.\nאין להשיב למייל זה.\nליצירת קשר מהיר ניתן לחייג או לשלוח WhatsApp דרך הכפתורים במייל.`
 
         await supabase.from('email_send_log').insert({
           message_id: messageId,
