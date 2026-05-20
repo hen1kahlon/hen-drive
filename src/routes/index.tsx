@@ -1859,6 +1859,12 @@ function ExitIntent() {
       } catch { /* ignore */ }
     };
 
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("showExitIntent") === "1") {
+      const t = window.setTimeout(trigger, 350);
+      return () => window.clearTimeout(t);
+    }
+
     const isMobile = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
 
     // Desktop: mouse leaving the viewport upward
@@ -2197,6 +2203,7 @@ function LandingPageInner() {
       <main className="pb-24 md:pb-0">
         <Hero />
         <Categories />
+        <SeoLandingLinksSection />
         <LicenseMatcher />
         <About />
         <WhyMe />
