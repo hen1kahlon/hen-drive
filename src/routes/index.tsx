@@ -1841,10 +1841,12 @@ function ExitIntent() {
   const triggered = useRef(false);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const forceExitIntent = params.get("showExitIntent") === "1";
     // Suppress for 7 days after dismiss/submit
     try {
       const ts = Number(localStorage.getItem("exit-intent:dismissed") ?? "0");
-      if (Date.now() - ts < 7 * 24 * 60 * 60 * 1000) return;
+      if (!forceExitIntent && Date.now() - ts < 7 * 24 * 60 * 60 * 1000) return;
     } catch { /* ignore */ }
 
     const trigger = () => {
@@ -1859,8 +1861,7 @@ function ExitIntent() {
       } catch { /* ignore */ }
     };
 
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("showExitIntent") === "1") {
+    if (forceExitIntent) {
       const t = window.setTimeout(trigger, 350);
       return () => window.clearTimeout(t);
     }
