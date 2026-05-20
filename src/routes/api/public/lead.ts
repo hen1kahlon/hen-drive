@@ -104,12 +104,35 @@ export const Route = createFileRoute('/api/public/lead')({
         const messageId = `lead-notification-${lead.id}`
         const safeName = escapeHtml(leadInput.full_name)
         const safePhone = escapeHtml(leadInput.phone)
+        const phoneDigits = leadInput.phone.replace(/\D/g, '')
+        const waNumber = phoneDigits.startsWith('0') ? '972' + phoneDigits.slice(1) : phoneDigits
+        const safePhoneHref = escapeHtml(leadInput.phone.replace(/\s+/g, ''))
+        const safeWa = escapeHtml(waNumber)
+        const safeLicense = escapeHtml(leadInput.license_type || 'לא צוין')
         const safeInterest = escapeHtml(leadInput.interest || 'לא צוין')
         const safeArea = escapeHtml(leadInput.area || 'לא צוין')
         const safeNotes = escapeHtml(leadInput.notes || 'אין פירוט נוסף')
         const safeTime = escapeHtml(formatTime(submittedAt))
-        const html = `<div dir="rtl" style="font-family:Arial,sans-serif;line-height:1.6;color:#111"><h2>ליד חדש מהאתר</h2><p><strong>שם מלא:</strong> ${safeName}</p><p><strong>טלפון:</strong> ${safePhone}</p><p><strong>תחום עניין:</strong> ${safeInterest}</p><p><strong>אזור:</strong> ${safeArea}</p><p><strong>פרטים:</strong><br>${safeNotes.replace(/\n/g, '<br>')}</p><p><strong>זמן שליחה:</strong> ${safeTime}</p></div>`
-        const text = `ליד חדש מהאתר\nשם מלא: ${leadInput.full_name}\nטלפון: ${leadInput.phone}\nתחום עניין: ${leadInput.interest || 'לא צוין'}\nאזור: ${leadInput.area || 'לא צוין'}\nפרטים: ${leadInput.notes || 'אין פירוט נוסף'}\nזמן שליחה: ${formatTime(submittedAt)}`
+        const html = `<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;padding:24px 12px;background:#f4f5f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#111;direction:rtl">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);overflow:hidden">
+<tr><td style="padding:24px 28px;background:linear-gradient(135deg,#0a0a14,#1a1a2e);color:#fff">
+<div style="font-size:20px;font-weight:700;line-height:1.4">🚗 ליד חדש מהאתר</div>
+<div style="font-size:13px;opacity:0.75;margin-top:4px">Hendrive</div>
+</td></tr>
+<tr><td style="padding:28px">
+<div style="margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">👤 שם</div><div style="font-size:17px;font-weight:600;color:#111">${safeName}</div></div>
+<div style="margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">📞 טלפון</div><div style="font-size:17px;font-weight:600"><a href="tel:${safePhoneHref}" style="color:#2563eb;text-decoration:none">${safePhone}</a></div></div>
+<div style="margin-bottom:24px"><a href="tel:${safePhoneHref}" style="display:inline-block;background:#2563eb;color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:600;font-size:15px;margin-left:8px">📞 התקשר</a><a href="https://wa.me/${safeWa}" style="display:inline-block;background:#25d366;color:#fff;text-decoration:none;padding:12px 22px;border-radius:10px;font-weight:600;font-size:15px">💬 וואטסאפ</a></div>
+<div style="height:1px;background:#e5e7eb;margin:24px 0"></div>
+<div style="margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">🚘 סוג רישיון</div><div style="font-size:16px;color:#111">${safeLicense}</div></div>
+<div style="margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">📍 אזור</div><div style="font-size:16px;color:#111">${safeArea}</div></div>
+<div style="margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">📝 פרטים</div><div style="font-size:15px;color:#111;line-height:1.6;background:#f9fafb;padding:14px 16px;border-radius:10px">${safeNotes.replace(/\n/g, '<br>')}</div></div>
+<div style="margin-bottom:4px"><div style="font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">🕒 זמן שליחה</div><div style="font-size:14px;color:#6b7280">${safeTime}</div></div>
+</td></tr>
+<tr><td style="padding:16px 28px;background:#f9fafb;text-align:center;font-size:12px;color:#9ca3af">Hendrive · מערכת לידים</td></tr>
+</table>
+</body></html>`
+        const text = `🚗 ליד חדש מהאתר - Hendrive\n\n👤 שם: ${leadInput.full_name}\n📞 טלפון: ${leadInput.phone}\n💬 וואטסאפ: https://wa.me/${waNumber}\n🚘 סוג רישיון: ${leadInput.license_type || 'לא צוין'}\n📍 אזור: ${leadInput.area || 'לא צוין'}\n📝 פרטים: ${leadInput.notes || 'אין פירוט נוסף'}\n🕒 זמן שליחה: ${formatTime(submittedAt)}`
 
         await supabase.from('email_send_log').insert({
           message_id: messageId,
