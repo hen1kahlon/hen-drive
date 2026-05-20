@@ -3,9 +3,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { z } from 'zod'
 
 const RECIPIENT_EMAIL = 'hendriver12@gmail.com'
-const SENDER_DOMAIN = 'notify.hendrive.co.il'
-const FROM_DOMAIN = 'notify.hendrive.co.il'
-const SITE_NAME = 'Hendrive'
+const FROM_ADDRESS = 'Hendrive <noreply@hendrive.co.il>'
+const RESEND_GATEWAY = 'https://connector-gateway.lovable.dev/resend'
 
 const LeadSchema = z.object({
   full_name: z.string().trim().min(2).max(100),
@@ -23,6 +22,44 @@ function escapeHtml(value: string) {
 
 function formatTime(date: Date) {
   return new Intl.DateTimeFormat('he-IL', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Asia/Jerusalem' }).format(date)
+}
+
+async function sendViaResend(payload: {
+  to: string
+  subject: string
+  html: string
+  text: string
+}) {
+  const lovableKey = process.env.LOVABLE_API_KEY
+  const resendKey = process.env.RESEND_API_KEY
+  if (!lovableKey) throw new Error('LOVABLE_API_KEY is not configured')
+  if (!resendKey) throw new Error('RESEND_API_KEY is not configured')
+
+  const res = await fetch(`${RESEND_GATEWAY}/emails`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${lovableKey}`,
+      'X-Connection-Api-Key': resendKey,
+    },
+    body: JSON.stringify({
+      from: FROM_ADDRESS,
+      to: [payload.to],
+      subject: payload.subject,
+      html: payload.html,
+      text: payload.text,
+    }),
+  })
+
+  const body = await res.text()
+  if (!res.ok) {
+    throw new Error(`Resend send failed [${res.status}]: ${body}`)
+  }
+  try {
+    return JSON.parse(body) as { id?: string }
+  } catch {
+    return {}
+  }
 }
 
 export const Route = createFileRoute('/api/public/lead')({
@@ -82,38 +119,34 @@ export const Route = createFileRoute('/api/public/lead')({
           metadata: { lead_id: lead.id },
         })
 
-        const { error: enqueueError } = await supabase.rpc('enqueue_email', {
-          queue_name: 'transactional_emails',
-          payload: {
-            message_id: messageId,
+        try {
+          const result = await sendViaResend({
             to: RECIPIENT_EMAIL,
-            from: `${SITE_NAME} <noreply@${FROM_DOMAIN}>`,
-            sender_domain: SENDER_DOMAIN,
             subject: `ליד חדש מהאתר - ${leadInput.full_name}`,
             html,
             text,
-            purpose: 'transactional',
-            label: 'lead-notification',
-            idempotency_key: messageId,
-            unsubscribe_token: null,
-            queued_at: submittedAt.toISOString(),
-          },
-        })
-
-        if (enqueueError) {
-          console.error('Lead notification enqueue failed', { error: enqueueError, lead_id: lead.id })
+          })
+          await supabase.from('email_send_log').insert({
+            message_id: messageId,
+            template_name: 'lead-notification',
+            recipient_email: RECIPIENT_EMAIL,
+            status: 'sent',
+            metadata: { lead_id: lead.id, provider: 'resend', provider_id: result.id ?? null },
+          })
+          return Response.json({ success: true, leadId: lead.id, notificationSent: true })
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error)
+          console.error('Lead notification send failed', { error: message, lead_id: lead.id })
           await supabase.from('email_send_log').insert({
             message_id: messageId,
             template_name: 'lead-notification',
             recipient_email: RECIPIENT_EMAIL,
             status: 'failed',
-            error_message: enqueueError.message?.slice(0, 1000) || 'Failed to enqueue notification',
-            metadata: { lead_id: lead.id },
+            error_message: message.slice(0, 1000),
+            metadata: { lead_id: lead.id, provider: 'resend' },
           })
-          return Response.json({ success: true, leadId: lead.id, notificationQueued: false }, { status: 202 })
+          return Response.json({ success: true, leadId: lead.id, notificationSent: false, notificationError: message }, { status: 202 })
         }
-
-        return Response.json({ success: true, leadId: lead.id, notificationQueued: true })
       },
     },
   },
