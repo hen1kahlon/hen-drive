@@ -54,15 +54,16 @@ export const Route = createFileRoute("/")({
         imageSizes: "(max-width: 768px) 100vw, 60vw",
         fetchPriority: "high",
       } as any,
-      { rel: "canonical", href: "/" },
+      { rel: "canonical", href: "https://hendrive.co.il/" },
     ],
     meta: [
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { property: "og:url", content: "/" },
-      { property: "og:image", content: heroImg },
+      { property: "og:url", content: "https://hendrive.co.il/" },
+      { property: "og:image", content: `https://hendrive.co.il${heroImg}` },
       { property: "og:image:width", content: "1920" },
       { property: "og:image:height", content: "1080" },
-      { name: "twitter:image", content: heroImg },
+      { property: "og:image:alt", content: "חן כחלון – מורה נהיגה באשקלון וביבנה, שיעור נהיגה לרכב ואופנוע" },
+      { name: "twitter:image", content: `https://hendrive.co.il${heroImg}` },
     ],
     scripts: [
       {
