@@ -183,7 +183,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     if (GA4_ID) {
       scripts.push({
         src: `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`,
-        async: "true",
+        async: true,
       } as any);
       scripts.push({
         children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA4_ID}',{anonymize_ip:true});`,
