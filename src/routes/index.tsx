@@ -821,16 +821,24 @@ function LeadForm() {
     const it = form.interest;
     const license_type = /A2/i.test(it) ? "A2" : /A1/i.test(it) ? "A1" : /\bA\b/i.test(it) ? "A" : /B/i.test(it) ? "B" : null;
     try {
-      const { error } = await supabase.from("leads").insert({
-        full_name: name.slice(0, 100),
-        phone: phoneDigits.slice(0, 30),
-        license_type,
-        interest: it.slice(0, 200),
-        area: form.area.slice(0, 200),
-        notes: form.notes.slice(0, 2000) || null,
-        source: "lead-form",
+      const response = await fetch("/api/public/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          full_name: name.slice(0, 100),
+          phone: phoneDigits.slice(0, 30),
+          license_type,
+          interest: it.slice(0, 200),
+          area: form.area.slice(0, 200),
+          notes: form.notes.slice(0, 2000) || null,
+          source: "lead-form",
+        }),
       });
-      if (error) throw error;
+      const result = await response.json().catch(() => null);
+      if (!response.ok) throw new Error(result?.error || "שמירת הפרטים נכשלה");
+      if (result?.notificationQueued === false) {
+        console.warn("Lead saved but notification email was not queued", result);
+      }
       try {
         localStorage.setItem("lead:last", String(Date.now()));
         localStorage.setItem("lead:phone", phoneDigits);
