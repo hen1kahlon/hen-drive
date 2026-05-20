@@ -62,7 +62,7 @@ export const Route = createFileRoute("/")({
       { property: "og:image", content: `https://hendrive.co.il${heroImg}` },
       { property: "og:image:width", content: "1920" },
       { property: "og:image:height", content: "1080" },
-      { property: "og:image:alt", content: "חן כחלון – מורה נהיגה באשקלון וביבנה, שיעור נהיגה לרכב ואופנוע" },
+      { property: "og:image:alt", content: "חן כחלון – מורה נהיגה לאופנוע ורכב באשקלון" },
       { name: "twitter:image", content: `https://hendrive.co.il${heroImg}` },
     ],
     scripts: [
@@ -229,7 +229,7 @@ function Hero() {
               src={heroSrc}
               srcSet={heroSrcSet}
               sizes="(max-width: 768px) 100vw, 60vw"
-              alt="חן כחלון – מורה נהיגה באשקלון וביבנה בשיעור נהיגה לרכב ואופנוע"
+              alt="חן כחלון – מורה נהיגה לאופנוע ורכב באשקלון בשיעור נהיגה"
               width={1920}
               height={1080}
               fetchPriority="high"
