@@ -54,15 +54,16 @@ export const Route = createFileRoute("/")({
         imageSizes: "(max-width: 768px) 100vw, 60vw",
         fetchPriority: "high",
       } as any,
-      { rel: "canonical", href: "/" },
+      { rel: "canonical", href: "https://hendrive.co.il/" },
     ],
     meta: [
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { property: "og:url", content: "/" },
-      { property: "og:image", content: heroImg },
+      { property: "og:url", content: "https://hendrive.co.il/" },
+      { property: "og:image", content: `https://hendrive.co.il${heroImg}` },
       { property: "og:image:width", content: "1920" },
       { property: "og:image:height", content: "1080" },
-      { name: "twitter:image", content: heroImg },
+      { property: "og:image:alt", content: "חן כחלון – מורה נהיגה באשקלון וביבנה, שיעור נהיגה לרכב ואופנוע" },
+      { name: "twitter:image", content: `https://hendrive.co.il${heroImg}` },
     ],
     scripts: [
       {
@@ -228,7 +229,7 @@ function Hero() {
               src={heroSrc}
               srcSet={heroSrcSet}
               sizes="(max-width: 768px) 100vw, 60vw"
-              alt="חן כחלון בשיעור נהיגה עם תלמידה"
+              alt="חן כחלון – מורה נהיגה באשקלון וביבנה בשיעור נהיגה לרכב ואופנוע"
               width={1920}
               height={1080}
               fetchPriority="high"
@@ -608,7 +609,7 @@ function Reviews() {
               <div className="flex gap-0.5 mb-3">
                 {[...Array(r.rating)].map((_, j) => <Star key={j} size={14} className="fill-[oklch(0.7_0.18_255)] text-[oklch(0.7_0.18_255)]" />)}
               </div>
-              {r.image_url && <img src={r.image_url} alt="" className="rounded-xl mb-3 w-full h-32 object-cover" />}
+              {r.image_url && <img src={r.image_url} alt={`תלמיד/ה ${r.full_name} – ביקורת על שיעורי נהיגה אצל חן כחלון`} loading="lazy" className="rounded-xl mb-3 w-full h-32 object-cover" />}
               <p className="text-sm text-foreground/85 leading-relaxed mb-4 min-h-[80px] font-normal">"{r.content}"</p>
               <div className="mt-auto pt-3 border-t border-white/5">
                 <p className="text-[11px] text-muted-foreground">דרגה {r.license_type}</p>
