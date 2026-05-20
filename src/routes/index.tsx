@@ -1815,6 +1815,7 @@ function LandingPageInner() {
       <Footer />
       <MobileBar />
       <AccessibilityWidget />
+      {hydrated && <ExitIntent />}
     </div>
   );
 }
