@@ -23,6 +23,7 @@ export type SeoLandingProps = {
   waMessage: string;
   ctaSubline: string;
   slug?: string;
+  licenseTiers?: { code: string; title: string; image: string; body: string; transmission?: string; waMessage?: string }[];
 };
 
 const ICONS = {
