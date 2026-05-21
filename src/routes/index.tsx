@@ -1171,7 +1171,7 @@ function LeadForm() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="block">
+    <label className="block" suppressHydrationWarning>
       <span className="block text-xs font-bold mb-2 text-muted-foreground">{label}</span>
       {children}
     </label>
