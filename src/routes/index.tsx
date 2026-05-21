@@ -467,12 +467,11 @@ function Categories() {
 }
 
 const seoLandingLinks = [
-  { to: "/driving-instructor-ashkelon", title: "מורה נהיגה באשקלון", desc: "רכב ואופנוע עם חן כחלון" },
-  { to: "/motorcycle-lessons-ashkelon", title: "שיעורי אופנוע באשקלון", desc: "A, A1, A2 ידני ואוטומט" },
   { to: "/car-lessons-ashkelon", title: "שיעורי רכב באשקלון", desc: "רכב אוטומט חדש והכנה לטסט" },
+  { to: "/motorcycle-lessons-ashkelon", title: "שיעורי אופנוע באשקלון", desc: "A, A1, A2 ידני ואוטומט" },
+  { to: "/a-motorcycle-license", title: "רישיון אופנוע A", desc: "ללא הגבלת נפח, מגיל 21" },
   { to: "/a1-motorcycle-lessons", title: "אופנוע A1", desc: "עד 500 סמ״ק, מגיל 18" },
   { to: "/a2-motorcycle-lessons", title: "אופנוע A2", desc: "רישיון אופנוע ראשון מגיל 16" },
-  { to: "/first-test-preparation-ashkelon", title: "הכנה לטסט ראשון", desc: "מסלולי טסט אמיתיים באשקלון" },
 ] as const;
 
 function SeoLandingLinksSection() {
@@ -619,10 +618,10 @@ function WhyMe() {
 const fallbackReviews = [
   { id: "f1", full_name: "ליאור מ׳ – אשקלון", content: "חן הכי סבלני בעולם — עברתי טסט ראשון על רכב אוטומט! מורה רציני, מסביר עד שמבינים, ויודע להרגיע בלחץ של המבחן. ממליץ לכל מי שמחפש מורה נהיגה באשקלון.", rating: 5, license_type: "B", image_url: null },
   { id: "f2", full_name: "נועה ש׳ – אשקלון", content: "הרגשתי בטוחה מהשיעור הראשון. חן מלמד עם הרבה אורך רוח, מכיר כל פינה בעיר ומגיע לאסוף מהבית. עברתי טסט בפעם הראשונה 🎉", rating: 5, license_type: "B", image_url: null },
-  { id: "f3", full_name: "יובל א׳ – אשדוד", content: "למדתי אופנוע A2 אצל חן — חוויה מטורפת. הסבר מסודר, ציוד חדש ובטוח, והכי חשוב — רישיון ביד מהפעם הראשונה!", rating: 5, license_type: "A2", image_url: null },
+  { id: "f3", full_name: "יובל א׳ – אשקלון", content: "למדתי אופנוע A2 אצל חן — חוויה מטורפת. הסבר מסודר, ציוד חדש ובטוח, והכי חשוב — רישיון ביד מהפעם הראשונה!", rating: 5, license_type: "A2", image_url: null },
   { id: "f4", full_name: "דניאל מ׳ – אשקלון", content: "התחלתי בלי שום ידע ברכב, וחן לקח אותי שלב-שלב עד לטסט בלי לחץ. מורה צעיר, מקצועי ומסור — שווה כל שקל.", rating: 5, license_type: "B", image_url: null },
   { id: "f5", full_name: "עומר כ׳ – אשקלון", content: "הוצאתי A1 אצל חן אחרי שכל החברים המליצו. שיעורים ממוקדים, הכנה אמיתית לטסט, ומורה שבאמת אכפת לו שתעבור. ממליץ בענק על בית הספר לאופנוע באשקלון.", rating: 5, license_type: "A1", image_url: null },
-  { id: "f6", full_name: "שיר ב׳ – גן יבנה", content: "המורה הכי טוב שיכולתי לבקש. סבלני, מקצועי ומסביר עד שמתחיל לזרום. עברתי טסט ראשון על רכב אוטומט וכבר ממליצה לחברות.", rating: 5, license_type: "B", image_url: null },
+  { id: "f6", full_name: "שיר ב׳ – אשקלון", content: "המורה הכי טוב שיכולתי לבקש. סבלני, מקצועי ומסביר עד שמתחיל לזרום. עברתי טסט ראשון על רכב אוטומט וכבר ממליצה לחברות.", rating: 5, license_type: "B", image_url: null },
   { id: "f7", full_name: "אדיר ל׳ – אשקלון", content: "באתי לחן אחרי שני מורים אחרים. תוך חודש סיימתי את כל השיעורים על A — ועברתי טסט ראשון. כיף ללמוד אצל מישהו שחי את התחום.", rating: 5, license_type: "A", image_url: null },
   { id: "f8", full_name: "מאי ג׳ – אשקלון", content: "אווירה צעירה, יחס אישי ובלי שיפוטיות. חן מסביר בגובה העיניים ובאמת מלווה עד הסוף. עברתי טסט ראשון על רכב 🚗", rating: 5, license_type: "B", image_url: null },
 ];
