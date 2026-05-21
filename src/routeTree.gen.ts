@@ -26,6 +26,7 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminLicenseCardsRouteImport } from './routes/admin.license-cards'
 import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
+import { Route as AdminLandingPagesRouteImport } from './routes/admin.landing-pages'
 import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
 import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
 import { Route as AdminErrorsRouteImport } from './routes/admin.errors'
@@ -121,6 +122,11 @@ const AdminLeadsRoute = AdminLeadsRouteImport.update({
   path: '/leads',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminLandingPagesRoute = AdminLandingPagesRouteImport.update({
+  id: '/landing-pages',
+  path: '/landing-pages',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminGalleryRoute = AdminGalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
@@ -180,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/landing-pages': typeof AdminLandingPagesRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/license-cards': typeof AdminLicenseCardsRoute
   '/admin/reviews': typeof AdminReviewsRoute
@@ -206,6 +213,7 @@ export interface FileRoutesByTo {
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/landing-pages': typeof AdminLandingPagesRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/license-cards': typeof AdminLicenseCardsRoute
   '/admin/reviews': typeof AdminReviewsRoute
@@ -234,6 +242,7 @@ export interface FileRoutesById {
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/gallery': typeof AdminGalleryRoute
+  '/admin/landing-pages': typeof AdminLandingPagesRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/license-cards': typeof AdminLicenseCardsRoute
   '/admin/reviews': typeof AdminReviewsRoute
@@ -263,6 +272,7 @@ export interface FileRouteTypes {
     | '/admin/errors'
     | '/admin/faqs'
     | '/admin/gallery'
+    | '/admin/landing-pages'
     | '/admin/leads'
     | '/admin/license-cards'
     | '/admin/reviews'
@@ -289,6 +299,7 @@ export interface FileRouteTypes {
     | '/admin/errors'
     | '/admin/faqs'
     | '/admin/gallery'
+    | '/admin/landing-pages'
     | '/admin/leads'
     | '/admin/license-cards'
     | '/admin/reviews'
@@ -316,6 +327,7 @@ export interface FileRouteTypes {
     | '/admin/errors'
     | '/admin/faqs'
     | '/admin/gallery'
+    | '/admin/landing-pages'
     | '/admin/leads'
     | '/admin/license-cards'
     | '/admin/reviews'
@@ -470,6 +482,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLeadsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/landing-pages': {
+      id: '/admin/landing-pages'
+      path: '/landing-pages'
+      fullPath: '/admin/landing-pages'
+      preLoaderRoute: typeof AdminLandingPagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/gallery': {
       id: '/admin/gallery'
       path: '/gallery'
@@ -533,6 +552,7 @@ interface AdminRouteChildren {
   AdminErrorsRoute: typeof AdminErrorsRoute
   AdminFaqsRoute: typeof AdminFaqsRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
+  AdminLandingPagesRoute: typeof AdminLandingPagesRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
   AdminLicenseCardsRoute: typeof AdminLicenseCardsRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
@@ -544,6 +564,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminErrorsRoute: AdminErrorsRoute,
   AdminFaqsRoute: AdminFaqsRoute,
   AdminGalleryRoute: AdminGalleryRoute,
+  AdminLandingPagesRoute: AdminLandingPagesRoute,
   AdminLeadsRoute: AdminLeadsRoute,
   AdminLicenseCardsRoute: AdminLicenseCardsRoute,
   AdminReviewsRoute: AdminReviewsRoute,

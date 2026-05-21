@@ -43,6 +43,7 @@ export const Route = createFileRoute("/motorcycle-lessons-ashkelon")({
 function Page() {
   return (
     <SeoLanding
+      slug="motorcycle-lessons-ashkelon"
       eyebrow="אופנוע · אשקלון"
       h1Lead="שיעורי אופנוע באשקלון –"
       h1Highlight="כל הדרגות"
