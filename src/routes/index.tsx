@@ -430,20 +430,9 @@ function Categories() {
                   </div>
                 </div>
 
-                {c.imgs ? (
-                  <div className="aspect-[4/3] my-3 grid grid-cols-2 gap-2">
-                    {c.imgs.map((v) => (
-                      <div key={v.label} className="relative rounded-2xl bg-white/[0.03] border border-white/5 grid place-items-center p-2 transform-gpu [backface-visibility:hidden] group-hover:scale-[1.03] transition-transform duration-500">
-                        <img src={v.src} alt={`${c.title} — ${v.label}`} loading="lazy" decoding="async" width={300} height={220} className="w-full h-full object-contain transform-gpu [backface-visibility:hidden]" style={{ filter: "drop-shadow(0 12px 20px rgba(0,0,0,0.5))" }} />
-                        <span className={`absolute bottom-1.5 right-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md ${c.color === "blue" ? "bg-[oklch(0.62_0.20_255_/_0.18)] text-[oklch(0.82_0.12_255)] border border-[oklch(0.62_0.20_255_/_0.35)]" : "bg-[oklch(0.62_0.20_255_/_0.18)] text-[oklch(0.82_0.12_255)] border border-[oklch(0.62_0.20_255_/_0.35)]"}`}>{v.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="aspect-[4/3] grid place-items-center my-3 transform-gpu [backface-visibility:hidden] group-hover:scale-105 transition-transform duration-500">
-                    <img src={c.img} alt={`${c.title} ${c.subtitle}`} loading="lazy" decoding="async" width={400} height={300} className="w-full h-full object-contain transform-gpu [backface-visibility:hidden]" style={{ filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.5))" }} />
-                  </div>
-                )}
+                <div className="aspect-[4/3] grid place-items-center my-3 rounded-2xl bg-white/[0.03] border border-white/5 p-3 overflow-hidden">
+                  <img src={c.img} alt={`${c.title} ${c.subtitle}`} loading="lazy" decoding="async" width={400} height={300} className="w-full h-full object-contain" />
+                </div>
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
