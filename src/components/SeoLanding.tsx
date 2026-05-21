@@ -345,6 +345,30 @@ export function buildFaqJsonLd(faqs: SeoFaq[]) {
   };
 }
 
+function DeferredExitIntent(props: { wa: string; tel: string; phoneDisplay: string }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    const arm = () => { if (!cancelled) setReady(true); };
+    const opts: AddEventListenerOptions = { once: true, passive: true };
+    window.addEventListener("scroll", arm, opts);
+    window.addEventListener("pointermove", arm, opts);
+    window.addEventListener("touchstart", arm, opts);
+    window.addEventListener("keydown", arm, opts);
+    const t = window.setTimeout(arm, 6000);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+      window.removeEventListener("scroll", arm);
+      window.removeEventListener("pointermove", arm);
+      window.removeEventListener("touchstart", arm);
+      window.removeEventListener("keydown", arm);
+    };
+  }, []);
+  if (!ready) return null;
+  return <SeoLandingExitIntent {...props} />;
+}
+
 export function buildLocalBusinessJsonLd(opts: { serviceName: string; serviceDesc: string; url: string }) {
   return {
     "@context": "https://schema.org",
