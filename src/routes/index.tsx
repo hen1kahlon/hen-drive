@@ -1618,8 +1618,7 @@ function StudentCard({
       transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.4) }}
       className={[
         "group relative overflow-hidden rounded-2xl border border-white/10 glass shadow-card",
-        "hover:border-[oklch(0.62_0.20_255_/_0.5)] hover:-translate-y-1 hover:shadow-glow",
-        "transition-all duration-500",
+        "hover:border-[oklch(0.62_0.20_255_/_0.5)] transition-colors",
         mobile ? "snap-start shrink-0 w-[78%] aspect-[3/4]" : tall ? "row-span-2" : "row-span-1",
       ].join(" ")}
     >
@@ -1651,7 +1650,7 @@ function StudentCard({
           fetchPriority={index < 2 ? "high" : "low"}
           decoding="async"
           sizes={mobile ? "78vw" : "(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"}
-          className="relative z-[1] w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-700"
+          className="relative z-[1] w-full h-full object-contain"
         />
       )}
 
