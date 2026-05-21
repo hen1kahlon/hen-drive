@@ -333,8 +333,7 @@ type Category = {
   title: string;
   subtitle: string;
   desc: string;
-  img?: string;
-  imgs?: { src: string; label: string }[];
+  img: string;
   icon: typeof Car;
   color: "blue" | "blue";
   interest: string;
@@ -342,9 +341,7 @@ type Category = {
 
 const categories: Category[] = [
   { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue", interest: "רכב אוטומט דרגה B" },
-  { id: "A2", title: "אופנוע/קטנוע A2", subtitle: "דרגה A2 · ידני / אוטומט", desc: "עד 14.7 כ״ס (125 סמ״ק) — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA2Manual, label: "ידני" }, { src: vehScooter, label: "אוטומט" }], icon: Zap, color: "blue", interest: "אופנוע A2 (ידני / אוטומט)" },
-  { id: "A1", title: "אופנוע/קטנוע A1", subtitle: "דרגה A1 · ידני / אוטומט", desc: "עד 47 כ״ס — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA1Manual, label: "ידני" }, { src: vehScooterA1Auto, label: "אוטומט" }], icon: Bike, color: "blue", interest: "אופנוע A1 (ידני / אוטומט)" },
-  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "blue", interest: "אופנוע A" },
+  { id: "motorcycle", title: "אופנוע", subtitle: "A · A1 · A2", desc: "כל דרגות האופנוע במקום אחד — ידני ואוטומט לפי הדרגה והצורך.", img: vehBikeA, icon: Bike, color: "blue", interest: "שיעורי אופנוע A / A1 / A2" },
 ];
 
 function getLeadScrollOffset() {
