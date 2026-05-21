@@ -569,9 +569,8 @@ function WhyMe() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.07 }}
-              className="group bg-card rounded-3xl p-6 border border-white/5 hover:border-white/15 transition-all hover:-translate-y-1 relative overflow-hidden"
+              className="bg-card rounded-3xl p-6 border border-white/5 hover:border-white/15 transition-colors relative overflow-hidden"
             >
-              <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full ${r.color === "blue" ? "bg-[oklch(0.62_0.20_255_/_0.3)]" : "bg-[oklch(0.62_0.20_255_/_0.3)]"} blur-3xl opacity-0 group-hover:opacity-100 transition-opacity`} />
               <div className="relative">
                 <div className={`w-12 h-12 rounded-2xl border ${r.color === "blue" ? "border-[oklch(0.62_0.20_255_/_0.3)] bg-[oklch(0.62_0.20_255_/_0.1)] text-[oklch(0.7_0.18_255)]" : "border-[oklch(0.62_0.20_255_/_0.3)] bg-[oklch(0.62_0.20_255_/_0.1)] text-[oklch(0.7_0.18_255)]"} grid place-items-center mb-4`}>
                   <r.icon size={22} />
