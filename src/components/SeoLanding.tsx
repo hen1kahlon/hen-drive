@@ -140,7 +140,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
               {props.licenseTiers.map((t) => (
                 <article key={t.code} className="rounded-2xl border border-white/10 bg-background overflow-hidden flex flex-col">
                   <img src={t.image} alt={t.title} loading="lazy" decoding="async" width={640} height={360}
-                       className="w-full aspect-[16/9] object-cover" />
+                       className="w-full aspect-[16/9] object-contain bg-white/[0.04] p-3" />
                   <div className="p-5 flex flex-col gap-3 flex-1">
                     <div className="flex items-center gap-2">
                       <span className="inline-flex items-center justify-center min-w-10 h-7 px-2 rounded-md bg-primary/15 text-primary text-xs font-black tracking-wider">{t.code}</span>
