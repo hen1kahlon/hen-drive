@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m as motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import {
   Phone, MessageCircle, Check, Star, ChevronDown, MapPin,
@@ -35,6 +35,7 @@ export default function SeoLanding(props: SeoLandingProps) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="min-h-screen bg-background text-foreground" dir="rtl">
       {/* Top nav */}
       <header className="sticky top-0 z-40 backdrop-blur bg-background/70 border-b border-white/5">
@@ -244,6 +245,7 @@ export default function SeoLanding(props: SeoLandingProps) {
         </div>
       </div>
     </div>
+    </LazyMotion>
   );
 }
 
