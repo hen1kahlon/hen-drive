@@ -666,8 +666,8 @@ function ReviewsCTA() {
       className="mt-8 sm:mt-12 max-w-3xl mx-auto"
     >
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[oklch(0.18_0.04_255)] via-[oklch(0.12_0.03_255)] to-[oklch(0.10_0.02_140)] p-6 sm:p-8 text-center">
-        <div className="absolute -top-20 -left-20 w-60 h-60 rounded-full bg-[#25D366]/20 blur-3xl" />
-        <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[oklch(0.55_0.22_255)]/30 blur-3xl" />
+        <div className="absolute -top-20 -left-20 w-60 h-60 rounded-full bg-[#25D366]/10" />
+        <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[oklch(0.55_0.22_255_/_0.12)]" />
         <div className="relative">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3 py-1 mb-3 text-[11px] font-bold">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
@@ -740,8 +740,7 @@ function Reviews() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: Math.min(i, 6) * 0.08 }}
-              whileHover={{ y: -4 }}
-              className="group relative bg-card rounded-3xl p-5 border border-white/5 hover:border-white/20 hover:shadow-glow transition-all flex flex-col"
+              className="group relative bg-card rounded-3xl p-5 border border-white/5 hover:border-white/20 transition-colors flex flex-col"
             >
               <div className="absolute top-4 left-4 opacity-10 group-hover:opacity-25 transition">
                 <GoogleGlyph className="w-5 h-5" />
