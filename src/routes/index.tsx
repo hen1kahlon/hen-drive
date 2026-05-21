@@ -258,7 +258,7 @@ function Hero() {
   const heroSrc = s.hero.hero_media_url || heroImgMobile;
   const heroSrcSet = s.hero.hero_media_url ? undefined : `${heroImgMobile} 768w, ${heroImg} 1920w`;
   return (
-    <section id="top" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
+    <section id="top" className="stable-render-zone relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
       {/* premium background — matches site --background token for seamless flow */}
       <div className="absolute inset-0 -z-10 bg-background" />
 
@@ -294,7 +294,7 @@ function Hero() {
               <Trophy size={20} />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-black gradient-text-blue leading-none">{s.stats.floating}</div>
+              <div className="text-xl sm:text-2xl font-black text-primary leading-none">{s.stats.floating}</div>
               <div className="text-[10px] sm:text-xs text-muted-foreground">{s.stats.floating_label}</div>
             </div>
           </div>
@@ -308,9 +308,9 @@ function Hero() {
           </div>
           <h1 className="text-display text-[2.5rem] sm:text-5xl lg:text-[3.75rem] mb-3">
             {s.hero.headline_line1}<br />
-            <span className="gradient-text-blue">{s.hero.headline_highlight}</span>
+            <span className="text-primary">{s.hero.headline_highlight}</span>
           </h1>
-          <p className="text-display text-2xl sm:text-3xl lg:text-4xl gradient-text-blue mb-5">
+          <p className="text-display text-2xl sm:text-3xl lg:text-4xl text-primary mb-5">
             {s.hero.tagline}
           </p>
           <p className="text-base sm:text-lg text-muted-foreground mb-6 max-w-xl mx-auto lg:mx-0">
