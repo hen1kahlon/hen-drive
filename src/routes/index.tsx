@@ -260,20 +260,12 @@ function Hero() {
   return (
     <section id="top" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
       {/* premium background — matches site --background token for seamless flow */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.11_0.014_250)_0%,oklch(0.08_0.013_250)_50%,oklch(0.06_0.012_250)_100%)]">
-        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.18)]" />
-        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.14)]" />
-      </div>
+      <div className="absolute inset-0 -z-10 bg-background" />
 
       <div className="max-w-7xl mx-auto px-4 py-4 lg:py-16 grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full">
         {/* image - mobile: top, desktop: right (visually first in RTL = right side) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="relative lg:col-span-7 order-1 lg:order-2"
-        >
-          <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 shadow-glow">
+        <motion.div className="relative lg:col-span-7 order-1 lg:order-2">
+          <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 bg-card">
             <img
               src={heroSrc}
               srcSet={heroSrcSet}
@@ -285,10 +277,10 @@ function Hero() {
               decoding="async"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/30" />
+             <div className="absolute inset-0 bg-background/35" />
             {/* corner badge */}
-            <div className="absolute top-4 right-4 glass-strong rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5 border border-white/10">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+             <div className="absolute top-4 right-4 bg-background border border-white/10 rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5">
+               <span className="w-2 h-2 rounded-full bg-green-400" />
               זמין השבוע
             </div>
             {/* speedometer accent */}
@@ -297,7 +289,7 @@ function Hero() {
             </div>
           </div>
           {/* floating stat card */}
-          <div className="absolute -bottom-5 -right-2 sm:-right-5 glass-strong rounded-2xl p-3 sm:p-4 border border-white/10 shadow-card flex items-center gap-3">
+          <div className="absolute -bottom-5 -right-2 sm:-right-5 bg-card rounded-2xl p-3 sm:p-4 border border-white/10 flex items-center gap-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-blue grid place-items-center text-white">
               <Trophy size={20} />
             </div>
@@ -309,8 +301,8 @@ function Hero() {
         </motion.div>
 
         {/* text */}
-        <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="lg:col-span-5 order-2 lg:order-1 text-center lg:text-right">
-          <div className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-4 py-1.5 mb-5 text-xs font-medium">
+        <motion.div className="lg:col-span-5 order-2 lg:order-1 text-center lg:text-right">
+          <div className="inline-flex items-center gap-2 rounded-full bg-card border border-white/10 px-4 py-1.5 mb-5 text-xs font-medium">
             <Sparkles size={13} className="text-accent" />
             <span>{s.hero.badge}</span>
           </div>
@@ -326,21 +318,21 @@ function Hero() {
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
-            <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-gradient-blue px-6 py-3.5 font-bold text-white shadow-glow hover:scale-105 transition">
+            <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 font-bold text-primary-foreground">
               {s.hero.cta_primary}
-              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
+              <ArrowLeft size={18} />
             </button>
             <a
               href={WA_URL}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="וואטסאפ"
-              className="relative z-10 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card"
+              className="relative z-10 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white"
             >
               <MessageCircle size={18} aria-hidden="true" />
               <span className="text-white opacity-100">{s.buttons.whatsapp}</span>
             </a>
-            <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3.5 font-bold hover:bg-white/5 transition">
+            <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full bg-card border border-white/10 px-5 py-3.5 font-bold">
               <Phone size={18} /> {s.buttons.call}
             </a>
           </div>
