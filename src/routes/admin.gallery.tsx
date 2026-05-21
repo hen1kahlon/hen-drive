@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadGalleryImage, updateGalleryTitle } from "@/lib/gallery.functions";
+import { compressToWebP, blobToBase64 } from "@/lib/image-upload";
 import { toast } from "sonner";
 import { Trash2, Upload, Check, Pencil } from "lucide-react";
 
@@ -23,83 +24,10 @@ const CATS = [
   { id: "success", label: "בוגרים מצליחים" },
 ] as const;
 
-const MAX_W = 1080;
-const WEBP_Q = 0.82;
 const MAX_FILE_BYTES = 25 * 1024 * 1024; // 25MB original
 const MAX_VIDEO_BYTES = 40 * 1024 * 1024; // 40MB original
 const ALLOWED_MIME = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 const ALLOWED_VIDEO_MIME = ["video/mp4", "video/webm", "video/quicktime"];
-
-async function compressToWebP(file: File): Promise<Blob> {
-  // Decode the image. Try createImageBitmap first (fast, handles EXIF),
-  // then fall back to HTMLImageElement.
-  let width = 0,
-    height = 0;
-  let drawSource: CanvasImageSource;
-  let cleanup: (() => void) | null = null;
-  try {
-    const bitmap = await createImageBitmap(file, {
-      imageOrientation: "from-image",
-    } as ImageBitmapOptions);
-    width = bitmap.width;
-    height = bitmap.height;
-    drawSource = bitmap;
-    cleanup = () => bitmap.close?.();
-  } catch {
-    const url = URL.createObjectURL(file);
-    try {
-      const img = await new Promise<HTMLImageElement>((res, rej) => {
-        const i = new Image();
-        i.onload = () => res(i);
-        i.onerror = () => rej(new Error("פורמט תמונה לא נתמך (אולי HEIC?)"));
-        i.src = url;
-      });
-      width = img.naturalWidth;
-      height = img.naturalHeight;
-      drawSource = img;
-      cleanup = () => URL.revokeObjectURL(url);
-    } catch (e) {
-      URL.revokeObjectURL(url);
-      throw e;
-    }
-  }
-  if (!width || !height) {
-    cleanup?.();
-    throw new Error("לא ניתן לקרוא את מימדי התמונה");
-  }
-  const ratio = width > MAX_W ? MAX_W / width : 1;
-  const w = Math.max(1, Math.round(width * ratio));
-  const h = Math.max(1, Math.round(height * ratio));
-  const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    cleanup?.();
-    throw new Error("הדפדפן לא תומך בעיבוד תמונה");
-  }
-  ctx.drawImage(drawSource, 0, 0, w, h);
-  cleanup?.();
-  // Try WebP, fall back to JPEG if the browser can't encode WebP (rare on iOS <14).
-  const tryEncode = (mime: string) =>
-    new Promise<Blob | null>((resolve) => canvas.toBlob((b) => resolve(b), mime, WEBP_Q));
-  let blob = await tryEncode("image/webp");
-  if (!blob) blob = await tryEncode("image/jpeg");
-  if (!blob) throw new Error("דחיסת התמונה נכשלה");
-  return blob;
-}
-
-function blobToBase64(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = typeof reader.result === "string" ? reader.result : "";
-      resolve(result.includes(",") ? result.split(",")[1] : result);
-    };
-    reader.onerror = () => reject(new Error("קריאת קובץ התמונה נכשלה"));
-    reader.readAsDataURL(blob);
-  });
-}
 
 function GalleryPage() {
   const uploadImage = useServerFn(uploadGalleryImage);
