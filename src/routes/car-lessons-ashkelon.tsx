@@ -66,7 +66,6 @@ function Page() {
       faqs={faqs}
       related={[
         { to: "/motorcycle-lessons-ashkelon", title: "שיעורי אופנוע באשקלון" },
-        { to: "/motorcycle-lessons-ashkelon", title: "שיעורי אופנוע באשקלון" },
         { to: "/", title: "חזרה לעמוד הבית" },
       ]}
     />
