@@ -18,6 +18,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as A2MotorcycleLessonsRouteImport } from './routes/a2-motorcycle-lessons'
 import { Route as A1MotorcycleLessonsRouteImport } from './routes/a1-motorcycle-lessons'
+import { Route as AMotorcycleLicenseRouteImport } from './routes/a-motorcycle-license'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as EmailUnsubscribeRouteImport } from './routes/email/unsubscribe'
@@ -78,6 +79,11 @@ const A2MotorcycleLessonsRoute = A2MotorcycleLessonsRouteImport.update({
 const A1MotorcycleLessonsRoute = A1MotorcycleLessonsRouteImport.update({
   id: '/a1-motorcycle-lessons',
   path: '/a1-motorcycle-lessons',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AMotorcycleLicenseRoute = AMotorcycleLicenseRouteImport.update({
+  id: '/a-motorcycle-license',
+  path: '/a-motorcycle-license',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -161,6 +167,7 @@ const LovableEmailQueueProcessRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/a-motorcycle-license': typeof AMotorcycleLicenseRoute
   '/a1-motorcycle-lessons': typeof A1MotorcycleLessonsRoute
   '/a2-motorcycle-lessons': typeof A2MotorcycleLessonsRoute
   '/admin': typeof AdminRouteWithChildren
@@ -187,6 +194,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/a-motorcycle-license': typeof AMotorcycleLicenseRoute
   '/a1-motorcycle-lessons': typeof A1MotorcycleLessonsRoute
   '/a2-motorcycle-lessons': typeof A2MotorcycleLessonsRoute
   '/auth': typeof AuthRoute
@@ -213,6 +221,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/a-motorcycle-license': typeof AMotorcycleLicenseRoute
   '/a1-motorcycle-lessons': typeof A1MotorcycleLessonsRoute
   '/a2-motorcycle-lessons': typeof A2MotorcycleLessonsRoute
   '/admin': typeof AdminRouteWithChildren
@@ -241,6 +250,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/a-motorcycle-license'
     | '/a1-motorcycle-lessons'
     | '/a2-motorcycle-lessons'
     | '/admin'
@@ -267,6 +277,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/a-motorcycle-license'
     | '/a1-motorcycle-lessons'
     | '/a2-motorcycle-lessons'
     | '/auth'
@@ -292,6 +303,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/a-motorcycle-license'
     | '/a1-motorcycle-lessons'
     | '/a2-motorcycle-lessons'
     | '/admin'
@@ -319,6 +331,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AMotorcycleLicenseRoute: typeof AMotorcycleLicenseRoute
   A1MotorcycleLessonsRoute: typeof A1MotorcycleLessonsRoute
   A2MotorcycleLessonsRoute: typeof A2MotorcycleLessonsRoute
   AdminRoute: typeof AdminRouteWithChildren
@@ -399,6 +412,13 @@ declare module '@tanstack/react-router' {
       path: '/a1-motorcycle-lessons'
       fullPath: '/a1-motorcycle-lessons'
       preLoaderRoute: typeof A1MotorcycleLessonsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/a-motorcycle-license': {
+      id: '/a-motorcycle-license'
+      path: '/a-motorcycle-license'
+      fullPath: '/a-motorcycle-license'
+      preLoaderRoute: typeof AMotorcycleLicenseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -535,6 +555,7 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AMotorcycleLicenseRoute: AMotorcycleLicenseRoute,
   A1MotorcycleLessonsRoute: A1MotorcycleLessonsRoute,
   A2MotorcycleLessonsRoute: A2MotorcycleLessonsRoute,
   AdminRoute: AdminRouteWithChildren,
