@@ -200,6 +200,48 @@ export type Database = {
         }
         Relationships: []
       }
+      landing_pages: {
+        Row: {
+          created_at: string
+          faqs: Json
+          hero: Json
+          highlights: Json
+          is_active: boolean
+          pricing: Json
+          related: Json
+          reviews: Json
+          seo: Json
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          faqs?: Json
+          hero?: Json
+          highlights?: Json
+          is_active?: boolean
+          pricing?: Json
+          related?: Json
+          reviews?: Json
+          seo?: Json
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          faqs?: Json
+          hero?: Json
+          highlights?: Json
+          is_active?: boolean
+          pricing?: Json
+          related?: Json
+          reviews?: Json
+          seo?: Json
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       lead_notes: {
         Row: {
           content: string
