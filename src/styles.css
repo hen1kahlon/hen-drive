@@ -198,14 +198,10 @@
     background-clip: text;
   }
   .glass {
-    background: oklch(0.13 0.012 250 / 0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: oklch(0.13 0.012 250 / 0.94);
   }
   .glass-strong {
-    background: oklch(0.10 0.014 252 / 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: oklch(0.10 0.014 252 / 0.97);
   }
   .shadow-glow { box-shadow: var(--shadow-glow); }
   .shadow-glow-orange { box-shadow: var(--shadow-glow-orange); }
@@ -245,16 +241,13 @@
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(20px, -30px) scale(1.05); }
 }
-.animate-float-slow { animation: float-slow 12s ease-in-out infinite; }
+.animate-float-slow { animation: none; }
 
 @keyframes pulse-ring {
   0% { transform: scale(1); opacity: 0.6; }
   100% { transform: scale(1.6); opacity: 0; }
 }
-.animate-pulse-ring::before {
-  content: ''; position: absolute; inset: 0; border-radius: inherit;
-  background: inherit; animation: pulse-ring 2s ease-out infinite;
-}
+.animate-pulse-ring::before { content: none; }
 
 @keyframes bounce-slow {
   0%, 100% { transform: translateY(0); }
@@ -264,10 +257,6 @@
 
 /* Mobile: tone down expensive blur/shadow/animations for snappier feel */
 @media (max-width: 768px) {
-  .glass, .glass-strong {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
   .shadow-glow, .shadow-glow-orange {
     box-shadow: 0 8px 24px -10px oklch(0 0 0 / 0.5);
   }

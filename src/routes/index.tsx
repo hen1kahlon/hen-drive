@@ -25,10 +25,6 @@ import portraitImg from "@/assets/instructor-portrait.webp";
 import portraitImgMobile from "@/assets/instructor-portrait-mobile.webp";
 import chenPortrait from "@/assets/chen-portrait.webp";
 import vehSedan from "@/assets/vehicle-sedan.webp";
-import vehBikeA2Manual from "@/assets/vehicle-bike-a2-manual.webp";
-import vehBikeA1Manual from "@/assets/vehicle-bike-a1-manual.webp";
-import vehScooterA1Auto from "@/assets/vehicle-scooter-a1-auto.webp";
-import vehScooter from "@/assets/vehicle-scooter.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
 
 export const Route = createFileRoute("/")({
@@ -228,8 +224,8 @@ function Hero() {
     <section id="top" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
       {/* premium background — matches site --background token for seamless flow */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.11_0.014_250)_0%,oklch(0.08_0.013_250)_50%,oklch(0.06_0.012_250)_100%)]">
-        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.4)] blur-[140px] animate-float-slow" />
-        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.4)] blur-[140px] animate-float-slow" style={{ animationDelay: "3s" }} />
+        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.18)]" />
+        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.14)]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-4 lg:py-16 grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full">
@@ -337,8 +333,7 @@ type Category = {
   title: string;
   subtitle: string;
   desc: string;
-  img?: string;
-  imgs?: { src: string; label: string }[];
+  img: string;
   icon: typeof Car;
   color: "blue" | "blue";
   interest: string;
@@ -346,9 +341,7 @@ type Category = {
 
 const categories: Category[] = [
   { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue", interest: "רכב אוטומט דרגה B" },
-  { id: "A2", title: "אופנוע/קטנוע A2", subtitle: "דרגה A2 · ידני / אוטומט", desc: "עד 14.7 כ״ס (125 סמ״ק) — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA2Manual, label: "ידני" }, { src: vehScooter, label: "אוטומט" }], icon: Zap, color: "blue", interest: "אופנוע A2 (ידני / אוטומט)" },
-  { id: "A1", title: "אופנוע/קטנוע A1", subtitle: "דרגה A1 · ידני / אוטומט", desc: "עד 47 כ״ס — אפשר ללמוד גם בהילוכים (ידני) וגם באוטומט.", imgs: [{ src: vehBikeA1Manual, label: "ידני" }, { src: vehScooterA1Auto, label: "אוטומט" }], icon: Bike, color: "blue", interest: "אופנוע A1 (ידני / אוטומט)" },
-  { id: "A", title: "אופנוע ללא הגבלה", subtitle: "דרגה A", desc: "ללא הגבלת כ״ס — רישיון אופנוע מלא לכל סוגי האופנועים בכביש.", img: vehBikeA, icon: Bike, color: "blue", interest: "אופנוע A" },
+  { id: "motorcycle", title: "אופנוע", subtitle: "A · A1 · A2", desc: "כל דרגות האופנוע במקום אחד — ידני ואוטומט לפי הדרגה והצורך.", img: vehBikeA, icon: Bike, color: "blue", interest: "שיעורי אופנוע A / A1 / A2" },
 ];
 
 function getLeadScrollOffset() {
@@ -406,26 +399,19 @@ function Categories() {
   return (
     <section id="categories" className="py-7 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-5 sm:mb-14">
+        <div className="text-center mb-5 sm:mb-14">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">בחרו את הדרגה</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             על מה <span className="gradient-text-blue">תרצו ללמוד</span>?
           </h2>
-        </motion.div>
+        </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {categories.map((c, i) => (
-            <motion.div
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+          {categories.map((c) => (
+            <div
               key={c.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="group relative isolate bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition-all hover:-translate-y-1 overflow-hidden transform-gpu [backface-visibility:hidden] [-webkit-font-smoothing:antialiased]"
+              className="relative bg-card rounded-3xl p-5 border border-white/10 overflow-hidden"
             >
-              {/* glow on hover */}
-              <div aria-hidden className={`pointer-events-none absolute -top-20 ${c.color === "blue" ? "right-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]" : "left-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]"} w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity transform-gpu will-change-[opacity]`} />
-
               <div className="relative">
                 <div className="flex items-start justify-between mb-3">
                   <div>
@@ -437,28 +423,17 @@ function Categories() {
                   </div>
                 </div>
 
-                {c.imgs ? (
-                  <div className="aspect-[4/3] my-3 grid grid-cols-2 gap-2">
-                    {c.imgs.map((v) => (
-                      <div key={v.label} className="relative rounded-2xl bg-white/[0.03] border border-white/5 grid place-items-center p-2 transform-gpu [backface-visibility:hidden] group-hover:scale-[1.03] transition-transform duration-500">
-                        <img src={v.src} alt={`${c.title} — ${v.label}`} loading="lazy" decoding="async" width={300} height={220} className="w-full h-full object-contain transform-gpu [backface-visibility:hidden]" style={{ filter: "drop-shadow(0 12px 20px rgba(0,0,0,0.5))" }} />
-                        <span className={`absolute bottom-1.5 right-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md ${c.color === "blue" ? "bg-[oklch(0.62_0.20_255_/_0.18)] text-[oklch(0.82_0.12_255)] border border-[oklch(0.62_0.20_255_/_0.35)]" : "bg-[oklch(0.62_0.20_255_/_0.18)] text-[oklch(0.82_0.12_255)] border border-[oklch(0.62_0.20_255_/_0.35)]"}`}>{v.label}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="aspect-[4/3] grid place-items-center my-3 transform-gpu [backface-visibility:hidden] group-hover:scale-105 transition-transform duration-500">
-                    <img src={c.img} alt={`${c.title} ${c.subtitle}`} loading="lazy" decoding="async" width={400} height={300} className="w-full h-full object-contain transform-gpu [backface-visibility:hidden]" style={{ filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.5))" }} />
-                  </div>
-                )}
+                <div className="aspect-[4/3] grid place-items-center my-3 rounded-2xl bg-white/[0.03] border border-white/5 p-3 overflow-hidden">
+                  <img src={c.img} alt={`${c.title} ${c.subtitle}`} loading="lazy" decoding="async" width={400} height={300} className="w-full h-full object-contain" />
+                </div>
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-blue hover:border-transparent hover:text-white transition-all">
+                <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-white/5 transition-colors">
                   אני מעוניין/ת בפרטים
                 </button>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
@@ -475,7 +450,7 @@ function SeoLandingLinksSection() {
   return (
     <section id="seo-pages" className="py-7 sm:py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-5 sm:mb-10">
+        <div className="text-center mb-5 sm:mb-10">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">מסלולי לימוד באשקלון</p>
           <h2 className="text-display text-4xl sm:text-5xl">
             בחרו דף מתאים <span className="gradient-text-blue">והתחילו עכשיו</span>
@@ -483,11 +458,11 @@ function SeoLandingLinksSection() {
           <p className="text-sm text-muted-foreground mt-3 max-w-xl mx-auto">
             דפי מידע מלאים עם שאלות נפוצות, המלצות תלמידים וכפתורי וואטסאפ לכל מסלול.
           </p>
-        </motion.div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {seoLandingLinks.map((item, i) => (
-            <motion.div key={item.to} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.04 }}>
-              <Link to={item.to} className="group block rounded-2xl border border-white/10 bg-card p-5 hover:-translate-y-1 hover:border-white/20 transition-all shadow-card">
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {seoLandingLinks.map((item) => (
+            <div key={item.to}>
+              <Link to={item.to} className="group block rounded-2xl border border-white/10 bg-card p-5 hover:border-white/20 transition-colors shadow-card">
                 <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-blue text-white shadow-glow">
                   <ArrowLeft size={18} />
                 </div>
@@ -497,7 +472,7 @@ function SeoLandingLinksSection() {
                   פתחו דף מלא <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" />
                 </span>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
@@ -525,15 +500,15 @@ function About() {
             <img src={chenPortrait} alt="חן כחלון - מורה נהיגה עם רכב ואופנוע באשקלון" loading="lazy" width={1100} height={1100} className="absolute inset-0 w-full h-full object-cover object-center" />
             <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 bg-gradient-to-t from-black/85 via-black/55 to-transparent">
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
+                <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
                   <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">98%</div>
                   <div className="text-[10px] sm:text-xs text-white/80 mt-1">הצלחה</div>
                 </div>
-                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
+                <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
                   <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">5</div>
                   <div className="text-[10px] sm:text-xs text-white/80 mt-1">שנות ותק</div>
                 </div>
-                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
+                <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
                   <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">350+</div>
                   <div className="text-[10px] sm:text-xs text-white/80 mt-1">תלמידים</div>
                 </div>
@@ -594,9 +569,8 @@ function WhyMe() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.07 }}
-              className="group bg-card rounded-3xl p-6 border border-white/5 hover:border-white/15 transition-all hover:-translate-y-1 relative overflow-hidden"
+              className="bg-card rounded-3xl p-6 border border-white/5 hover:border-white/15 transition-colors relative overflow-hidden"
             >
-              <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full ${r.color === "blue" ? "bg-[oklch(0.62_0.20_255_/_0.3)]" : "bg-[oklch(0.62_0.20_255_/_0.3)]"} blur-3xl opacity-0 group-hover:opacity-100 transition-opacity`} />
               <div className="relative">
                 <div className={`w-12 h-12 rounded-2xl border ${r.color === "blue" ? "border-[oklch(0.62_0.20_255_/_0.3)] bg-[oklch(0.62_0.20_255_/_0.1)] text-[oklch(0.7_0.18_255)]" : "border-[oklch(0.62_0.20_255_/_0.3)] bg-[oklch(0.62_0.20_255_/_0.1)] text-[oklch(0.7_0.18_255)]"} grid place-items-center mb-4`}>
                   <r.icon size={22} />
@@ -692,8 +666,8 @@ function ReviewsCTA() {
       className="mt-8 sm:mt-12 max-w-3xl mx-auto"
     >
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[oklch(0.18_0.04_255)] via-[oklch(0.12_0.03_255)] to-[oklch(0.10_0.02_140)] p-6 sm:p-8 text-center">
-        <div className="absolute -top-20 -left-20 w-60 h-60 rounded-full bg-[#25D366]/20 blur-3xl" />
-        <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[oklch(0.55_0.22_255)]/30 blur-3xl" />
+        <div className="absolute -top-20 -left-20 w-60 h-60 rounded-full bg-[#25D366]/10" />
+        <div className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full bg-[oklch(0.55_0.22_255_/_0.12)]" />
         <div className="relative">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-3 py-1 mb-3 text-[11px] font-bold">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
@@ -766,8 +740,7 @@ function Reviews() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: Math.min(i, 6) * 0.08 }}
-              whileHover={{ y: -4 }}
-              className="group relative bg-card rounded-3xl p-5 border border-white/5 hover:border-white/20 hover:shadow-glow transition-all flex flex-col"
+              className="group relative bg-card rounded-3xl p-5 border border-white/5 hover:border-white/20 transition-colors flex flex-col"
             >
               <div className="absolute top-4 left-4 opacity-10 group-hover:opacity-25 transition">
                 <GoogleGlyph className="w-5 h-5" />
@@ -1246,8 +1219,8 @@ function FinalCTA() {
   return (
     <section className="py-7 sm:py-24 px-4 relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.3)] blur-3xl animate-float-slow" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.3)] blur-3xl animate-float-slow" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.12)]" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.10)]" />
       </div>
       <motion.div {...fadeUp} className="max-w-4xl mx-auto text-center glass-strong rounded-[2.5rem] border border-white/10 p-8 sm:p-14 shadow-card">
         <div className="inline-flex items-center gap-2 rounded-full bg-gradient-blue px-4 py-1.5 mb-6 text-xs font-bold text-white">
@@ -1644,19 +1617,18 @@ function StudentCard({
       transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.4) }}
       className={[
         "group relative overflow-hidden rounded-2xl border border-white/10 glass shadow-card",
-        "hover:border-[oklch(0.62_0.20_255_/_0.5)] hover:-translate-y-1 hover:shadow-glow",
-        "transition-all duration-500",
+        "hover:border-[oklch(0.62_0.20_255_/_0.5)] transition-colors",
         mobile ? "snap-start shrink-0 w-[78%] aspect-[3/4]" : tall ? "row-span-2" : "row-span-1",
       ].join(" ")}
     >
-      {/* blurred backdrop = no cropping, no empty bars */}
+      {/* stable backdrop = no GPU blur repaint */}
       <img
         src={item.image_url}
         alt=""
         aria-hidden="true"
         loading="lazy"
         decoding="async"
-        className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-40"
+        className="absolute inset-0 w-full h-full object-cover opacity-20"
       />
       <div className="absolute inset-0 bg-black/30" />
 
@@ -1677,7 +1649,7 @@ function StudentCard({
           fetchPriority={index < 2 ? "high" : "low"}
           decoding="async"
           sizes={mobile ? "78vw" : "(min-width:1024px) 25vw, (min-width:640px) 33vw, 50vw"}
-          className="relative z-[1] w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-700"
+          className="relative z-[1] w-full h-full object-contain"
         />
       )}
 
@@ -1964,7 +1936,7 @@ function ExitIntent() {
       aria-label="הצעה מיוחדת לפני שתעזבו"
       className="fixed inset-0 z-[80] flex items-center justify-center px-4 animate-fade-in"
     >
-      <button type="button" aria-label="סגירה" onClick={close} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <button type="button" aria-label="סגירה" onClick={close} className="absolute inset-0 bg-black/75" />
       <div className="relative w-full max-w-md glass-strong border border-white/10 rounded-3xl p-6 shadow-card animate-scale-in">
         <button
           type="button"
