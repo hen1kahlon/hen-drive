@@ -65,10 +65,8 @@ function Page() {
       ]}
       faqs={faqs}
       related={[
-        { to: "/a-motorcycle-license", title: "רישיון אופנוע A" },
-        { to: "/a1-motorcycle-lessons", title: "אופנוע A1 – פרטים ומחירים" },
-        { to: "/a2-motorcycle-lessons", title: "אופנוע A2 – פרטים ומחירים" },
         { to: "/car-lessons-ashkelon", title: "שיעורי רכב באשקלון" },
+        { to: "/", title: "חזרה לעמוד הבית" },
       ]}
     />
   );

@@ -24,10 +24,7 @@ const ICONS = ["bike", "car", "shield", "grad", "trophy"];
 
 const LABELS: Record<string, string> = {
   "car-lessons-ashkelon": "שיעורי רכב",
-  "motorcycle-lessons-ashkelon": "אופנוע (כללי)",
-  "a-motorcycle-license": "אופנוע A",
-  "a1-motorcycle-lessons": "אופנוע A1",
-  "a2-motorcycle-lessons": "אופנוע A2",
+  "motorcycle-lessons-ashkelon": "שיעורי אופנוע (A / A1 / A2)",
 };
 
 function LandingPagesAdmin() {
@@ -76,21 +73,6 @@ function LandingPagesAdmin() {
   if (!current) {
     return <div className="text-sm text-muted-foreground">טוען...</div>;
   }
-
-  const Field = ({ label, value, onChange, type = "input", rows: r = 3 }: {
-    label: string; value: string; onChange: (v: string) => void; type?: "input" | "textarea"; rows?: number;
-  }) => (
-    <label className="block space-y-1">
-      <span className="text-xs text-muted-foreground">{label}</span>
-      {type === "textarea" ? (
-        <textarea value={value || ""} onChange={(e) => onChange(e.target.value)} rows={r}
-          className="w-full bg-background border border-white/10 rounded-xl px-3 py-2 text-sm" />
-      ) : (
-        <input value={value || ""} onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-background border border-white/10 rounded-xl px-3 py-2 text-sm" />
-      )}
-    </label>
-  );
 
   return (
     <div className="space-y-5">
@@ -237,6 +219,23 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       <h2 className="font-black text-lg">{title}</h2>
       {children}
     </div>
+  );
+}
+
+function Field({ label, value, onChange, type = "input", rows: r = 3 }: {
+  label: string; value: string; onChange: (v: string) => void; type?: "input" | "textarea"; rows?: number;
+}) {
+  return (
+    <label className="block space-y-1">
+      <span className="text-xs text-muted-foreground">{label}</span>
+      {type === "textarea" ? (
+        <textarea value={value || ""} onChange={(e) => onChange(e.target.value)} rows={r}
+          className="w-full bg-background border border-white/10 rounded-xl px-3 py-2 text-sm" />
+      ) : (
+        <input value={value || ""} onChange={(e) => onChange(e.target.value)}
+          className="w-full bg-background border border-white/10 rounded-xl px-3 py-2 text-sm" />
+      )}
+    </label>
   );
 }
 
