@@ -222,6 +222,23 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
+function Field({ label, value, onChange, type = "input", rows: r = 3 }: {
+  label: string; value: string; onChange: (v: string) => void; type?: "input" | "textarea"; rows?: number;
+}) {
+  return (
+    <label className="block space-y-1">
+      <span className="text-xs text-muted-foreground">{label}</span>
+      {type === "textarea" ? (
+        <textarea value={value || ""} onChange={(e) => onChange(e.target.value)} rows={r}
+          className="w-full bg-background border border-white/10 rounded-xl px-3 py-2 text-sm" />
+      ) : (
+        <input value={value || ""} onChange={(e) => onChange(e.target.value)}
+          className="w-full bg-background border border-white/10 rounded-xl px-3 py-2 text-sm" />
+      )}
+    </label>
+  );
+}
+
 function ArraySection<T extends object>({ title, items, onChange, empty, renderItem }: {
   title: string;
   items: T[];
