@@ -399,26 +399,19 @@ function Categories() {
   return (
     <section id="categories" className="py-7 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-5 sm:mb-14">
+        <div className="text-center mb-5 sm:mb-14">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">בחרו את הדרגה</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             על מה <span className="gradient-text-blue">תרצו ללמוד</span>?
           </h2>
-        </motion.div>
+        </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {categories.map((c, i) => (
-            <motion.div
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+          {categories.map((c) => (
+            <div
               key={c.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="group relative isolate bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition-all hover:-translate-y-1 overflow-hidden transform-gpu [backface-visibility:hidden] [-webkit-font-smoothing:antialiased]"
+              className="relative bg-card rounded-3xl p-5 border border-white/10 overflow-hidden"
             >
-              {/* glow on hover */}
-              <div aria-hidden className={`pointer-events-none absolute -top-20 ${c.color === "blue" ? "right-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]" : "left-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]"} w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity transform-gpu will-change-[opacity]`} />
-
               <div className="relative">
                 <div className="flex items-start justify-between mb-3">
                   <div>
@@ -436,11 +429,11 @@ function Categories() {
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-gradient-blue hover:border-transparent hover:text-white transition-all">
+                <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-white/5 transition-colors">
                   אני מעוניין/ת בפרטים
                 </button>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
