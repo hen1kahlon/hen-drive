@@ -224,8 +224,8 @@ function Hero() {
     <section id="top" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
       {/* premium background — matches site --background token for seamless flow */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.11_0.014_250)_0%,oklch(0.08_0.013_250)_50%,oklch(0.06_0.012_250)_100%)]">
-        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.4)] blur-[140px] animate-float-slow" />
-        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.4)] blur-[140px] animate-float-slow" style={{ animationDelay: "3s" }} />
+        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.18)]" />
+        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.14)]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-4 lg:py-16 grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full">
@@ -500,15 +500,15 @@ function About() {
             <img src={chenPortrait} alt="חן כחלון - מורה נהיגה עם רכב ואופנוע באשקלון" loading="lazy" width={1100} height={1100} className="absolute inset-0 w-full h-full object-cover object-center" />
             <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 bg-gradient-to-t from-black/85 via-black/55 to-transparent">
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
+                <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
                   <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">98%</div>
                   <div className="text-[10px] sm:text-xs text-white/80 mt-1">הצלחה</div>
                 </div>
-                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
+                <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
                   <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">5</div>
                   <div className="text-[10px] sm:text-xs text-white/80 mt-1">שנות ותק</div>
                 </div>
-                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/15 p-2 sm:p-3 text-center">
+                <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
                   <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">350+</div>
                   <div className="text-[10px] sm:text-xs text-white/80 mt-1">תלמידים</div>
                 </div>
