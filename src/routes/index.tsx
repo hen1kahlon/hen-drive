@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { LazyMotion, domAnimation, m as motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ComponentPropsWithoutRef } from "react";
 import { Toaster, toast } from "sonner";
 import {
   Phone, MessageCircle, Instagram, Facebook, Mail, Star, Car, Bike,
@@ -117,6 +116,44 @@ const fadeUp = {
   transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
 };
 
+type StaticMotionProps = {
+  initial?: unknown;
+  animate?: unknown;
+  whileInView?: unknown;
+  viewport?: unknown;
+  transition?: unknown;
+  exit?: unknown;
+  variants?: unknown;
+  whileHover?: unknown;
+  whileTap?: unknown;
+  layout?: unknown;
+  layoutId?: unknown;
+};
+
+function stripMotionProps<T extends StaticMotionProps>(props: T) {
+  const {
+    initial: _initial,
+    animate: _animate,
+    whileInView: _whileInView,
+    viewport: _viewport,
+    transition: _transition,
+    exit: _exit,
+    variants: _variants,
+    whileHover: _whileHover,
+    whileTap: _whileTap,
+    layout: _layout,
+    layoutId: _layoutId,
+    ...rest
+  } = props;
+  return rest;
+}
+
+const motion = {
+  div: (props: ComponentPropsWithoutRef<"div"> & StaticMotionProps) => <div {...stripMotionProps(props)} />,
+  article: (props: ComponentPropsWithoutRef<"article"> & StaticMotionProps) => <article {...stripMotionProps(props)} />,
+  a: (props: ComponentPropsWithoutRef<"a"> & StaticMotionProps) => <a {...stripMotionProps(props)} />,
+};
+
 function TikTokIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
@@ -221,22 +258,14 @@ function Hero() {
   const heroSrc = s.hero.hero_media_url || heroImgMobile;
   const heroSrcSet = s.hero.hero_media_url ? undefined : `${heroImgMobile} 768w, ${heroImg} 1920w`;
   return (
-    <section id="top" className="relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
+    <section id="top" className="stable-render-zone relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
       {/* premium background — matches site --background token for seamless flow */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.11_0.014_250)_0%,oklch(0.08_0.013_250)_50%,oklch(0.06_0.012_250)_100%)]">
-        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.18)]" />
-        <div className="absolute -bottom-40 -left-32 w-[40rem] h-[40rem] rounded-full bg-[oklch(0.20_0.015_250_/_0.14)]" />
-      </div>
+      <div className="absolute inset-0 -z-10 bg-background" />
 
       <div className="max-w-7xl mx-auto px-4 py-4 lg:py-16 grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full">
         {/* image - mobile: top, desktop: right (visually first in RTL = right side) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="relative lg:col-span-7 order-1 lg:order-2"
-        >
-          <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 shadow-glow">
+        <motion.div className="relative lg:col-span-7 order-1 lg:order-2">
+          <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-2xl overflow-hidden border border-white/10 bg-card">
             <img
               src={heroSrc}
               srcSet={heroSrcSet}
@@ -248,10 +277,10 @@ function Hero() {
               decoding="async"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/30" />
+             <div className="absolute inset-0 bg-background/35" />
             {/* corner badge */}
-            <div className="absolute top-4 right-4 glass-strong rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5 border border-white/10">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+             <div className="absolute top-4 right-4 bg-background border border-white/10 rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5">
+               <span className="w-2 h-2 rounded-full bg-green-400" />
               זמין השבוע
             </div>
             {/* speedometer accent */}
@@ -260,28 +289,28 @@ function Hero() {
             </div>
           </div>
           {/* floating stat card */}
-          <div className="absolute -bottom-5 -right-2 sm:-right-5 glass-strong rounded-2xl p-3 sm:p-4 border border-white/10 shadow-card flex items-center gap-3">
+          <div className="absolute -bottom-5 -right-2 sm:-right-5 bg-card rounded-2xl p-3 sm:p-4 border border-white/10 flex items-center gap-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-blue grid place-items-center text-white">
               <Trophy size={20} />
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-black gradient-text-blue leading-none">{s.stats.floating}</div>
+              <div className="text-xl sm:text-2xl font-black text-primary leading-none">{s.stats.floating}</div>
               <div className="text-[10px] sm:text-xs text-muted-foreground">{s.stats.floating_label}</div>
             </div>
           </div>
         </motion.div>
 
         {/* text */}
-        <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="lg:col-span-5 order-2 lg:order-1 text-center lg:text-right">
-          <div className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-4 py-1.5 mb-5 text-xs font-medium">
+        <motion.div className="lg:col-span-5 order-2 lg:order-1 text-center lg:text-right">
+          <div className="inline-flex items-center gap-2 rounded-full bg-card border border-white/10 px-4 py-1.5 mb-5 text-xs font-medium">
             <Sparkles size={13} className="text-accent" />
             <span>{s.hero.badge}</span>
           </div>
           <h1 className="text-display text-[2.5rem] sm:text-5xl lg:text-[3.75rem] mb-3">
             {s.hero.headline_line1}<br />
-            <span className="gradient-text-blue">{s.hero.headline_highlight}</span>
+            <span className="text-primary">{s.hero.headline_highlight}</span>
           </h1>
-          <p className="text-display text-2xl sm:text-3xl lg:text-4xl gradient-text-blue mb-5">
+          <p className="text-display text-2xl sm:text-3xl lg:text-4xl text-primary mb-5">
             {s.hero.tagline}
           </p>
           <p className="text-base sm:text-lg text-muted-foreground mb-6 max-w-xl mx-auto lg:mx-0">
@@ -289,21 +318,21 @@ function Hero() {
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
-            <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-gradient-blue px-6 py-3.5 font-bold text-white shadow-glow hover:scale-105 transition">
+            <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 font-bold text-primary-foreground">
               {s.hero.cta_primary}
-              <ArrowLeft size={18} className="group-hover:-translate-x-1 transition" />
+              <ArrowLeft size={18} />
             </button>
             <a
               href={WA_URL}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="וואטסאפ"
-              className="relative z-10 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white hover:scale-105 transition shadow-card"
+              className="relative z-10 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white"
             >
               <MessageCircle size={18} aria-hidden="true" />
               <span className="text-white opacity-100">{s.buttons.whatsapp}</span>
             </a>
-            <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full glass-strong border border-white/10 px-5 py-3.5 font-bold hover:bg-white/5 transition">
+            <a href={`tel:${PHONE}`} className="inline-flex items-center gap-2 rounded-full bg-card border border-white/10 px-5 py-3.5 font-bold">
               <Phone size={18} /> {s.buttons.call}
             </a>
           </div>
@@ -366,7 +395,7 @@ function alignLeadAfterScroll(target: HTMLElement) {
     window.clearTimeout(safetyTimer);
     window.removeEventListener("scroll", onScroll);
     const delta = target.getBoundingClientRect().top - getLeadScrollOffset();
-    if (Math.abs(delta) > 4) window.scrollBy({ top: delta, behavior: "smooth" });
+    if (Math.abs(delta) > 4) window.scrollBy({ top: delta, behavior: "auto" });
   };
 
   const scheduleFinish = () => {
@@ -384,7 +413,7 @@ function scrollToLead() {
   const target = (document.getElementById("lead-form") || document.getElementById("lead")) as HTMLElement | null;
   if (!target) return;
   requestAnimationFrame(() => {
-    window.scrollTo({ top: getLeadScrollTop(target), behavior: "smooth" });
+    window.scrollTo({ top: getLeadScrollTop(target), behavior: "auto" });
     alignLeadAfterScroll(target);
   });
 }
@@ -400,9 +429,9 @@ function Categories() {
     <section id="categories" className="py-7 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-5 sm:mb-14">
-          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">בחרו את הדרגה</p>
+          <p className="text-primary font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">בחרו את הדרגה</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
-            על מה <span className="gradient-text-blue">תרצו ללמוד</span>?
+            על מה <span className="text-primary">תרצו ללמוד</span>?
           </h2>
         </div>
 
@@ -416,9 +445,9 @@ function Categories() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="text-xl font-black leading-tight">{c.title}</h3>
-                    <p className={`text-sm font-bold ${c.color === "blue" ? "gradient-text-blue" : "gradient-text-blue"}`}>{c.subtitle}</p>
+                     <p className="text-sm font-bold text-primary">{c.subtitle}</p>
                   </div>
-                  <div className={`w-10 h-10 rounded-xl ${c.color === "blue" ? "bg-[oklch(0.62_0.20_255_/_0.15)] text-[oklch(0.7_0.18_255)]" : "bg-[oklch(0.62_0.20_255_/_0.15)] text-[oklch(0.7_0.18_255)]"} grid place-items-center border ${c.color === "blue" ? "border-[oklch(0.62_0.20_255_/_0.3)]" : "border-[oklch(0.62_0.20_255_/_0.3)]"}`}>
+                   <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary grid place-items-center border border-primary/30">
                     <c.icon size={18} />
                   </div>
                 </div>
@@ -429,7 +458,7 @@ function Categories() {
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-white/5 transition-colors">
+                 <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
                   אני מעוניין/ת בפרטים
                 </button>
               </div>
@@ -451,9 +480,9 @@ function SeoLandingLinksSection() {
     <section id="seo-pages" className="py-7 sm:py-20 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-5 sm:mb-10">
-          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">מסלולי לימוד באשקלון</p>
+          <p className="text-primary font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">מסלולי לימוד באשקלון</p>
           <h2 className="text-display text-4xl sm:text-5xl">
-            בחרו דף מתאים <span className="gradient-text-blue">והתחילו עכשיו</span>
+            בחרו דף מתאים <span className="text-primary">והתחילו עכשיו</span>
           </h2>
           <p className="text-sm text-muted-foreground mt-3 max-w-xl mx-auto">
             דפי מידע מלאים עם שאלות נפוצות, המלצות תלמידים וכפתורי וואטסאפ לכל מסלול.
@@ -462,14 +491,14 @@ function SeoLandingLinksSection() {
         <div className="grid gap-3 sm:grid-cols-2">
           {seoLandingLinks.map((item) => (
             <div key={item.to}>
-              <Link to={item.to} className="group block rounded-2xl border border-white/10 bg-card p-5 hover:border-white/20 transition-colors shadow-card">
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-blue text-white shadow-glow">
+              <Link to={item.to} className="block rounded-2xl border border-white/10 bg-card p-5">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
                   <ArrowLeft size={18} />
                 </div>
                 <h3 className="text-lg font-black mb-1">{item.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-4">{item.desc}</p>
                 <span className="inline-flex items-center gap-2 text-xs font-bold text-accent">
-                  פתחו דף מלא <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" />
+                  פתחו דף מלא <ArrowLeft size={14} />
                 </span>
               </Link>
             </div>
@@ -2180,8 +2209,7 @@ function LandingPageInner() {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => { setHydrated(true); }, []);
   return (
-    <LazyMotion features={domAnimation} strict>
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="rendering-stable min-h-screen bg-background text-foreground overflow-x-hidden">
       {hydrated && <Toaster position="top-center" theme="dark" richColors />}
       <Nav />
       <main className="pb-24 md:pb-0">
@@ -2204,6 +2232,5 @@ function LandingPageInner() {
       <AccessibilityWidget />
       {hydrated && <ExitIntent />}
     </div>
-    </LazyMotion>
   );
 }
