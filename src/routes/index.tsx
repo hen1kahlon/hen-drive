@@ -450,7 +450,7 @@ function SeoLandingLinksSection() {
   return (
     <section id="seo-pages" className="py-7 sm:py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp} className="text-center mb-5 sm:mb-10">
+        <div className="text-center mb-5 sm:mb-10">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">מסלולי לימוד באשקלון</p>
           <h2 className="text-display text-4xl sm:text-5xl">
             בחרו דף מתאים <span className="gradient-text-blue">והתחילו עכשיו</span>
@@ -458,11 +458,11 @@ function SeoLandingLinksSection() {
           <p className="text-sm text-muted-foreground mt-3 max-w-xl mx-auto">
             דפי מידע מלאים עם שאלות נפוצות, המלצות תלמידים וכפתורי וואטסאפ לכל מסלול.
           </p>
-        </motion.div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {seoLandingLinks.map((item, i) => (
-            <motion.div key={item.to} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35, delay: i * 0.04 }}>
-              <Link to={item.to} className="group block rounded-2xl border border-white/10 bg-card p-5 hover:-translate-y-1 hover:border-white/20 transition-all shadow-card">
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {seoLandingLinks.map((item) => (
+            <div key={item.to}>
+              <Link to={item.to} className="group block rounded-2xl border border-white/10 bg-card p-5 hover:border-white/20 transition-colors shadow-card">
                 <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-blue text-white shadow-glow">
                   <ArrowLeft size={18} />
                 </div>
@@ -472,7 +472,7 @@ function SeoLandingLinksSection() {
                   פתחו דף מלא <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" />
                 </span>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
