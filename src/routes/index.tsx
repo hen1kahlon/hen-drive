@@ -1621,14 +1621,14 @@ function StudentCard({
         mobile ? "snap-start shrink-0 w-[78%] aspect-[3/4]" : tall ? "row-span-2" : "row-span-1",
       ].join(" ")}
     >
-      {/* blurred backdrop = no cropping, no empty bars */}
+      {/* stable backdrop = no GPU blur repaint */}
       <img
         src={item.image_url}
         alt=""
         aria-hidden="true"
         loading="lazy"
         decoding="async"
-        className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-40"
+        className="absolute inset-0 w-full h-full object-cover opacity-20"
       />
       <div className="absolute inset-0 bg-black/30" />
 
@@ -1936,7 +1936,7 @@ function ExitIntent() {
       aria-label="הצעה מיוחדת לפני שתעזבו"
       className="fixed inset-0 z-[80] flex items-center justify-center px-4 animate-fade-in"
     >
-      <button type="button" aria-label="סגירה" onClick={close} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <button type="button" aria-label="סגירה" onClick={close} className="absolute inset-0 bg-black/75" />
       <div className="relative w-full max-w-md glass-strong border border-white/10 rounded-3xl p-6 shadow-card animate-scale-in">
         <button
           type="button"
