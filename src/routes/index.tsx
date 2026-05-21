@@ -421,10 +421,10 @@ function Categories() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="group relative bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition-all hover:-translate-y-1 overflow-hidden"
+              className="group relative isolate bg-card rounded-3xl p-5 border border-white/5 hover:border-white/15 transition-all hover:-translate-y-1 overflow-hidden transform-gpu [backface-visibility:hidden] [-webkit-font-smoothing:antialiased]"
             >
               {/* glow on hover */}
-              <div className={`absolute -top-20 ${c.color === "blue" ? "right-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]" : "left-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]"} w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity`} />
+              <div aria-hidden className={`pointer-events-none absolute -top-20 ${c.color === "blue" ? "right-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]" : "left-1/2 bg-[oklch(0.62_0.20_255_/_0.4)]"} w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity transform-gpu will-change-[opacity]`} />
 
               <div className="relative">
                 <div className="flex items-start justify-between mb-3">
@@ -440,15 +440,15 @@ function Categories() {
                 {c.imgs ? (
                   <div className="aspect-[4/3] my-3 grid grid-cols-2 gap-2">
                     {c.imgs.map((v) => (
-                      <div key={v.label} className="relative rounded-2xl bg-white/[0.03] border border-white/5 grid place-items-center p-2 group-hover:scale-[1.03] transition-transform duration-500">
-                        <img src={v.src} alt={`${c.title} — ${v.label}`} loading="lazy" width={300} height={220} className="w-full h-full object-contain drop-shadow-[0_12px_20px_rgba(0,0,0,0.5)]" />
+                      <div key={v.label} className="relative rounded-2xl bg-white/[0.03] border border-white/5 grid place-items-center p-2 transform-gpu [backface-visibility:hidden] group-hover:scale-[1.03] transition-transform duration-500">
+                        <img src={v.src} alt={`${c.title} — ${v.label}`} loading="lazy" decoding="async" width={300} height={220} className="w-full h-full object-contain transform-gpu [backface-visibility:hidden]" style={{ filter: "drop-shadow(0 12px 20px rgba(0,0,0,0.5))" }} />
                         <span className={`absolute bottom-1.5 right-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md ${c.color === "blue" ? "bg-[oklch(0.62_0.20_255_/_0.18)] text-[oklch(0.82_0.12_255)] border border-[oklch(0.62_0.20_255_/_0.35)]" : "bg-[oklch(0.62_0.20_255_/_0.18)] text-[oklch(0.82_0.12_255)] border border-[oklch(0.62_0.20_255_/_0.35)]"}`}>{v.label}</span>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="aspect-[4/3] grid place-items-center my-3 group-hover:scale-105 transition-transform duration-500">
-                    <img src={c.img} alt={`${c.title} ${c.subtitle}`} loading="lazy" width={400} height={300} className="w-full h-full object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]" />
+                  <div className="aspect-[4/3] grid place-items-center my-3 transform-gpu [backface-visibility:hidden] group-hover:scale-105 transition-transform duration-500">
+                    <img src={c.img} alt={`${c.title} ${c.subtitle}`} loading="lazy" decoding="async" width={400} height={300} className="w-full h-full object-contain transform-gpu [backface-visibility:hidden]" style={{ filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.5))" }} />
                   </div>
                 )}
 
