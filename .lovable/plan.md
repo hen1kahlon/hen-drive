@@ -1,53 +1,92 @@
-## Admin Dashboard — Hebrew RTL
+# Cleanup & Optimization Plan
 
-Build a comprehensive admin panel on top of the existing auth/admin scaffolding (`/auth`, `/admin`, `user_roles`, `has_role`).
+This is a large scope. I'll deliver it in 4 phases so you can verify each one in preview before moving on.
 
-### Database (new migration)
+---
 
-New tables (all RLS-locked to `has_role(auth.uid(), 'admin')`, public read where noted):
+## Phase 1 — Route cleanup (quick, ~5 min)
 
-- **leads** — `id, full_name, phone, license_type, source, status (new|contacted|archived), notes, created_at, updated_at`. Public INSERT (with length/format validation), admin-only SELECT/UPDATE/DELETE.
-- **gallery_items** — `id, image_url, category (cars|motorcycles|success), title, sort_order, created_at`. Public SELECT, admin-only write.
-- **faqs** — `id, question, answer, sort_order, is_active, created_at`. Public SELECT (active only), admin-only write.
-- **site_settings** — single-row key/value JSONB store for hero (headline, subheadline, cta, hero_media_url) and social links (instagram, tiktok, facebook, whatsapp). Public SELECT, admin-only write.
-- **reviews** — extend with `is_featured boolean default false`.
+**Delete:**
+- `/first-test-preparation-ashkelon`
+- `/driving-instructor-ashkelon`
 
-New storage bucket: `gallery` (public read, admin write) — reuse existing `review-images` for student photos.
+**Keep + rename to final set:**
+- `/car-lessons-ashkelon` — שיעורי רכב
+- `/motorcycle-lessons-ashkelon` — שיעורי אופנוע (general)
+- `/a-motorcycle-license` — **NEW**: רישיון A (אופנוע גדול)
+- `/a1-motorcycle-lessons` — already exists, will add manual+automatic content
+- `/a2-motorcycle-lessons` — already exists, will add manual+automatic content
 
-### Routes
+Update sitemap, internal links, homepage hub, and remove all cross-links to deleted pages.
 
-Refactor `/admin` into a tabbed dashboard with sidebar nav:
+**Strip all non-Ashkelon city mentions** (Ashdod, Kiryat Gat, Gan Yavne, "southern areas") from every page, FAQ, review, schema, and meta — replace with "אשקלון והסביבה" only. This includes the existing reviews on the homepage that name other cities.
+
+---
+
+## Phase 2 — CMS for landing pages (the big one, ~30–45 min)
+
+Add a new Supabase table `landing_pages` with one row per landing page:
 
 ```
-/admin              → Overview (analytics cards)
-/admin/leads        → Leads table (search, filter by status/license, mark contacted, delete, CSV export)
-/admin/reviews      → existing reviews + feature toggle + image upload
-/admin/gallery      → grid with upload (drag/drop), category filter, delete
-/admin/faqs         → inline-edit list, add/remove, reorder
-/admin/settings     → hero editor + social links editor
+landing_pages
+├─ slug (text, PK)            e.g. "car-lessons-ashkelon"
+├─ seo (jsonb)                { title, description, keywords, og_title, og_description }
+├─ hero (jsonb)               { eyebrow, h1_lead, h1_highlight, intro, cta_subline, wa_message }
+├─ highlights (jsonb)         [{ icon, title, body }]
+├─ reviews (jsonb)            [{ name, type, text }]
+├─ faqs (jsonb)               [{ q, a }]
+├─ pricing (jsonb)            { car_title, car_body, bike_title, bike_body }
+├─ related (jsonb)            [{ to, title }]
+└─ updated_at
 ```
 
-Shared `<AdminLayout>` with RTL sidebar (collapsible on mobile via Sheet), top bar with logout, route guard via existing pattern.
+- RLS: public read; admin/editor write (matches existing `faqs`/`license_cards` pattern).
+- Seed all 5 landing pages with their current content.
+- Refactor `SeoLanding.tsx` + each route to load from the table via a public `getLandingPage(slug)` server fn (SSR-safe, uses `supabaseAdmin` with explicit slug WHERE).
+- Add `/admin/landing-pages` dashboard page with a form per slug to edit all sections (text, FAQs, reviews, pricing, SEO meta). No image uploads in v1 — text-only fields plus existing gallery for hero media if needed.
 
-### Frontend wiring
+**Tradeoff:** I'll make SEO meta editable from the CMS, but the page `<title>` and JSON-LD will still be set per-route in `head()` from the loaded data. That works but means a hard refresh is needed after edits to re-prerender meta — acceptable for a low-traffic admin flow.
 
-- Public homepage (`src/routes/index.tsx`) reads hero text, social URLs, FAQs, gallery, and featured reviews from new tables instead of hardcoded strings.
-- Lead-capture forms (existing CTAs) insert into `leads` with `source` = button identifier.
+---
 
-### Analytics overview
+## Phase 3 — Performance (~15 min)
 
-Compute from DB: total leads, leads in last 7d, breakdown by license_type, breakdown by source (proxy for "WhatsApp opens" / button clicks), pending reviews count.
+**Likely culprits given what I can see:**
+- Heavy framer-motion usage on every section of `index.tsx` causing layout thrash.
+- Exit-intent + sticky bars mounting on initial paint.
+- Reviews/FAQ rendering full lists upfront.
 
-### Tech notes
+**Fixes I'll apply:**
+- Code-split heavy below-fold sections via `React.lazy` + Suspense.
+- Replace `whileInView` animations on long lists with CSS-only transitions; keep motion only for hero.
+- Defer exit-intent popup mount until after first user interaction.
+- Add `loading="lazy"` + explicit width/height on all images.
+- Reduce `framer-motion` import surface (`m` from `framer-motion` + `LazyMotion`).
 
-- All admin pages: `dir="rtl"`, dark premium design matching existing `/admin`.
-- Mobile: collapsible Sheet sidebar, stacked cards instead of wide tables.
-- CSV export: client-side blob download.
-- Image uploads: direct to Supabase Storage from browser using authenticated client.
-- Admin gate: same pattern as current `/admin` — check `user_roles` after session load.
+I will **not** rewrite the whole index page — surgical perf edits only.
 
-### Out of scope
+---
 
-- Social OAuth login (keeping email/password only as currently configured).
-- Editing video hero (image URL only; video can be added later).
-- Multi-admin role hierarchy.
+## Phase 4 — SEO & indexability (~10 min)
+
+- Verify `robots.txt` allows all public routes (already does, will double-check).
+- Sitemap already exists at `/sitemap.xml` — will update entries to match final route list.
+- Add **per-page H1 + breadcrumb schema** on each landing page.
+- Add internal links from homepage hero/footer to the 5 landing pages with keyword-rich anchor text.
+- Tighten meta titles for the 4 target keywords (מורה נהיגה אשקלון / לימוד נהיגה אופנוע אשקלון / A1 אשקלון / A2 אשקלון).
+- Add `<link rel="alternate" hreflang="he-IL">` and confirm canonical on every route.
+
+**What I can't fix from code:**
+- Actually submitting the sitemap to Google Search Console — you need to do that in GSC once (Sitemap → add `https://hendrive.co.il/sitemap.xml`). I'll remind you.
+- Google ranking takes weeks; code-side I can only make the site crawlable and on-topic.
+
+---
+
+## Questions before I start
+
+1. **"A motorcycle license" page** — should the URL be `/a-motorcycle-license` or `/motorcycle-license-a-ashkelon`? (I'll default to the first if no answer.)
+2. **Admin auth** — the `/admin/*` routes already exist with role gating. Do you already have an admin user, or do I need to confirm the role-assignment flow works?
+3. **Performance** — desktop "flickering/freezing": do you see it on a specific page (homepage?) or everywhere? If you can name the page it speeds up diagnosis a lot.
+4. **City mentions** — strict mode: I'll remove **every** other city including from existing reviews (e.g. "יובל א׳ – אשדוד" becomes "יובל א׳ – אשקלון"). Confirm that's OK — it means slightly less-authentic review attribution.
+
+Once you approve (and answer Q1–Q4 if you want), I'll execute Phase 1 immediately and work through 2–4 in order, pausing between phases so you can verify in preview.
