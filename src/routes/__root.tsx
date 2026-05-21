@@ -297,12 +297,12 @@ function RootComponent() {
       e.preventDefault();
       const id = href.slice(1);
       if (!id || id === "top") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({ top: 0, behavior: "auto" });
         return;
       }
       const el = document.getElementById(id);
       if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        el.scrollIntoView({ behavior: "auto", block: "start" });
       }
     };
     document.addEventListener("click", onClick);

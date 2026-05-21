@@ -251,11 +251,7 @@
   @media (min-width: 1536px) {
     .max-w-7xl { max-width: 88rem; }
   }
-  /* Defer rendering only after the lead form so CTA scroll targets stay stable */
-  section:is(#faq, #match, #gallery, #video, #social) {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 800px;
-  }
+  /* Keep all sections fully painted to avoid partial text rendering on scroll. */
 }
 
 @keyframes float-slow {

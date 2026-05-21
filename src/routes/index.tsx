@@ -395,7 +395,7 @@ function alignLeadAfterScroll(target: HTMLElement) {
     window.clearTimeout(safetyTimer);
     window.removeEventListener("scroll", onScroll);
     const delta = target.getBoundingClientRect().top - getLeadScrollOffset();
-    if (Math.abs(delta) > 4) window.scrollBy({ top: delta, behavior: "smooth" });
+    if (Math.abs(delta) > 4) window.scrollBy({ top: delta, behavior: "auto" });
   };
 
   const scheduleFinish = () => {
@@ -413,7 +413,7 @@ function scrollToLead() {
   const target = (document.getElementById("lead-form") || document.getElementById("lead")) as HTMLElement | null;
   if (!target) return;
   requestAnimationFrame(() => {
-    window.scrollTo({ top: getLeadScrollTop(target), behavior: "smooth" });
+    window.scrollTo({ top: getLeadScrollTop(target), behavior: "auto" });
     alignLeadAfterScroll(target);
   });
 }
