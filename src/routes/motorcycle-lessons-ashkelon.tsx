@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import SeoLanding, { buildFaqJsonLd, buildLocalBusinessJsonLd, type SeoFaq } from "@/components/SeoLanding";
+import bikeA from "@/assets/vehicle-bike-a.webp";
+import bikeA1 from "@/assets/vehicle-bike-a1-manual.webp";
+import bikeA2 from "@/assets/vehicle-bike-a2-manual.webp";
 
 const URL = "https://hendrive.co.il/motorcycle-lessons-ashkelon";
 const TITLE = "שיעורי אופנוע באשקלון | בית ספר לנהיגה לאופנוע – חן כחלון";
@@ -67,7 +70,7 @@ function Page() {
         {
           code: "A",
           title: "רישיון אופנוע A – ללא הגבלת נפח",
-          image: "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=900&q=70",
+          image: bikeA,
           body: "מגיל 21, אופנוע גדול ללא הגבלת נפח מנוע (cc). הכנה מלאה למגרש ולכביש עם אופנוע מתאים, דגש על שליטה במהירויות גבוהות ובלימה בטוחה.",
           transmission: "ידני בלבד · שיעורים פרטניים עד הטסט",
           waMessage: "היי חן, אני מעוניין/ת ברישיון אופנוע A באשקלון, אשמח לפרטים",
@@ -75,7 +78,7 @@ function Page() {
         {
           code: "A1",
           title: "רישיון אופנוע A1 – עד 500 סמ\"ק",
-          image: "https://images.unsplash.com/photo-1568708474879-cb37e1e8a8a8?auto=format&fit=crop&w=900&q=70",
+          image: bikeA1,
           body: "מגיל 18, אופנוע עד 500 סמ\"ק. מתאים למי שרוצה אופנוע בינוני לעיר ולכביש בין-עירוני, עם הספק נוח ושליטה קלה.",
           transmission: "ידני או אוטומט – לבחירתכם",
           waMessage: "היי חן, אני מעוניין/ת ברישיון אופנוע A1 באשקלון, אשמח לפרטים",
@@ -83,7 +86,7 @@ function Page() {
         {
           code: "A2",
           title: "רישיון אופנוע A2 – עד 125 סמ\"ק",
-          image: "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?auto=format&fit=crop&w=900&q=70",
+          image: bikeA2,
           body: "מגיל 16, אופנוע עד 125 סמ\"ק. הדרך המהירה והנגישה לרישיון אופנוע ראשון – מושלם לעיר, לימודים ועבודה.",
           transmission: "ידני או אוטומט – לבחירתכם",
           waMessage: "היי חן, אני מעוניין/ת ברישיון אופנוע A2 באשקלון, אשמח לפרטים",
