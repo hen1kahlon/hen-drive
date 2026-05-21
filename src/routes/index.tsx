@@ -2217,8 +2217,7 @@ function LandingPageInner() {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => { setHydrated(true); }, []);
   return (
-    <LazyMotion features={domAnimation} strict>
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="rendering-stable min-h-screen bg-background text-foreground overflow-x-hidden">
       {hydrated && <Toaster position="top-center" theme="dark" richColors />}
       <Nav />
       <main className="pb-24 md:pb-0">
@@ -2241,6 +2240,5 @@ function LandingPageInner() {
       <AccessibilityWidget />
       {hydrated && <ExitIntent />}
     </div>
-    </LazyMotion>
   );
 }
