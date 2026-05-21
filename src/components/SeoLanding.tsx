@@ -116,11 +116,11 @@ export default function SeoLanding(props: SeoLandingProps) {
               ))}
               <span className="font-black tabular-nums">5.0</span>
             </div>
-            <p className="text-xs text-muted-foreground">120+ תלמידים ממליצים · בית ספר לנהיגה באשקלון</p>
+          <p className="text-xs text-muted-foreground">120+ תלמידים ממליצים · בית ספר לנהיגה באשקלון</p>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-center mb-2">המלצות תלמידים</h2>
           <p className="text-center text-sm text-muted-foreground mb-8">
-            סיפורי הצלחה אמיתיים מאשקלון, אשדוד, קריית גת והדרום
+            סיפורי הצלחה אמיתיים מאשקלון והסביבה
           </p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {props.reviews.map((r, i) => (
@@ -356,12 +356,6 @@ export function buildLocalBusinessJsonLd(opts: { serviceName: string; serviceDes
     geo: { "@type": "GeoCoordinates", latitude: 31.6688, longitude: 34.5743 },
     areaServed: [
       { "@type": "City", name: "אשקלון" },
-      { "@type": "City", name: "אשדוד" },
-      { "@type": "City", name: "קריית גת" },
-      { "@type": "City", name: "קרית מלאכי" },
-      { "@type": "City", name: "גן יבנה" },
-      { "@type": "City", name: "נתיבות" },
-      { "@type": "City", name: "שדרות" },
     ],
     aggregateRating: { "@type": "AggregateRating", ratingValue: "5.0", reviewCount: "120", bestRating: "5", worstRating: "1" },
     makesOffer: {

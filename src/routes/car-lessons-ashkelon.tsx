@@ -3,7 +3,7 @@ import SeoLanding, { buildFaqJsonLd, buildLocalBusinessJsonLd, type SeoFaq } fro
 
 const URL = "https://hendrive.co.il/car-lessons-ashkelon";
 const TITLE = "שיעורי נהיגה ברכב באשקלון | רכב אוטומט – חן כחלון";
-const DESC = "שיעורי נהיגה לרכב פרטי (דרגה B) באשקלון על רכב אוטומט חדש. יחס אישי, סבלנות, איסוף מהבית והכנה ממוקדת לטסט. שירות גם באשדוד וקריית גת.";
+const DESC = "שיעורי נהיגה לרכב פרטי (דרגה B) באשקלון על רכב אוטומט חדש. יחס אישי, סבלנות, איסוף מהבית והכנה ממוקדת לטסט באשקלון והסביבה.";
 
 const faqs: SeoFaq[] = [
   { q: "כמה שיעורי רכב צריך עד טסט באשקלון?", a: "המינימום הוא 28 שיעורים, אך לרוב מספיק 28–40 כדי להגיע מוכן לטסט – תלוי בקצב התלמיד." },
@@ -46,7 +46,7 @@ function Page() {
       eyebrow="רכב פרטי · אשקלון"
       h1Lead="שיעורי נהיגה ברכב באשקלון –"
       h1Highlight="אוטומט חדש"
-      intro="לימוד נהיגה לרכב פרטי (דרגה B) על רכב אוטומט חדש ונוח. גישה אישית, סבלנות וליווי עד הטסט – באשקלון, אשדוד וקריית גת."
+      intro="לימוד נהיגה לרכב פרטי (דרגה B) על רכב אוטומט חדש ונוח. גישה אישית, סבלנות וליווי עד הטסט – באשקלון והסביבה."
       ctaSubline="מתחילים ללמוד נהיגה ברכב?"
       waMessage="היי חן, אני מעוניין/ת בשיעורי רכב באשקלון, אשמח לפרטים"
       highlights={[
@@ -64,9 +64,8 @@ function Page() {
       ]}
       faqs={faqs}
       related={[
-        { to: "/driving-instructor-ashkelon", title: "מורה נהיגה באשקלון" },
-        { to: "/first-test-preparation-ashkelon", title: "הכנה לטסט באשקלון" },
         { to: "/motorcycle-lessons-ashkelon", title: "שיעורי אופנוע באשקלון" },
+        { to: "/a-motorcycle-license", title: "רישיון אופנוע A" },
         { to: "/a1-motorcycle-lessons", title: "אופנוע A1" },
         { to: "/a2-motorcycle-lessons", title: "אופנוע A2" },
       ]}
