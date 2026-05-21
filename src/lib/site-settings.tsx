@@ -135,9 +135,10 @@ export function SiteSettingsProvider({
 }) {
   const [s, setS] = useState<SiteSettings>(initialSettings ?? DEFAULT_SETTINGS);
   useEffect(() => {
+    if (initialSettings) return; // SSR loader already provided fresh data
     supabase.from("site_settings").select("data").eq("id", "main").maybeSingle()
       .then(({ data }) => { if (data?.data) setS(mergeSettings(data.data)); });
-  }, []);
+  }, [initialSettings]);
   return <Ctx.Provider value={s}>{children}</Ctx.Provider>;
 }
 
