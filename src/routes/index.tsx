@@ -1220,8 +1220,8 @@ function FinalCTA() {
   return (
     <section className="py-7 sm:py-24 px-4 relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.3)] blur-3xl animate-float-slow" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.3)] blur-3xl animate-float-slow" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.12)]" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.10)]" />
       </div>
       <motion.div {...fadeUp} className="max-w-4xl mx-auto text-center glass-strong rounded-[2.5rem] border border-white/10 p-8 sm:p-14 shadow-card">
         <div className="inline-flex items-center gap-2 rounded-full bg-gradient-blue px-4 py-1.5 mb-6 text-xs font-bold text-white">
