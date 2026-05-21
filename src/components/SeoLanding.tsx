@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { LazyMotion, domAnimation, m as motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import {
   Phone, MessageCircle, Check, Star, ChevronDown, MapPin,
@@ -62,10 +61,9 @@ export default function SeoLanding(initial: SeoLandingProps) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <LazyMotion features={domAnimation} strict>
     <div className="min-h-screen bg-background text-foreground" dir="rtl">
       {/* Top nav */}
-      <header className="sticky top-0 z-40 backdrop-blur bg-background/70 border-b border-white/5">
+      <header className="sticky top-0 z-40 bg-background/95 border-b border-white/5">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-bold text-sm">
             <ArrowLeft size={16} /> חזרה לאתר
@@ -117,18 +115,13 @@ export default function SeoLanding(initial: SeoLandingProps) {
           {props.highlights.map((h, i) => {
             const Icon = ICONS[h.icon];
             return (
-              <motion.div key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+              <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
                 <div className="w-10 h-10 rounded-xl bg-primary/15 grid place-items-center mb-3">
                   <Icon size={20} className="text-primary" />
                 </div>
                 <h3 className="font-bold mb-1">{h.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{h.body}</p>
-              </motion.div>
+              </div>
             );
           })}
         </div>
@@ -152,12 +145,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
           </p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {props.reviews.map((r, i) => (
-              <motion.div key={i}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.35, delay: i * 0.06 }}
-                className="rounded-2xl border border-white/10 bg-background p-5 shadow-card">
+              <div key={i} className="rounded-2xl border border-white/10 bg-background p-5 shadow-card">
                 <div className="flex gap-0.5 mb-2">
                   {[...Array(5)].map((_, k) => (
                     <Star key={k} size={14} className="fill-[oklch(0.82_0.17_85)] text-[oklch(0.82_0.17_85)]" />
@@ -165,7 +153,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
                 </div>
                 <p className="text-sm leading-relaxed mb-3">{r.text}</p>
                 <p className="text-xs font-bold text-muted-foreground">{r.name} · {r.type}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
           <div className="mt-8 text-center">
@@ -261,7 +249,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
       <DeferredExitIntent wa={wa} tel={tel} phoneDisplay={s.contact.phone_display} />
 
       {/* Sticky mobile CTA bar */}
-      <div className="fixed bottom-0 inset-x-0 z-50 sm:hidden border-t border-white/10 bg-background/95 backdrop-blur" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
+      <div className="fixed bottom-0 inset-x-0 z-50 sm:hidden border-t border-white/10 bg-background/95" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
         <div className="grid grid-cols-2 gap-2 p-2">
           <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl bg-[oklch(0.74_0.18_145)] text-white px-4 py-3 text-sm font-bold">
             <MessageCircle size={18} /> וואטסאפ
@@ -272,7 +260,6 @@ export default function SeoLanding(initial: SeoLandingProps) {
         </div>
       </div>
     </div>
-    </LazyMotion>
   );
 }
 
