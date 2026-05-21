@@ -429,9 +429,9 @@ function Categories() {
     <section id="categories" className="py-7 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-5 sm:mb-14">
-          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">בחרו את הדרגה</p>
+          <p className="text-primary font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">בחרו את הדרגה</p>
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
-            על מה <span className="gradient-text-blue">תרצו ללמוד</span>?
+            על מה <span className="text-primary">תרצו ללמוד</span>?
           </h2>
         </div>
 
@@ -445,9 +445,9 @@ function Categories() {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="text-xl font-black leading-tight">{c.title}</h3>
-                    <p className={`text-sm font-bold ${c.color === "blue" ? "gradient-text-blue" : "gradient-text-blue"}`}>{c.subtitle}</p>
+                     <p className="text-sm font-bold text-primary">{c.subtitle}</p>
                   </div>
-                  <div className={`w-10 h-10 rounded-xl ${c.color === "blue" ? "bg-[oklch(0.62_0.20_255_/_0.15)] text-[oklch(0.7_0.18_255)]" : "bg-[oklch(0.62_0.20_255_/_0.15)] text-[oklch(0.7_0.18_255)]"} grid place-items-center border ${c.color === "blue" ? "border-[oklch(0.62_0.20_255_/_0.3)]" : "border-[oklch(0.62_0.20_255_/_0.3)]"}`}>
+                   <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary grid place-items-center border border-primary/30">
                     <c.icon size={18} />
                   </div>
                 </div>
@@ -458,7 +458,7 @@ function Categories() {
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold hover:bg-white/5 transition-colors">
+                 <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
                   אני מעוניין/ת בפרטים
                 </button>
               </div>
@@ -480,9 +480,9 @@ function SeoLandingLinksSection() {
     <section id="seo-pages" className="py-7 sm:py-20 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-5 sm:mb-10">
-          <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">מסלולי לימוד באשקלון</p>
+          <p className="text-primary font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">מסלולי לימוד באשקלון</p>
           <h2 className="text-display text-4xl sm:text-5xl">
-            בחרו דף מתאים <span className="gradient-text-blue">והתחילו עכשיו</span>
+            בחרו דף מתאים <span className="text-primary">והתחילו עכשיו</span>
           </h2>
           <p className="text-sm text-muted-foreground mt-3 max-w-xl mx-auto">
             דפי מידע מלאים עם שאלות נפוצות, המלצות תלמידים וכפתורי וואטסאפ לכל מסלול.
@@ -491,14 +491,14 @@ function SeoLandingLinksSection() {
         <div className="grid gap-3 sm:grid-cols-2">
           {seoLandingLinks.map((item) => (
             <div key={item.to}>
-              <Link to={item.to} className="group block rounded-2xl border border-white/10 bg-card p-5 hover:border-white/20 transition-colors shadow-card">
-                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-blue text-white shadow-glow">
+              <Link to={item.to} className="block rounded-2xl border border-white/10 bg-card p-5">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
                   <ArrowLeft size={18} />
                 </div>
                 <h3 className="text-lg font-black mb-1">{item.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-4">{item.desc}</p>
                 <span className="inline-flex items-center gap-2 text-xs font-bold text-accent">
-                  פתחו דף מלא <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" />
+                  פתחו דף מלא <ArrowLeft size={14} />
                 </span>
               </Link>
             </div>
