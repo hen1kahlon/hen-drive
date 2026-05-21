@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, Link, Outlet, useRouterState } from "@tan
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Toaster } from "sonner";
-import { LayoutDashboard, Users, Star, Image as ImageIcon, HelpCircle, Settings, LogOut, Menu, X, Bike, AlertTriangle } from "lucide-react";
+import { LayoutDashboard, Users, Star, Image as ImageIcon, HelpCircle, Settings, LogOut, Menu, X, Bike, AlertTriangle, FileText } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({ component: AdminLayout });
 
@@ -13,6 +13,7 @@ const NAV: { to: string; label: string; icon: typeof LayoutDashboard; exact?: bo
   { to: "/admin/gallery", label: "גלריה", icon: ImageIcon },
   { to: "/admin/faqs", label: "שאלות נפוצות", icon: HelpCircle },
   { to: "/admin/license-cards", label: "דרגות רישיון", icon: Bike },
+  { to: "/admin/landing-pages", label: "עמודי נחיתה", icon: FileText },
   { to: "/admin/settings", label: "תוכן האתר (CMS)", icon: Settings },
   { to: "/admin/errors", label: "דוח שגיאות", icon: AlertTriangle },
 ];
