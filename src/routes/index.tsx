@@ -889,16 +889,18 @@ function SubmitReview() {
             </div>
           </div>
 
-          <div suppressHydrationWarning>
-            <label className="text-xs font-semibold mb-1.5 block">סוג לימוד</label>
-            <select suppressHydrationWarning value={form.license_type} onChange={(e) => setForm({ ...form, license_type: e.target.value })}
-              className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-white/30 outline-none">
-              <option value="B">רכב B</option>
-              <option value="A2">אופנוע A2</option>
-              <option value="A1">אופנוע A1</option>
-              <option value="A">אופנוע A</option>
-            </select>
-          </div>
+          <ClientOnly>
+            <div>
+              <label className="text-xs font-semibold mb-1.5 block">סוג לימוד</label>
+              <select value={form.license_type} onChange={(e) => setForm({ ...form, license_type: e.target.value })}
+                className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-white/30 outline-none">
+                <option value="B">רכב B</option>
+                <option value="A2">אופנוע A2</option>
+                <option value="A1">אופנוע A1</option>
+                <option value="A">אופנוע A</option>
+              </select>
+            </div>
+          </ClientOnly>
 
           <div>
             <label className="text-xs font-semibold mb-1.5 block">טקסט הביקורת</label>
@@ -1140,13 +1142,19 @@ function LeadForm() {
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 <Field label="מעוניין/ת ללמוד">
-                  <select suppressHydrationWarning value={form.interest} onChange={(e) => setForm({ ...form, interest: e.target.value })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition">
-                    <option>רכב אוטומט דרגה B</option>
-                    <option>אופנוע A2</option>
-                    <option>אופנוע A1</option>
-                    <option>אופנוע A</option>
-                  </select>
+                  <ClientOnly fallback={
+                    <div className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-muted-foreground">
+                      {form.interest}
+                    </div>
+                  }>
+                    <select value={form.interest} onChange={(e) => setForm({ ...form, interest: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition">
+                      <option>רכב אוטומט דרגה B</option>
+                      <option>אופנוע A2</option>
+                      <option>אופנוע A1</option>
+                      <option>אופנוע A</option>
+                    </select>
+                  </ClientOnly>
                 </Field>
                 <Field label="אזור מגורים">
                   <input value={form.area} onChange={(e) => setForm({ ...form, area: e.target.value })} maxLength={60}
