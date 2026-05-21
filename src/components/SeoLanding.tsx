@@ -312,7 +312,7 @@ function SeoLandingExitIntent({ wa, tel, phoneDisplay }: { wa: string; tel: stri
   if (!open) return null;
   return (
     <div dir="rtl" role="dialog" aria-modal="true" className="fixed inset-0 z-[80] flex items-center justify-center px-4">
-      <button type="button" aria-label="סגירה" onClick={close} className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <button type="button" aria-label="סגירה" onClick={close} className="absolute inset-0 bg-black/75" />
       <div className="relative w-full max-w-md rounded-3xl border border-white/10 bg-background p-6 shadow-card">
         <button type="button" onClick={close} aria-label="סגירה" className="absolute top-3 left-3 h-9 w-9 rounded-full bg-white/10 grid place-items-center">
           <X size={16} />
