@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m as motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import {
   Phone, MessageCircle, Check, Star, ChevronDown, MapPin,
@@ -35,6 +35,7 @@ export default function SeoLanding(props: SeoLandingProps) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="min-h-screen bg-background text-foreground" dir="rtl">
       {/* Top nav */}
       <header className="sticky top-0 z-40 backdrop-blur bg-background/70 border-b border-white/5">
@@ -230,7 +231,7 @@ export default function SeoLanding(props: SeoLandingProps) {
         </div>
       </section>
 
-      <SeoLandingExitIntent wa={wa} tel={tel} phoneDisplay={s.contact.phone_display} />
+      <DeferredExitIntent wa={wa} tel={tel} phoneDisplay={s.contact.phone_display} />
 
       {/* Sticky mobile CTA bar */}
       <div className="fixed bottom-0 inset-x-0 z-50 sm:hidden border-t border-white/10 bg-background/95 backdrop-blur" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
@@ -244,11 +245,13 @@ export default function SeoLanding(props: SeoLandingProps) {
         </div>
       </div>
     </div>
+    </LazyMotion>
   );
 }
 
 function SeoLandingExitIntent({ wa, tel, phoneDisplay }: { wa: string; tel: string; phoneDisplay: string }) {
   const [open, setOpen] = useState(false);
+  // exposed below
   const [done, setDone] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -340,6 +343,30 @@ export function buildFaqJsonLd(faqs: SeoFaq[]) {
       acceptedAnswer: { "@type": "Answer", text: f.a },
     })),
   };
+}
+
+function DeferredExitIntent(props: { wa: string; tel: string; phoneDisplay: string }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    const arm = () => { if (!cancelled) setReady(true); };
+    const opts: AddEventListenerOptions = { once: true, passive: true };
+    window.addEventListener("scroll", arm, opts);
+    window.addEventListener("pointermove", arm, opts);
+    window.addEventListener("touchstart", arm, opts);
+    window.addEventListener("keydown", arm, opts);
+    const t = window.setTimeout(arm, 6000);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(t);
+      window.removeEventListener("scroll", arm);
+      window.removeEventListener("pointermove", arm);
+      window.removeEventListener("touchstart", arm);
+      window.removeEventListener("keydown", arm);
+    };
+  }, []);
+  if (!ready) return null;
+  return <SeoLandingExitIntent {...props} />;
 }
 
 export function buildLocalBusinessJsonLd(opts: { serviceName: string; serviceDesc: string; url: string }) {

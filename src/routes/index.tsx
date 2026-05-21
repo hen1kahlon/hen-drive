@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m as motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import {
@@ -2197,6 +2197,7 @@ function LandingPageInner() {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => { setHydrated(true); }, []);
   return (
+    <LazyMotion features={domAnimation} strict>
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {hydrated && <Toaster position="top-center" theme="dark" richColors />}
       <Nav />
@@ -2220,5 +2221,6 @@ function LandingPageInner() {
       <AccessibilityWidget />
       {hydrated && <ExitIntent />}
     </div>
+    </LazyMotion>
   );
 }
