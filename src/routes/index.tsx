@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m as motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Toaster, toast } from "sonner";
 import {
