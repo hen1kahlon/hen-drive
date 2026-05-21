@@ -66,9 +66,8 @@ function Page() {
       faqs={faqs}
       related={[
         { to: "/motorcycle-lessons-ashkelon", title: "שיעורי אופנוע באשקלון" },
-        { to: "/a-motorcycle-license", title: "רישיון אופנוע A" },
-        { to: "/a1-motorcycle-lessons", title: "אופנוע A1" },
-        { to: "/a2-motorcycle-lessons", title: "אופנוע A2" },
+        { to: "/motorcycle-lessons-ashkelon", title: "שיעורי אופנוע באשקלון" },
+        { to: "/", title: "חזרה לעמוד הבית" },
       ]}
     />
   );

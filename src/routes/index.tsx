@@ -468,10 +468,7 @@ function Categories() {
 
 const seoLandingLinks = [
   { to: "/car-lessons-ashkelon", title: "שיעורי רכב באשקלון", desc: "רכב אוטומט חדש והכנה לטסט" },
-  { to: "/motorcycle-lessons-ashkelon", title: "שיעורי אופנוע באשקלון", desc: "A, A1, A2 ידני ואוטומט" },
-  { to: "/a-motorcycle-license", title: "רישיון אופנוע A", desc: "ללא הגבלת נפח, מגיל 21" },
-  { to: "/a1-motorcycle-lessons", title: "אופנוע A1", desc: "עד 500 סמ״ק, מגיל 18" },
-  { to: "/a2-motorcycle-lessons", title: "אופנוע A2", desc: "רישיון אופנוע ראשון מגיל 16" },
+  { to: "/motorcycle-lessons-ashkelon", title: "שיעורי אופנוע באשקלון", desc: "כל הדרגות: A, A1, A2 – ידני ואוטומט" },
 ] as const;
 
 function SeoLandingLinksSection() {
