@@ -6,6 +6,7 @@ import {
   Trophy, ArrowLeft, Shield, GraduationCap, Bike, Car, Send, X,
 } from "lucide-react";
 import { useSiteSettings, waUrl } from "@/lib/site-settings";
+import { supabase } from "@/integrations/supabase/client";
 
 export type SeoFaq = { q: string; a: string };
 export type SeoReview = { name: string; text: string; type: string };
@@ -22,13 +23,38 @@ export type SeoLandingProps = {
   related: RelatedLink[];
   waMessage: string;
   ctaSubline: string;
+  slug?: string;
 };
 
 const ICONS = {
   bike: Bike, car: Car, shield: Shield, grad: GraduationCap, trophy: Trophy,
 } as const;
 
-export default function SeoLanding(props: SeoLandingProps) {
+export default function SeoLanding(initial: SeoLandingProps) {
+  const [props, setProps] = useState(initial);
+  useEffect(() => {
+    if (!initial.slug) return;
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase.from("landing_pages").select("hero, highlights, reviews, faqs, related").eq("slug", initial.slug!).eq("is_active", true).maybeSingle();
+      if (cancelled || !data) return;
+      const hero = (data.hero ?? {}) as Partial<SeoLandingProps>;
+      setProps((p) => ({
+        ...p,
+        eyebrow: hero.eyebrow || p.eyebrow,
+        h1Lead: hero.h1Lead || p.h1Lead,
+        h1Highlight: hero.h1Highlight || p.h1Highlight,
+        intro: hero.intro || p.intro,
+        ctaSubline: hero.ctaSubline || p.ctaSubline,
+        waMessage: hero.waMessage || p.waMessage,
+        highlights: Array.isArray(data.highlights) && data.highlights.length ? (data.highlights as SeoLandingProps["highlights"]) : p.highlights,
+        reviews: Array.isArray(data.reviews) && data.reviews.length ? (data.reviews as SeoReview[]) : p.reviews,
+        faqs: Array.isArray(data.faqs) && data.faqs.length ? (data.faqs as SeoFaq[]) : p.faqs,
+        related: Array.isArray(data.related) && data.related.length ? (data.related as RelatedLink[]) : p.related,
+      }));
+    })();
+    return () => { cancelled = true; };
+  }, [initial.slug]);
   const s = useSiteSettings();
   const wa = waUrl(s, props.waMessage);
   const tel = `tel:${s.contact.phone}`;
