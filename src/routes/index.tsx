@@ -1186,6 +1186,12 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
+function ClientOnly({ children, fallback = null }: { children: React.ReactNode; fallback?: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  return <>{mounted ? children : fallback}</>;
+}
+
 const faqs = [
   {
     q: "כמה זמן לוקח להוציא רישיון?",
