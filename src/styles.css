@@ -257,10 +257,6 @@
 
 /* Mobile: tone down expensive blur/shadow/animations for snappier feel */
 @media (max-width: 768px) {
-  .glass, .glass-strong {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
   .shadow-glow, .shadow-glow-orange {
     box-shadow: 0 8px 24px -10px oklch(0 0 0 / 0.5);
   }
