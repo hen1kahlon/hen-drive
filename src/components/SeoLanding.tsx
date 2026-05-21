@@ -251,6 +251,7 @@ export default function SeoLanding(props: SeoLandingProps) {
 
 function SeoLandingExitIntent({ wa, tel, phoneDisplay }: { wa: string; tel: string; phoneDisplay: string }) {
   const [open, setOpen] = useState(false);
+  // exposed below
   const [done, setDone] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
