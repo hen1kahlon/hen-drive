@@ -226,6 +226,27 @@
   .ring-glow-blue {
     box-shadow: 0 0 0 1px oklch(0.62 0.20 255 / 0.4), 0 10px 40px -10px oklch(0.62 0.20 255 / 0.4);
   }
+  .rendering-stable *,
+  .stable-render-zone *,
+  .rendering-stable *::before,
+  .rendering-stable *::after,
+  .stable-render-zone *::before,
+  .stable-render-zone *::after {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    mix-blend-mode: normal !important;
+    will-change: auto !important;
+    box-shadow: none !important;
+  }
+  .rendering-stable img,
+  .stable-render-zone img {
+    opacity: 1 !important;
+    backface-visibility: visible !important;
+  }
   /* Premium wider container on large desktops (>=1536px) without touching markup */
   @media (min-width: 1536px) {
     .max-w-7xl { max-width: 88rem; }
