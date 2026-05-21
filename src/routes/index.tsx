@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { LazyMotion, domAnimation, m as motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ComponentPropsWithoutRef } from "react";
 import { Toaster, toast } from "sonner";
 import {
   Phone, MessageCircle, Instagram, Facebook, Mail, Star, Car, Bike,
@@ -115,6 +114,44 @@ const fadeUp = {
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-50px" },
   transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
+};
+
+type StaticMotionProps = {
+  initial?: unknown;
+  animate?: unknown;
+  whileInView?: unknown;
+  viewport?: unknown;
+  transition?: unknown;
+  exit?: unknown;
+  variants?: unknown;
+  whileHover?: unknown;
+  whileTap?: unknown;
+  layout?: unknown;
+  layoutId?: unknown;
+};
+
+function stripMotionProps<T extends StaticMotionProps>(props: T) {
+  const {
+    initial: _initial,
+    animate: _animate,
+    whileInView: _whileInView,
+    viewport: _viewport,
+    transition: _transition,
+    exit: _exit,
+    variants: _variants,
+    whileHover: _whileHover,
+    whileTap: _whileTap,
+    layout: _layout,
+    layoutId: _layoutId,
+    ...rest
+  } = props;
+  return rest;
+}
+
+const motion = {
+  div: (props: ComponentPropsWithoutRef<"div"> & StaticMotionProps) => <div {...stripMotionProps(props)} />,
+  article: (props: ComponentPropsWithoutRef<"article"> & StaticMotionProps) => <article {...stripMotionProps(props)} />,
+  a: (props: ComponentPropsWithoutRef<"a"> & StaticMotionProps) => <a {...stripMotionProps(props)} />,
 };
 
 function TikTokIcon({ className }: { className?: string }) {
