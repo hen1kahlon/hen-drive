@@ -38,7 +38,8 @@ export default function SeoLanding(initial: SeoLandingProps) {
     (async () => {
       const { data } = await supabase.from("landing_pages").select("hero, highlights, reviews, faqs, related").eq("slug", initial.slug!).eq("is_active", true).maybeSingle();
       if (cancelled || !data) return;
-      const hero = (data.hero ?? {}) as Partial<SeoLandingProps>;
+      const row = data as any;
+      const hero = (row.hero ?? {}) as Partial<SeoLandingProps>;
       setProps((p) => ({
         ...p,
         eyebrow: hero.eyebrow || p.eyebrow,
@@ -47,10 +48,10 @@ export default function SeoLanding(initial: SeoLandingProps) {
         intro: hero.intro || p.intro,
         ctaSubline: hero.ctaSubline || p.ctaSubline,
         waMessage: hero.waMessage || p.waMessage,
-        highlights: Array.isArray(data.highlights) && data.highlights.length ? (data.highlights as SeoLandingProps["highlights"]) : p.highlights,
-        reviews: Array.isArray(data.reviews) && data.reviews.length ? (data.reviews as SeoReview[]) : p.reviews,
-        faqs: Array.isArray(data.faqs) && data.faqs.length ? (data.faqs as SeoFaq[]) : p.faqs,
-        related: Array.isArray(data.related) && data.related.length ? (data.related as RelatedLink[]) : p.related,
+        highlights: Array.isArray(row.highlights) && row.highlights.length ? (row.highlights as SeoLandingProps["highlights"]) : p.highlights,
+        reviews: Array.isArray(row.reviews) && row.reviews.length ? (row.reviews as SeoReview[]) : p.reviews,
+        faqs: Array.isArray(row.faqs) && row.faqs.length ? (row.faqs as SeoFaq[]) : p.faqs,
+        related: Array.isArray(row.related) && row.related.length ? (row.related as RelatedLink[]) : p.related,
       }));
     })();
     return () => { cancelled = true; };
