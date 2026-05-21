@@ -38,7 +38,7 @@ function LandingPagesAdmin() {
   const load = useCallback(async () => {
     const { data, error } = await supabase.from("landing_pages").select("*").order("slug");
     if (error) return toast.error(error.message);
-    const norm = (data ?? []).map((r) => ({
+    const norm = (data ?? []).map((r: any) => ({
       ...r,
       seo: r.seo ?? {},
       hero: r.hero ?? {},
@@ -46,7 +46,7 @@ function LandingPagesAdmin() {
       reviews: Array.isArray(r.reviews) ? r.reviews : [],
       faqs: Array.isArray(r.faqs) ? r.faqs : [],
       related: Array.isArray(r.related) ? r.related : [],
-    })) as Row[];
+    })) as unknown as Row[];
     setRows(norm);
     if (!active && norm.length) setActive(norm[0].slug);
   }, [active]);
