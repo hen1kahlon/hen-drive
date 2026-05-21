@@ -231,7 +231,7 @@ export default function SeoLanding(props: SeoLandingProps) {
         </div>
       </section>
 
-      <SeoLandingExitIntent wa={wa} tel={tel} phoneDisplay={s.contact.phone_display} />
+      <DeferredExitIntent wa={wa} tel={tel} phoneDisplay={s.contact.phone_display} />
 
       {/* Sticky mobile CTA bar */}
       <div className="fixed bottom-0 inset-x-0 z-50 sm:hidden border-t border-white/10 bg-background/95 backdrop-blur" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
