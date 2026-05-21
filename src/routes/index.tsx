@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type ComponentPropsWithoutRef } from "react";
+import { useCallback, useEffect, useRef, useState, type ComponentPropsWithoutRef } from "react";
 import { Toaster, toast } from "sonner";
 import {
   Phone, MessageCircle, Instagram, Facebook, Mail, Star, Car, Bike,
@@ -418,13 +418,7 @@ function scrollToLead() {
   });
 }
 
-function selectInterestAndScroll(interest: string) {
-  window.dispatchEvent(new CustomEvent("lead:set-interest", { detail: interest }));
-  // wait a frame so the form state updates before scrolling
-  requestAnimationFrame(() => requestAnimationFrame(scrollToLead));
-}
-
-function Categories() {
+function Categories({ onSelectInterest }: { onSelectInterest?: (interest: string) => void }) {
   return (
     <section id="categories" className="py-7 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
@@ -458,7 +452,7 @@ function Categories() {
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                 <button type="button" onClick={() => selectInterestAndScroll(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
+                 <button type="button" onClick={() => onSelectInterest?.(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
                   אני מעוניין/ת בפרטים
                 </button>
               </div>
@@ -928,7 +922,7 @@ function SubmitReview() {
   );
 }
 
-function LeadForm() {
+function LeadForm({ selectedInterest }: { selectedInterest?: string | null }) {
   const [submitted, setSubmitted] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -941,15 +935,10 @@ function LeadForm() {
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent<string>).detail;
-      if (typeof detail === "string") {
-        setForm((prev) => ({ ...prev, interest: detail }));
-      }
-    };
-    window.addEventListener("lead:set-interest", handler as EventListener);
-    return () => window.removeEventListener("lead:set-interest", handler as EventListener);
-  }, []);
+    if (selectedInterest) {
+      setForm((prev) => ({ ...prev, interest: selectedInterest }));
+    }
+  }, [selectedInterest]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -2207,19 +2196,26 @@ function LandingPageInner() {
   // Subscribe to settings so this tree re-renders when CMS values change.
   useSiteSettings();
   const [hydrated, setHydrated] = useState(false);
+  const [leadInterest, setLeadInterest] = useState<string | null>(null);
   useEffect(() => { setHydrated(true); }, []);
+
+  const handleSelectInterest = useCallback((interest: string) => {
+    setLeadInterest(interest);
+    requestAnimationFrame(() => requestAnimationFrame(scrollToLead));
+  }, []);
+
   return (
     <div className="rendering-stable min-h-screen bg-background text-foreground overflow-x-hidden">
       {hydrated && <Toaster position="top-center" theme="dark" richColors />}
       <Nav />
       <main className="pb-24 md:pb-0">
         <Hero />
-        <Categories />
+        <Categories onSelectInterest={handleSelectInterest} />
         <SeoLandingLinksSection />
         <LicenseMatcher />
         <About />
         <WhyMe />
-        <LeadForm />
+        <LeadForm selectedInterest={leadInterest} />
         <FinalCTA />
         <SuccessGallery />
         <VideoIntro />
