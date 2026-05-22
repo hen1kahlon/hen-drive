@@ -110,6 +110,39 @@ export default function SeoLanding(initial: SeoLandingProps) {
         </div>
       </section>
 
+      {props.licenseTiers && props.licenseTiers.length > 0 && (
+        <section className="px-4 py-10 sm:py-14 border-y border-white/5 bg-white/[0.015]">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-black text-center mb-2">דרגות רישיון אופנוע</h2>
+            <p className="text-center text-sm text-muted-foreground mb-8">
+              A, A1 ו־A2 – לכל דרגה הסבר, תמונה ופתיחת שיחה ישירה בוואטסאפ
+            </p>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {props.licenseTiers.map((t) => (
+                <article key={t.code} className="rounded-2xl border border-white/10 bg-background overflow-hidden flex flex-col">
+                  <img src={t.image} alt={t.title} loading="eager" decoding="async" width={640} height={360}
+                       className="w-full aspect-[16/9] object-contain bg-white/[0.04] p-3" />
+                  <div className="p-5 flex flex-col gap-3 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center justify-center min-w-10 h-7 px-2 rounded-md bg-primary/15 text-primary text-xs font-black tracking-wider">{t.code}</span>
+                      <h3 className="font-bold text-base">{t.title}</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{t.body}</p>
+                    {t.transmission && (
+                      <p className="text-xs font-bold text-foreground/80">{t.transmission}</p>
+                    )}
+                    <a href={waUrl(s, t.waMessage || props.waMessage)} target="_blank" rel="noopener noreferrer"
+                       className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] text-white px-4 py-2.5 text-xs font-bold">
+                      <MessageCircle size={14} /> וואטסאפ על {t.code}
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Highlights */}
       <section className="px-4 py-10 sm:py-14">
         <div className="max-w-5xl mx-auto grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -130,36 +163,6 @@ export default function SeoLanding(initial: SeoLandingProps) {
 
       {/* Reviews */}
       <section className="px-4 py-10 sm:py-14 bg-white/[0.02]">
-        {props.licenseTiers && props.licenseTiers.length > 0 && (
-          <div className="max-w-5xl mx-auto mb-12">
-            <h2 className="text-2xl sm:text-3xl font-black text-center mb-2">דרגות רישיון אופנוע</h2>
-            <p className="text-center text-sm text-muted-foreground mb-8">
-              בחרו את הדרגה המתאימה לכם – הסבר קצר, תיבת הילוכים והתחלה מיידית בוואטסאפ
-            </p>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {props.licenseTiers.map((t) => (
-                <article key={t.code} className="rounded-2xl border border-white/10 bg-background overflow-hidden flex flex-col">
-                  <img src={t.image} alt={t.title} loading="lazy" decoding="async" width={640} height={360}
-                       className="w-full aspect-[16/9] object-contain bg-white/[0.04] p-3" />
-                  <div className="p-5 flex flex-col gap-3 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center justify-center min-w-10 h-7 px-2 rounded-md bg-primary/15 text-primary text-xs font-black tracking-wider">{t.code}</span>
-                      <h3 className="font-bold text-base">{t.title}</h3>
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{t.body}</p>
-                    {t.transmission && (
-                      <p className="text-xs font-bold text-foreground/80">{t.transmission}</p>
-                    )}
-                    <a href={waUrl(s, t.waMessage || props.waMessage)} target="_blank" rel="noopener noreferrer"
-                       className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] text-white px-4 py-2.5 text-xs font-bold">
-                      <MessageCircle size={14} /> וואטסאפ על {t.code}
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        )}
         <div className="max-w-5xl mx-auto">
           <div className="mx-auto mb-6 max-w-lg rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-center">
             <div className="flex items-center justify-center gap-2 mb-1" aria-label="דירוג 5 כוכבים">
