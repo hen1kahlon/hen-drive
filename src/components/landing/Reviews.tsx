@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Star, Car, Bike, Check, Trophy, MessageCircle, Phone, Upload, Send } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useSiteSettings, waUrl } from "@/lib/site-settings";
@@ -55,7 +56,7 @@ function TrustHeader() {
           <span className="text-xl font-black tabular-nums">{REVIEW_AGGREGATE.value.toFixed(1)}</span>
           <div className="flex gap-0.5">
             {[...Array(5)].map((_, i) => (
-              <Star key={i} size={16} className="fill-[#FBBC04] text-[#FBBC04]" />
+              <Star key={i} size={16} className="fill-[#f59e0b] text-[#f59e0b]" />
             ))}
           </div>
         </div>
@@ -242,6 +243,7 @@ function SubmitReview() {
 
 export function Reviews() {
   const [reviews, setReviews] = useState<PublicReview[]>(fallbackReviews);
+  const ref = useScrollReveal(0);
   useEffect(() => {
     supabase
       .from("reviews")
@@ -254,7 +256,7 @@ export function Reviews() {
       });
   }, []);
   return (
-    <section id="reviews" className="py-7 sm:py-24 px-4 relative">
+    <section id="reviews" ref={ref as React.RefObject<HTMLElement>} className="py-7 sm:py-24 px-4 relative">
       <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-5 sm:mb-14">
@@ -288,16 +290,16 @@ export function Reviews() {
                 </div>
               </div>
               <div className="flex gap-0.5 mb-3">
-                {[...Array(r.rating)].map((_, j) => <Star key={j} size={14} className="fill-[#FBBC04] text-[#FBBC04]" />)}
+                {[...Array(r.rating)].map((_, j) => <Star key={j} size={14} className="fill-[#f59e0b] text-[#f59e0b]" />)}
               </div>
               {r.image_url && <img src={r.image_url} alt={`תלמיד/ה ${r.full_name} – ביקורת על שיעורי נהיגה אצל חן כחלון`} loading="lazy" className="rounded-xl mb-3 w-full h-32 object-cover" />}
               <p className="text-sm text-foreground/85 leading-relaxed mb-4 min-h-[80px] font-normal">"{r.content}"</p>
               <div className="mt-auto pt-3 border-t border-white/5 flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 border border-white/10 px-2.5 py-1 text-[11px] font-bold">
+                <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: "#eff6ff", color: "#2563eb" }}>
                   <ReviewBadgeIcon type={r.license_type} />
                   {ReviewBadgeLabel(r.license_type)}
                 </span>
-                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-400">
+                <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: "#f0fdf4", color: "#22c55e" }}>
                   <Check size={11} /> טסט ראשון
                 </span>
               </div>

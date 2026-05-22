@@ -105,6 +105,11 @@
   --shadow-glow: 0 20px 60px -15px oklch(0.62 0.20 255 / 0.5);
   --shadow-glow-orange: 0 20px 60px -15px oklch(0.72 0.20 50 / 0.55);
   --shadow-card: 0 10px 40px -10px oklch(0 0 0 / 0.5);
+  --color-navy-deep: #0f1729;
+  --color-navy-primary: #1a2d5a;
+  --color-blue-electric: #2563eb;
+  --color-amber: #f59e0b;
+  --color-success: #22c55e;
 }
 
 .dark {
@@ -252,6 +257,29 @@
     .max-w-7xl { max-width: 88rem; }
   }
   /* Keep all sections fully painted to avoid partial text rendering on scroll. */
+
+  /* Scroll-reveal base state */
+  .sr-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .sr-reveal.sr-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  /* Override .rendering-stable wildcard suppression — higher specificity wins */
+  .rendering-stable .sr-reveal,
+  .stable-render-zone .sr-reveal {
+    opacity: 0 !important;
+    transform: translateY(20px) !important;
+    transition: opacity 0.5s ease, transform 0.5s ease !important;
+  }
+  .rendering-stable .sr-reveal.sr-visible,
+  .stable-render-zone .sr-reveal.sr-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
 }
 
 @keyframes float-slow {

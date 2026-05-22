@@ -1,4 +1,5 @@
-import { Car, Bike } from "lucide-react";
+import { useState } from "react";
+import { Car, Bike, ChevronDown } from "lucide-react";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
 
@@ -9,13 +10,13 @@ type Category = {
   desc: string;
   img: string;
   icon: typeof Car;
-  color: "blue" | "blue";
+  accent: string;
   interest: string;
 };
 
 const categories: Category[] = [
-  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue", interest: "רכב אוטומט דרגה B" },
-  { id: "motorcycle", title: "אופנוע", subtitle: "A · A1 · A2", desc: "כל דרגות האופנוע במקום אחד — ידני ואוטומט לפי הדרגה והצורך.", img: vehBikeA, icon: Bike, color: "blue", interest: "שיעורי אופנוע A / A1 / A2" },
+  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, accent: "#2563eb", interest: "רכב אוטומט דרגה B" },
+  { id: "motorcycle", title: "אופנוע", subtitle: "A · A1 · A2", desc: "כל דרגות האופנוע במקום אחד — ידני ואוטומט לפי הדרגה והצורך.", img: vehBikeA, icon: Bike, accent: "#f59e0b", interest: "שיעורי אופנוע A / A1 / A2" },
 ];
 
 function getLeadScrollOffset() {
@@ -63,7 +64,14 @@ export function scrollToLead() {
   });
 }
 
+const motoGrades = [
+  { id: "A2", label: "A2", age: "מגיל 16", desc: "ידני / אוטומט — מינימום 15 שיעורים", interest: "אופנוע A2" },
+  { id: "A1", label: "A1", age: "מגיל 18", desc: "ידני / אוטומט — מינימום 15 שיעורים", interest: "אופנוע A1" },
+  { id: "A",  label: "A",  age: "מגיל 21", desc: "עם שנת ותק על A1 — מינימום 8 שיעורים", interest: "אופנוע A" },
+];
+
 export function Categories({ onSelectInterest }: { onSelectInterest?: (interest: string) => void }) {
+  const [motoOpen, setMotoOpen] = useState(false);
   return (
     <section id="categories" className="py-7 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
@@ -78,15 +86,17 @@ export function Categories({ onSelectInterest }: { onSelectInterest?: (interest:
           {categories.map((c) => (
             <div
               key={c.id}
-              className="relative bg-card rounded-3xl p-5 border border-white/10 overflow-hidden"
+              className="relative bg-card rounded-3xl overflow-hidden border border-white/10 transition-transform duration-200 hover:scale-[1.02]"
             >
+              <div className="h-[3px] w-full" style={{ background: c.accent }} />
+              <div className="p-5">
               <div className="relative">
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="text-xl font-black leading-tight">{c.title}</h3>
-                     <p className="text-sm font-bold text-primary">{c.subtitle}</p>
+                    <p className="text-sm font-bold" style={{ color: c.accent }}>{c.subtitle}</p>
                   </div>
-                   <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary grid place-items-center border border-primary/30">
+                  <div className="w-10 h-10 rounded-xl grid place-items-center border" style={{ background: `${c.accent}20`, color: c.accent, borderColor: `${c.accent}40` }}>
                     <c.icon size={18} />
                   </div>
                 </div>
@@ -97,9 +107,46 @@ export function Categories({ onSelectInterest }: { onSelectInterest?: (interest:
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                 <button type="button" onClick={() => onSelectInterest?.(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
-                  אני מעוניין/ת בפרטים
-                </button>
+                {c.id === "motorcycle" ? (
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => setMotoOpen((o) => !o)}
+                      className="flex w-full items-center justify-between rounded-xl border border-white/10 py-2.5 px-4 text-sm font-bold bg-background transition hover:bg-white/5"
+                    >
+                      <span>בחר דרגה וקבל פרטים</span>
+                      <ChevronDown size={16} className={`transition-transform duration-200 ${motoOpen ? "rotate-180" : ""}`} style={{ color: c.accent }} />
+                    </button>
+                    {motoOpen && (
+                      <div className="mt-2 space-y-2">
+                        {motoGrades.map((g) => (
+                          <div key={g.id} className="rounded-xl border border-white/10 bg-white/[0.03] p-3 flex items-center justify-between gap-3">
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-black" style={{ color: c.accent }}>דרגה {g.label}</span>
+                                <span className="text-[11px] text-muted-foreground">{g.age}</span>
+                              </div>
+                              <p className="text-[11px] text-muted-foreground mt-0.5">{g.desc}</p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => { onSelectInterest?.(g.interest); setMotoOpen(false); }}
+                              className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-bold text-white transition hover:opacity-90"
+                              style={{ background: c.accent }}
+                            >
+                              בקש פרטים
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <button type="button" onClick={() => onSelectInterest?.(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
+                    אני מעוניין/ת בפרטים
+                  </button>
+                )}
+              </div>
               </div>
             </div>
           ))}

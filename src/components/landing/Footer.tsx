@@ -16,7 +16,7 @@ function Logo({ size = "md" }: { size?: "sm" | "md" }) {
       <div className={`${dim} rounded-xl bg-gradient-blue grid place-items-center text-white font-black shadow-glow`}>חכ</div>
       <div className="leading-tight">
         <div className="font-black text-base">חן כחלון</div>
-        <div className="text-[10px] text-muted-foreground -mt-0.5">מורה נהיגה</div>
+        <div className="text-[10px] -mt-0.5" style={{ color: "rgba(255,255,255,0.5)" }}>מורה נהיגה</div>
       </div>
     </div>
   );
@@ -28,15 +28,15 @@ export function Footer() {
   const facebook = s.social.facebook;
   const tiktok = s.social.tiktok;
   return (
-    <footer className="border-t border-white/5 py-8 sm:py-12 px-4 pb-28 md:pb-12 relative">
+    <footer className="border-t py-8 sm:py-12 px-4 pb-28 md:pb-12 relative" style={{ background: "#0a0f1e", borderColor: "rgba(255,255,255,0.08)" }}>
       <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6 sm:gap-8 text-sm">
         <div>
           <Logo />
-          <p className="text-muted-foreground mt-4 max-w-xs">מורה נהיגה לרכב ואופנועים — אשקלון והסביבה. מלווה אותך עד הקריאה ״עברת״.</p>
+          <p className="mt-4 max-w-xs" style={{ color: "rgba(255,255,255,0.6)" }}>מורה נהיגה לרכב ואופנועים — אשקלון והסביבה. מלווה אותך עד הקריאה ״עברת״.</p>
         </div>
         <div>
           <h4 className="font-black mb-4 text-base">צור קשר</h4>
-          <ul className="space-y-3 text-muted-foreground">
+          <ul className="space-y-3" style={{ color: "rgba(255,255,255,0.6)" }}>
             <li><a href={`tel:${s.contact.phone}`} className="hover:text-foreground inline-flex items-center gap-2"><Phone size={14} className="text-accent" /> {s.contact.phone_display}</a></li>
             <li><a href={`mailto:${s.contact.email}`} className="hover:text-foreground inline-flex items-center gap-2"><Mail size={14} className="text-accent" /> {s.contact.email}</a></li>
             <li className="inline-flex items-center gap-2"><MapPin size={14} className="text-accent" /> אשקלון והסביבה</li>
@@ -57,7 +57,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto mt-8 pt-5 border-t border-white/5 text-center text-xs text-muted-foreground">
+      <div className="max-w-7xl mx-auto mt-8 pt-5 border-t text-center text-xs" style={{ borderColor: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>
         © {new Date().getFullYear()} חן כחלון - מורה נהיגה. כל הזכויות שמורות.
       </div>
     </footer>
