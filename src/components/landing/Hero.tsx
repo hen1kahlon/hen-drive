@@ -1,4 +1,4 @@
-import { ArrowLeft, Heart, Shield, GraduationCap, Users, Sparkles, MessageCircle, Phone, Trophy } from "lucide-react";
+import { ArrowLeft, Heart, Shield, GraduationCap, Users, MessageCircle, Phone, Trophy } from "lucide-react";
 import { useSiteSettings, waUrl } from "@/lib/site-settings";
 import heroImg from "@/assets/hero-driving.webp";
 import heroImgMobile from "@/assets/hero-driving-mobile.webp";
@@ -37,7 +37,9 @@ export function Hero() {
   return (
     <section id="top" className="stable-render-zone relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
       {/* premium background — matches site --background token for seamless flow */}
-      <div className="absolute inset-0 -z-10 bg-background" />
+      <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(135deg, #0f1729 0%, #1a2d5a 100%)" }} />
+      <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full -z-10 pointer-events-none" style={{ background: "rgba(37,99,235,0.12)", filter: "blur(80px)" }} />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full -z-10 pointer-events-none" style={{ background: "rgba(245,158,11,0.08)", filter: "blur(80px)" }} />
 
       <div className="max-w-7xl mx-auto px-4 py-4 lg:py-16 grid lg:grid-cols-12 gap-6 lg:gap-12 items-center w-full">
         {/* image - mobile: top, desktop: right (visually first in RTL = right side) */}
@@ -79,15 +81,15 @@ export function Hero() {
 
         {/* text */}
         <div className="lg:col-span-5 order-2 lg:order-1 text-center lg:text-right">
-          <div className="inline-flex items-center gap-2 rounded-full bg-card border border-white/10 px-4 py-1.5 mb-5 text-xs font-medium">
-            <Sparkles size={13} className="text-accent" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-1.5 mb-5 text-xs font-medium" style={{ background: "rgba(34,197,94,0.12)" }}>
+            <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#22c55e" }} />
             <span>{s.hero.badge}</span>
           </div>
           <h1 className="text-display text-[2.5rem] sm:text-5xl lg:text-[3.75rem] mb-3">
             {s.hero.headline_line1}<br />
-            <span className="text-primary">{s.hero.headline_highlight}</span>
+            <span style={{ color: "#f59e0b" }}>{s.hero.headline_highlight}</span>
           </h1>
-          <p className="text-display text-2xl sm:text-3xl lg:text-4xl text-primary mb-5">
+          <p className="text-display text-2xl sm:text-3xl lg:text-4xl mb-5" style={{ color: "#f59e0b" }}>
             {s.hero.tagline}
           </p>
           <p className="text-base sm:text-lg text-muted-foreground mb-6 max-w-xl mx-auto lg:mx-0">
@@ -95,7 +97,7 @@ export function Hero() {
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6">
-            <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 font-bold text-primary-foreground">
+            <button type="button" onClick={scrollToLead} className="group inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-bold text-white" style={{ background: "#2563eb" }}>
               {s.hero.cta_primary}
               <ArrowLeft size={18} />
             </button>
@@ -104,10 +106,11 @@ export function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="וואטסאפ"
-              className="relative z-10 inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-bold text-white"
+              className="relative z-10 inline-flex items-center justify-center gap-2 rounded-full border px-5 py-3.5 font-bold"
+              style={{ background: "rgba(37,211,102,0.15)", borderColor: "rgba(37,211,102,0.4)", color: "#25D366" }}
             >
               <MessageCircle size={18} aria-hidden="true" />
-              <span className="text-white opacity-100">{s.buttons.whatsapp}</span>
+              <span>{s.buttons.whatsapp}</span>
             </a>
             <a href={`tel:${s.contact.phone}`} className="inline-flex items-center gap-2 rounded-full bg-card border border-white/10 px-5 py-3.5 font-bold">
               <Phone size={18} /> {s.buttons.call}

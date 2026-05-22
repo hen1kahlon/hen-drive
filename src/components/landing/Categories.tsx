@@ -9,13 +9,13 @@ type Category = {
   desc: string;
   img: string;
   icon: typeof Car;
-  color: "blue" | "blue";
+  accent: string;
   interest: string;
 };
 
 const categories: Category[] = [
-  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, color: "blue", interest: "רכב אוטומט דרגה B" },
-  { id: "motorcycle", title: "אופנוע", subtitle: "A · A1 · A2", desc: "כל דרגות האופנוע במקום אחד — ידני ואוטומט לפי הדרגה והצורך.", img: vehBikeA, icon: Bike, color: "blue", interest: "שיעורי אופנוע A / A1 / A2" },
+  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, accent: "#2563eb", interest: "רכב אוטומט דרגה B" },
+  { id: "motorcycle", title: "אופנוע", subtitle: "A · A1 · A2", desc: "כל דרגות האופנוע במקום אחד — ידני ואוטומט לפי הדרגה והצורך.", img: vehBikeA, icon: Bike, accent: "#f59e0b", interest: "שיעורי אופנוע A / A1 / A2" },
 ];
 
 function getLeadScrollOffset() {
@@ -78,15 +78,17 @@ export function Categories({ onSelectInterest }: { onSelectInterest?: (interest:
           {categories.map((c) => (
             <div
               key={c.id}
-              className="relative bg-card rounded-3xl p-5 border border-white/10 overflow-hidden"
+              className="relative bg-card rounded-3xl overflow-hidden border border-white/10 transition-transform duration-200 hover:scale-[1.02]"
             >
+              <div className="h-[3px] w-full" style={{ background: c.accent }} />
+              <div className="p-5">
               <div className="relative">
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="text-xl font-black leading-tight">{c.title}</h3>
-                     <p className="text-sm font-bold text-primary">{c.subtitle}</p>
+                    <p className="text-sm font-bold" style={{ color: c.accent }}>{c.subtitle}</p>
                   </div>
-                   <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary grid place-items-center border border-primary/30">
+                  <div className="w-10 h-10 rounded-xl grid place-items-center border" style={{ background: `${c.accent}20`, color: c.accent, borderColor: `${c.accent}40` }}>
                     <c.icon size={18} />
                   </div>
                 </div>
@@ -97,9 +99,10 @@ export function Categories({ onSelectInterest }: { onSelectInterest?: (interest:
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                 <button type="button" onClick={() => onSelectInterest?.(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
+                <button type="button" onClick={() => onSelectInterest?.(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
                   אני מעוניין/ת בפרטים
                 </button>
+              </div>
               </div>
             </div>
           ))}
