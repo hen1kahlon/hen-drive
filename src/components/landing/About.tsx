@@ -13,7 +13,7 @@ export function About() {
     "הכנה אמיתית לטסט",
   ];
   return (
-    <section id="about" ref={ref as React.RefObject<HTMLElement>} className="py-7 sm:py-24 px-4 relative overflow-hidden">
+    <section id="about" ref={ref} className="py-7 sm:py-24 px-4 relative overflow-hidden">
       <div className="absolute inset-0 -z-10 grid-bg opacity-40" />
       <div className="absolute top-1/2 -translate-y-1/2 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.12)] blur-[120px] -z-10" />
 

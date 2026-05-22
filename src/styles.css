@@ -62,7 +62,6 @@
 }
 
 :root {
-  --radius: 0.625rem;
   --radius: 1rem;
   --background: oklch(0.06 0.012 250);
   --foreground: oklch(0.98 0 0);
@@ -237,15 +236,12 @@
   .rendering-stable *::after,
   .stable-render-zone *::before,
   .stable-render-zone *::after {
+    /* Only suppress CSS keyframe animations to prevent CLS on first paint.
+       filter / backdrop-filter / box-shadow / transform / transition are left
+       intact so blur orbs, frosted glass, glow, and hover effects render correctly
+       even before client hydration. */
     animation: none !important;
-    transition: none !important;
-    transform: none !important;
-    filter: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    mix-blend-mode: normal !important;
     will-change: auto !important;
-    box-shadow: none !important;
   }
   .rendering-stable img,
   .stable-render-zone img {

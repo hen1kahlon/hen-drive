@@ -7,7 +7,7 @@ export function FinalCTA() {
   const ref = useScrollReveal(0);
   return (
     <section
-      ref={ref as React.RefObject<HTMLElement>}
+      ref={ref}
       className="py-7 sm:py-24 px-4 relative overflow-hidden"
       style={{ background: "#0f1729" }}
     >

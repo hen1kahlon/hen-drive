@@ -23,7 +23,7 @@ export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   const ref = useScrollReveal(0);
   return (
-    <section id="faq" ref={ref as React.RefObject<HTMLElement>} className="py-7 sm:py-24 px-4">
+    <section id="faq" ref={ref} className="py-7 sm:py-24 px-4">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">שאלות נפוצות</p>

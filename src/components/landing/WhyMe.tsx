@@ -13,7 +13,7 @@ const reasons = [
 export function WhyMe() {
   const ref = useScrollReveal(0);
   return (
-    <section id="why" ref={ref as React.RefObject<HTMLElement>} className="py-7 sm:py-24 px-4">
+    <section id="why" ref={ref} className="py-7 sm:py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-5 sm:mb-14">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">היתרונות שלי</p>

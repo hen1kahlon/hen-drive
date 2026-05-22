@@ -256,7 +256,7 @@ export function Reviews() {
       });
   }, []);
   return (
-    <section id="reviews" ref={ref as React.RefObject<HTMLElement>} className="py-7 sm:py-24 px-4 relative">
+    <section id="reviews" ref={ref} className="py-7 sm:py-24 px-4 relative">
       <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-5 sm:mb-14">

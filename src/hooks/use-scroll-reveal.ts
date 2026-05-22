@@ -1,15 +1,23 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 
-export function useScrollReveal(delay: 0 | 100 | 200 | 300 = 0) {
-  const ref = useRef<HTMLElement>(null);
+export function useScrollReveal<T extends HTMLElement = HTMLElement>(
+  delay: 0 | 100 | 200 | 300 = 0,
+): RefObject<T | null> {
+  const ref = useRef<T>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.classList.add("sr-reveal", "sr-visible");
       return;
     }
+
+    // Skip hide-then-reveal for elements already visible in the viewport
+    // to avoid the flash: visible → invisible → fade-in.
+    const rect = el.getBoundingClientRect();
+    const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    if (alreadyVisible) return;
 
     el.classList.add("sr-reveal");
 
@@ -26,7 +34,7 @@ export function useScrollReveal(delay: 0 | 100 | 200 | 300 = 0) {
           }
         }
       },
-      { threshold: 0.05 }
+      { threshold: 0.05 },
     );
 
     observer.observe(el);
