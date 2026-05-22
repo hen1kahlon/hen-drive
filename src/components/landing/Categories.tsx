@@ -1,4 +1,5 @@
-import { Car, Bike } from "lucide-react";
+import { useState } from "react";
+import { Car, Bike, ChevronDown } from "lucide-react";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
 
@@ -63,7 +64,14 @@ export function scrollToLead() {
   });
 }
 
+const motoGrades = [
+  { id: "A2", label: "A2", age: "מגיל 16", desc: "ידני / אוטומט — מינימום 15 שיעורים", interest: "אופנוע A2" },
+  { id: "A1", label: "A1", age: "מגיל 18", desc: "ידני / אוטומט — מינימום 15 שיעורים", interest: "אופנוע A1" },
+  { id: "A",  label: "A",  age: "מגיל 21", desc: "עם שנת ותק על A1 — מינימום 8 שיעורים", interest: "אופנוע A" },
+];
+
 export function Categories({ onSelectInterest }: { onSelectInterest?: (interest: string) => void }) {
+  const [motoOpen, setMotoOpen] = useState(false);
   return (
     <section id="categories" className="py-7 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
@@ -99,9 +107,45 @@ export function Categories({ onSelectInterest }: { onSelectInterest?: (interest:
 
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
 
-                <button type="button" onClick={() => onSelectInterest?.(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
-                  אני מעוניין/ת בפרטים
-                </button>
+                {c.id === "motorcycle" ? (
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => setMotoOpen((o) => !o)}
+                      className="flex w-full items-center justify-between rounded-xl border border-white/10 py-2.5 px-4 text-sm font-bold bg-background transition hover:bg-white/5"
+                    >
+                      <span>בחר דרגה וקבל פרטים</span>
+                      <ChevronDown size={16} className={`transition-transform duration-200 ${motoOpen ? "rotate-180" : ""}`} style={{ color: c.accent }} />
+                    </button>
+                    {motoOpen && (
+                      <div className="mt-2 space-y-2">
+                        {motoGrades.map((g) => (
+                          <div key={g.id} className="rounded-xl border border-white/10 bg-white/[0.03] p-3 flex items-center justify-between gap-3">
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-black" style={{ color: c.accent }}>דרגה {g.label}</span>
+                                <span className="text-[11px] text-muted-foreground">{g.age}</span>
+                              </div>
+                              <p className="text-[11px] text-muted-foreground mt-0.5">{g.desc}</p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => { onSelectInterest?.(g.interest); setMotoOpen(false); }}
+                              className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-bold text-white transition hover:opacity-90"
+                              style={{ background: c.accent }}
+                            >
+                              בקש פרטים
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <button type="button" onClick={() => onSelectInterest?.(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
+                    אני מעוניין/ת בפרטים
+                  </button>
+                )}
               </div>
               </div>
             </div>
