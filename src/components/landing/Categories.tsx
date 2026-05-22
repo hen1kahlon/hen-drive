@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { Car, Bike, ChevronDown } from "lucide-react";
+import { Car, Bike } from "lucide-react";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
+import vehBikeA1 from "@/assets/vehicle-bike-a1-manual.webp";
+import vehBikeA2 from "@/assets/vehicle-bike-a2-manual.webp";
 
 type Category = {
   id: string;
@@ -15,8 +16,46 @@ type Category = {
 };
 
 const categories: Category[] = [
-  { id: "B", title: "רכב אוטומט", subtitle: "דרגה B", desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.", img: vehSedan, icon: Car, accent: "#2563eb", interest: "רכב אוטומט דרגה B" },
-  { id: "motorcycle", title: "אופנוע", subtitle: "A · A1 · A2", desc: "כל דרגות האופנוע במקום אחד — ידני ואוטומט לפי הדרגה והצורך.", img: vehBikeA, icon: Bike, accent: "#f59e0b", interest: "שיעורי אופנוע A / A1 / A2" },
+  {
+    id: "B",
+    title: "רכב אוטומט",
+    subtitle: "דרגה B",
+    desc: "רכב פרטי אוטומט — הדרגה הפופולרית והמבוקשת ביותר.",
+    img: vehSedan,
+    icon: Car,
+    accent: "#2563eb",
+    interest: "רכב אוטומט דרגה B",
+  },
+  {
+    id: "A2",
+    title: "אופנוע A2",
+    subtitle: "מגיל 16",
+    desc: "ידני או אוטומט עד 125 סמ״ק — הדרך המהירה לרישיון אופנוע ראשון.",
+    img: vehBikeA2,
+    icon: Bike,
+    accent: "#f59e0b",
+    interest: "אופנוע A2",
+  },
+  {
+    id: "A1",
+    title: "אופנוע A1",
+    subtitle: "מגיל 18",
+    desc: "ידני או אוטומט עד 500 סמ״ק — אופנוע בינוני לעיר ולכביש בין-עירוני.",
+    img: vehBikeA1,
+    icon: Bike,
+    accent: "#f59e0b",
+    interest: "אופנוע A1",
+  },
+  {
+    id: "A",
+    title: "אופנוע A",
+    subtitle: "מגיל 21",
+    desc: "אופנוע גדול ללא הגבלת נפח — ההגדרה האולטימטיבית לחופש הכביש.",
+    img: vehBikeA,
+    icon: Bike,
+    accent: "#f59e0b",
+    interest: "אופנוע A",
+  },
 ];
 
 function getLeadScrollOffset() {
@@ -64,14 +103,7 @@ export function scrollToLead() {
   });
 }
 
-const motoGrades = [
-  { id: "A2", label: "A2", age: "מגיל 16", desc: "ידני / אוטומט — מינימום 15 שיעורים", interest: "אופנוע A2" },
-  { id: "A1", label: "A1", age: "מגיל 18", desc: "ידני / אוטומט — מינימום 15 שיעורים", interest: "אופנוע A1" },
-  { id: "A",  label: "A",  age: "מגיל 21", desc: "עם שנת ותק על A1 — מינימום 8 שיעורים", interest: "אופנוע A" },
-];
-
 export function Categories({ onSelectInterest }: { onSelectInterest?: (interest: string) => void }) {
-  const [motoOpen, setMotoOpen] = useState(false);
   return (
     <section id="categories" className="py-7 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
@@ -82,71 +114,48 @@ export function Categories({ onSelectInterest }: { onSelectInterest?: (interest:
           </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {categories.map((c) => (
             <div
               key={c.id}
-              className="relative bg-card rounded-3xl overflow-hidden border border-white/10 transition-transform duration-200 hover:scale-[1.02]"
+              className="relative bg-card rounded-3xl overflow-hidden border border-white/10 flex flex-col transition-transform duration-200 hover:scale-[1.02]"
             >
               <div className="h-[3px] w-full" style={{ background: c.accent }} />
-              <div className="p-5">
-              <div className="relative">
+              <div className="p-5 flex flex-col flex-1">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="text-xl font-black leading-tight">{c.title}</h3>
-                    <p className="text-sm font-bold" style={{ color: c.accent }}>{c.subtitle}</p>
+                    <h3 className="text-lg font-black leading-tight">{c.title}</h3>
+                    <p className="text-xs font-bold mt-0.5" style={{ color: c.accent }}>{c.subtitle}</p>
                   </div>
-                  <div className="w-10 h-10 rounded-xl grid place-items-center border" style={{ background: `${c.accent}20`, color: c.accent, borderColor: `${c.accent}40` }}>
-                    <c.icon size={18} />
+                  <div
+                    className="w-9 h-9 rounded-xl grid place-items-center border shrink-0"
+                    style={{ background: `${c.accent}20`, color: c.accent, borderColor: `${c.accent}40` }}
+                  >
+                    <c.icon size={16} />
                   </div>
                 </div>
 
                 <div className="aspect-[4/3] grid place-items-center my-3 rounded-2xl bg-white/[0.03] border border-white/5 p-3 overflow-hidden">
-                  <img src={c.img} alt={`${c.title} ${c.subtitle}`} loading="lazy" decoding="async" width={400} height={300} className="w-full h-full object-contain" />
+                  <img
+                    src={c.img}
+                    alt={`${c.title} ${c.subtitle}`}
+                    loading="lazy"
+                    decoding="async"
+                    width={400}
+                    height={300}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
 
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed min-h-[40px]">{c.desc}</p>
+                <p className="text-xs text-muted-foreground mb-4 leading-relaxed flex-1">{c.desc}</p>
 
-                {c.id === "motorcycle" ? (
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => setMotoOpen((o) => !o)}
-                      className="flex w-full items-center justify-between rounded-xl border border-white/10 py-2.5 px-4 text-sm font-bold bg-background transition hover:bg-white/5"
-                    >
-                      <span>בחר דרגה וקבל פרטים</span>
-                      <ChevronDown size={16} className={`transition-transform duration-200 ${motoOpen ? "rotate-180" : ""}`} style={{ color: c.accent }} />
-                    </button>
-                    {motoOpen && (
-                      <div className="mt-2 space-y-2">
-                        {motoGrades.map((g) => (
-                          <div key={g.id} className="rounded-xl border border-white/10 bg-white/[0.03] p-3 flex items-center justify-between gap-3">
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm font-black" style={{ color: c.accent }}>דרגה {g.label}</span>
-                                <span className="text-[11px] text-muted-foreground">{g.age}</span>
-                              </div>
-                              <p className="text-[11px] text-muted-foreground mt-0.5">{g.desc}</p>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={() => { onSelectInterest?.(g.interest); setMotoOpen(false); }}
-                              className="shrink-0 rounded-lg px-3 py-1.5 text-xs font-bold text-white transition hover:opacity-90"
-                              style={{ background: c.accent }}
-                            >
-                              בקש פרטים
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <button type="button" onClick={() => onSelectInterest?.(c.interest)} className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background">
-                    אני מעוניין/ת בפרטים
-                  </button>
-                )}
-              </div>
+                <button
+                  type="button"
+                  onClick={() => onSelectInterest?.(c.interest)}
+                  className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background hover:bg-white/5 transition-colors"
+                >
+                  אני מעוניין/ת בפרטים
+                </button>
               </div>
             </div>
           ))}
