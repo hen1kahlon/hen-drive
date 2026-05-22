@@ -261,22 +261,6 @@ export default function SeoLanding(initial: SeoLandingProps) {
         </div>
       </section>
 
-      {/* Internal links */}
-      <section className="px-4 pb-16">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-lg font-bold mb-4 text-center">קישורים נוספים</h2>
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {props.related.map((r) => (
-              <Link key={r.to} to={r.to}
-                className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-bold hover:bg-white/[0.06] transition flex items-center justify-between">
-                <span>{r.title}</span>
-                <ArrowLeft size={14} />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <DeferredExitIntent wa={wa} tel={tel} phoneDisplay={s.contact.phone_display} />
 
       {/* Sticky mobile CTA bar */}
