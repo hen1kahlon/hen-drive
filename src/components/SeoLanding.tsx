@@ -199,25 +199,6 @@ export default function SeoLanding(initial: SeoLandingProps) {
         </div>
       </section>
 
-      {/* Pricing / contact */}
-      <section className="px-4 py-10 sm:py-14">
-        <div className="max-w-5xl mx-auto grid gap-4 lg:grid-cols-3">
-          {[
-            { title: "שיעור רכב", body: "רכב אוטומט חדש, איסוף באשקלון בתיאום, הכנה מלאה לטסט.", icon: Car },
-            { title: "שיעור אופנוע", body: "A / A1 / A2, ידני ואוטומט, ציוד בטיחות ומגרש אימונים מסודר.", icon: Bike },
-            { title: "חבילת טסט ראשון", body: "מסלול ממוקד לפני טסט: רענון, נקודות חולשה וטיפים לבוחן.", icon: Trophy },
-          ].map((item) => (
-            <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-              <item.icon className="mb-3 text-primary" size={24} />
-              <h2 className="font-black text-lg mb-2">{item.title}</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-4">{item.body}</p>
-              <a href={wa} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-bold text-primary-foreground">
-                קבלו מחיר בוואטסאפ <ArrowLeft size={14} />
-              </a>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* FAQ */}
       <section className="px-4 py-10 sm:py-14">
