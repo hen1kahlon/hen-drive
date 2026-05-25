@@ -128,9 +128,9 @@ export function Hero() {
           </div>
           <h1 className="text-display text-[2.5rem] sm:text-5xl lg:text-[3.75rem] mb-3">
             {s.hero.headline_line1}<br />
-            <span style={{ color: "#f59e0b" }}>{s.hero.headline_highlight}</span>
+            <span style={{ color: "#60a5fa" }}>{s.hero.headline_highlight}</span>
           </h1>
-          <p className="text-display text-2xl sm:text-3xl lg:text-4xl mb-5" style={{ color: "#f59e0b" }}>
+          <p className="text-display text-2xl sm:text-3xl lg:text-4xl mb-5" style={{ color: "#60a5fa" }}>
             {s.hero.tagline}
           </p>
           <p className="text-base sm:text-lg text-muted-foreground mb-6 max-w-xl mx-auto lg:mx-0">

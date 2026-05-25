@@ -31,7 +31,7 @@ const categories: Category[] = [
     desc: "אופנוע גדול ללא הגבלת נפח — ההגדרה האולטימטיבית לחופש הכביש.",
     img: vehBikeA,
     icon: Bike,
-    accent: "#f59e0b",
+    accent: "#2563eb",
     interest: "אופנוע A",
   },
 ];

@@ -15,19 +15,15 @@ import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 import { Nav } from "@/components/landing/Nav";
 import { Hero } from "@/components/landing/Hero";
 import { Categories, scrollToLead } from "@/components/landing/Categories";
-import { SeoLandingLinksSection } from "@/components/landing/SeoLandingLinksSection";
 import { About } from "@/components/landing/About";
 import { WhyMe } from "@/components/landing/WhyMe";
 import { Reviews } from "@/components/landing/Reviews";
 import { LeadForm } from "@/components/landing/LeadForm";
 import { FAQ } from "@/components/landing/FAQ";
-import { FinalCTA } from "@/components/landing/FinalCTA";
 import { Footer } from "@/components/landing/Footer";
 import { MobileBar } from "@/components/landing/MobileBar";
-import { LicenseMatcher } from "@/components/landing/LicenseMatcher";
 import { SuccessGallery } from "@/components/landing/SuccessGallery";
 import { VideoIntro } from "@/components/landing/VideoIntro";
-import { SocialFeed } from "@/components/landing/SocialFeed";
 import { ExitIntent } from "@/components/landing/ExitIntent";
 import { AccessibilityWidget } from "@/components/landing/AccessibilityWidget";
 
@@ -129,17 +125,13 @@ function LandingPageInner() {
       <main className="pb-24 md:pb-0">
         <Hero />
         <Categories onSelectInterest={handleSelectInterest} />
-        <SeoLandingLinksSection />
-        <LicenseMatcher />
         <About />
         <WhyMe />
-        <LeadForm selectedInterest={leadInterest} />
-        <FinalCTA />
         <SuccessGallery />
         <VideoIntro />
-        <SocialFeed />
         <Reviews />
         <FAQ />
+        <LeadForm selectedInterest={leadInterest} />
       </main>
       <Footer />
       <MobileBar />
