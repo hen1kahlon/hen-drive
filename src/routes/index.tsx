@@ -7,8 +7,10 @@ import {
   useSiteSettings,
   DEFAULT_SETTINGS,
   mergeSettings,
+  waUrl,
   type SiteSettings,
 } from "@/lib/site-settings";
+import { MessageCircle } from "lucide-react";
 import heroImg from "@/assets/hero-driving.webp";
 import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 
@@ -108,7 +110,7 @@ function LandingPage() {
 
 function LandingPageInner() {
   // Subscribe to settings so this tree re-renders when CMS values change.
-  useSiteSettings();
+  const s = useSiteSettings();
   const [hydrated, setHydrated] = useState(false);
   const [leadInterest, setLeadInterest] = useState<string | null>(null);
   useEffect(() => { setHydrated(true); }, []);
@@ -137,6 +139,17 @@ function LandingPageInner() {
       <MobileBar />
       <AccessibilityWidget />
       {hydrated && <ExitIntent />}
+      {/* Floating WhatsApp button — desktop only */}
+      <a
+        href={waUrl(s)}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="וואטסאפ"
+        className="hidden md:flex fixed bottom-6 left-6 z-50 w-14 h-14 rounded-full items-center justify-center shadow-lg transition-transform duration-200 hover:scale-110"
+        style={{ background: "#25D366" }}
+      >
+        <MessageCircle size={28} color="white" fill="white" />
+      </a>
     </div>
   );
 }
