@@ -28,7 +28,7 @@ export function Nav() {
   ];
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
@@ -38,7 +38,7 @@ export function Nav() {
     ? "fixed top-0 inset-x-0 z-50 border-b border-white/10 transition-colors duration-300"
     : "fixed top-0 inset-x-0 z-50 border-b border-transparent transition-colors duration-300";
   const headerStyle = scrolled
-    ? { background: "rgba(15,23,41,0.92)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }
+    ? { background: "#0f1729" }
     : { background: "transparent" };
 
   return (
@@ -47,7 +47,7 @@ export function Nav() {
         <a
           href={`tel:${s.contact.phone}`}
           className="hidden md:inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition hover:scale-105"
-          style={{ background: "#f59e0b", color: "#1a1a1a" }}
+          style={{ background: "#f59e0b", color: "#1a1a1a", borderRadius: "20px" }}
         >
           <Phone size={15} /> {s.contact.phone_display}
         </a>
@@ -78,7 +78,7 @@ export function Nav() {
           <a
             href={`tel:${s.contact.phone}`}
             className="mt-2 flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold"
-            style={{ background: "#f59e0b", color: "#1a1a1a" }}
+            style={{ background: "#f59e0b", color: "#1a1a1a", borderRadius: "20px" }}
           >
             <Phone size={14} /> {s.contact.phone_display}
           </a>
