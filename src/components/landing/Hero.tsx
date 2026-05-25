@@ -99,7 +99,7 @@ export function Hero() {
             />
              <div className="absolute inset-0 bg-background/35" />
             {/* corner badge */}
-             <div className="absolute top-4 right-4 bg-background border border-white/10 rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5">
+             <div className="absolute top-4 right-4 rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5" style={{ background: "red", color: "white" }}>
                <span className="w-2 h-2 rounded-full bg-green-400" />
               זמין השבוע
             </div>
