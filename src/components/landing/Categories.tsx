@@ -2,8 +2,6 @@ import { Car, Bike } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
-import vehBikeA1 from "@/assets/vehicle-bike-a1-manual.webp";
-import vehBikeA2 from "@/assets/vehicle-bike-a2-manual.webp";
 
 type Category = {
   id: string;
@@ -32,38 +30,14 @@ const categories: Category[] = [
     linkLabel: "כל הפרטים על רכב אוטומט ←",
   },
   {
-    id: "A2",
-    title: "אופנוע A2",
-    subtitle: "מגיל 16",
-    desc: "ידני או אוטומט עד 125 סמ״ק — הדרך המהירה לרישיון אופנוע ראשון.",
-    img: vehBikeA2,
-    icon: Bike,
-    accent: "#2563eb",
-    interest: "אופנוע A2",
-    link: "/motorcycle-lessons-ashkelon",
-    linkLabel: "כל הפרטים על אופנוע ←",
-  },
-  {
-    id: "A1",
-    title: "אופנוע A1",
-    subtitle: "מגיל 18",
-    desc: "ידני או אוטומט עד 500 סמ״ק — אופנוע בינוני לעיר ולכביש בין-עירוני.",
-    img: vehBikeA1,
-    icon: Bike,
-    accent: "#2563eb",
-    interest: "אופנוע A1",
-    link: "/motorcycle-lessons-ashkelon",
-    linkLabel: "כל הפרטים על אופנוע ←",
-  },
-  {
     id: "A",
-    title: "אופנוע A",
-    subtitle: "מגיל 21",
-    desc: "אופנוע גדול ללא הגבלת נפח — ההגדרה האולטימטיבית לחופש הכביש.",
+    title: "אופנוע",
+    subtitle: "A · A1 · A2 — לפי גיל וניסיון",
+    desc: "אופנועים לכל הדרגות — מ-125 סמ״ק ועד אופנוע ללא הגבלת נפח, ידני ואוטומט.",
     img: vehBikeA,
     icon: Bike,
     accent: "#2563eb",
-    interest: "אופנוע A",
+    interest: "אופנוע",
     link: "/motorcycle-lessons-ashkelon",
     linkLabel: "כל הפרטים על אופנוע ←",
   },
