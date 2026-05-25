@@ -271,11 +271,12 @@ export function Reviews() {
 
         <TrustHeader />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {reviews.map((r, i) => (
             <div
               key={r.id}
-              className="group relative bg-card rounded-3xl p-5 border border-white/5 hover:border-white/20 transition-colors flex flex-col"
+              className="group relative bg-card p-5 border border-white/5 hover:border-white/20 transition-colors flex flex-col"
+              style={{ borderRadius: "16px" }}
             >
               <div className="absolute top-4 left-4 opacity-10 group-hover:opacity-25 transition">
                 <GoogleGlyph className="w-5 h-5" />

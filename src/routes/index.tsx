@@ -130,7 +130,7 @@ function LandingPageInner() {
         <About />
         <WhyMe />
         <SuccessGallery />
-        <VideoIntro />
+        {/* <VideoIntro /> */}
         <Reviews />
         <FAQ />
         <LeadForm selectedInterest={leadInterest} />

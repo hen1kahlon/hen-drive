@@ -25,7 +25,8 @@ export function WhyMe() {
           {reasons.map((r) => (
             <div
               key={r.title}
-              className="bg-card rounded-3xl p-6 border border-white/5 hover:border-white/15 transition-colors relative overflow-hidden"
+              className="bg-card p-6 border border-white/5 hover:border-white/15 transition-all duration-200 relative overflow-hidden hover:-translate-y-1"
+              style={{ borderRadius: "16px" }}
             >
               <div className="relative">
                 <div className={`w-12 h-12 rounded-2xl border ${r.color === "blue" ? "border-[oklch(0.62_0.20_255_/_0.3)] bg-[oklch(0.62_0.20_255_/_0.1)] text-[oklch(0.7_0.18_255)]" : "border-[oklch(0.62_0.20_255_/_0.3)] bg-[oklch(0.62_0.20_255_/_0.1)] text-[oklch(0.7_0.18_255)]"} grid place-items-center mb-4`}>

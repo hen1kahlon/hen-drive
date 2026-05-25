@@ -17,9 +17,9 @@ export function About() {
       <div className="absolute inset-0 -z-10 grid-bg opacity-40" />
       <div className="absolute top-1/2 -translate-y-1/2 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.12)] blur-[120px] -z-10" />
 
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-5 sm:gap-8 lg:gap-16 items-center">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
         <div className="relative order-2 lg:order-1">
-          <div className="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue aspect-square">
+          <div className="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue aspect-[3/4]">
             <img src={chenPortrait} alt="חן כחלון - מורה נהיגה עם רכב ואופנוע באשקלון" loading="lazy" width={1100} height={1100} className="absolute inset-0 w-full h-full object-cover object-center" />
             <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 bg-gradient-to-t from-black/85 via-black/55 to-transparent">
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
@@ -46,7 +46,7 @@ export function About() {
             נעים מאוד,<br />
             <span className="gradient-text-blue">חן כחלון</span>
           </h2>
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-6">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">
             מורה נהיגה בעל ותק של 5 שנים בתחום הרכב והאופנועים. אני מאמין בלימוד נהיגה בגישה אישית, רגועה ומקצועית, עם התאמה מלאה לקצב של כל תלמיד. השיעורים מתבצעים על כלים חדשים, נוחים ובטיחותיים, באווירה צעירה ומכבדת — עד שמגיעים מוכנים ובטוחים לטסט.
           </p>
           <ul className="grid sm:grid-cols-2 gap-3">

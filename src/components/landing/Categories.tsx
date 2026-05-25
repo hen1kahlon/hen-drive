@@ -99,17 +99,17 @@ export function Categories({ onSelectInterest }: { onSelectInterest?: (interest:
               className="relative bg-card rounded-3xl overflow-hidden border border-white/10 flex flex-col transition-transform duration-200 hover:scale-[1.02]"
             >
               <div className="h-[3px] w-full" style={{ background: c.accent }} />
-              <div className="p-5 flex flex-col flex-1">
-                <div className="flex items-start justify-between mb-3">
+              <div className="p-8 flex flex-col flex-1">
+                <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="text-lg font-black leading-tight">{c.title}</h3>
-                    <p className="text-xs font-bold mt-0.5" style={{ color: c.accent }}>{c.subtitle}</p>
+                    <h3 className="text-xl font-black leading-tight">{c.title}</h3>
+                    <p className="text-sm font-bold mt-1" style={{ color: c.accent }}>{c.subtitle}</p>
                   </div>
                   <div
-                    className="w-9 h-9 rounded-xl grid place-items-center border shrink-0"
+                    className="w-16 h-16 rounded-2xl grid place-items-center border shrink-0"
                     style={{ background: `${c.accent}20`, color: c.accent, borderColor: `${c.accent}40` }}
                   >
-                    <c.icon size={16} />
+                    <c.icon size={32} />
                   </div>
                 </div>
 
