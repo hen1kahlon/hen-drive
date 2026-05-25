@@ -1,6 +1,9 @@
 import { Car, Bike } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
+import vehBikeA1 from "@/assets/vehicle-bike-a1-manual.webp";
+import vehBikeA2 from "@/assets/vehicle-bike-a2-manual.webp";
 
 type Category = {
   id: string;
@@ -11,6 +14,7 @@ type Category = {
   icon: typeof Car;
   accent: string;
   interest: string;
+  link: "/car-lessons-ashkelon" | "/motorcycle-lessons-ashkelon";
 };
 
 const categories: Category[] = [
@@ -23,6 +27,29 @@ const categories: Category[] = [
     icon: Car,
     accent: "#2563eb",
     interest: "רכב אוטומט דרגה B",
+    link: "/car-lessons-ashkelon",
+  },
+  {
+    id: "A2",
+    title: "אופנוע A2",
+    subtitle: "מגיל 16",
+    desc: "ידני או אוטומט עד 125 סמ״ק — הדרך המהירה לרישיון אופנוע ראשון.",
+    img: vehBikeA2,
+    icon: Bike,
+    accent: "#2563eb",
+    interest: "אופנוע A2",
+    link: "/motorcycle-lessons-ashkelon",
+  },
+  {
+    id: "A1",
+    title: "אופנוע A1",
+    subtitle: "מגיל 18",
+    desc: "ידני או אוטומט עד 500 סמ״ק — אופנוע בינוני לעיר ולכביש בין-עירוני.",
+    img: vehBikeA1,
+    icon: Bike,
+    accent: "#2563eb",
+    interest: "אופנוע A1",
+    link: "/motorcycle-lessons-ashkelon",
   },
   {
     id: "A",
@@ -33,6 +60,7 @@ const categories: Category[] = [
     icon: Bike,
     accent: "#2563eb",
     interest: "אופנוע A",
+    link: "/motorcycle-lessons-ashkelon",
   },
 ];
 
@@ -130,10 +158,17 @@ export function Categories({ onSelectInterest }: { onSelectInterest?: (interest:
                 <button
                   type="button"
                   onClick={() => onSelectInterest?.(c.interest)}
-                  className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-bold bg-background hover:bg-white/5 transition-colors"
+                  className="block w-full text-center rounded-xl py-2.5 text-sm font-bold text-white transition-colors"
+                  style={{ background: c.accent }}
                 >
                   אני מעוניין/ת בפרטים
                 </button>
+                <Link
+                  to={c.link}
+                  className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-medium bg-background hover:bg-white/5 transition-colors mt-2"
+                >
+                  פרטים נוספים ←
+                </Link>
               </div>
             </div>
           ))}
