@@ -1,8 +1,6 @@
 import { Car, Bike } from "lucide-react";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
-import vehBikeA1 from "@/assets/vehicle-bike-a1-manual.webp";
-import vehBikeA2 from "@/assets/vehicle-bike-a2-manual.webp";
 
 type Category = {
   id: string;
@@ -25,26 +23,6 @@ const categories: Category[] = [
     icon: Car,
     accent: "#2563eb",
     interest: "רכב אוטומט דרגה B",
-  },
-  {
-    id: "A2",
-    title: "אופנוע A2",
-    subtitle: "מגיל 16",
-    desc: "ידני או אוטומט עד 125 סמ״ק — הדרך המהירה לרישיון אופנוע ראשון.",
-    img: vehBikeA2,
-    icon: Bike,
-    accent: "#f59e0b",
-    interest: "אופנוע A2",
-  },
-  {
-    id: "A1",
-    title: "אופנוע A1",
-    subtitle: "מגיל 18",
-    desc: "ידני או אוטומט עד 500 סמ״ק — אופנוע בינוני לעיר ולכביש בין-עירוני.",
-    img: vehBikeA1,
-    icon: Bike,
-    accent: "#f59e0b",
-    interest: "אופנוע A1",
   },
   {
     id: "A",
@@ -114,7 +92,7 @@ export function Categories({ onSelectInterest }: { onSelectInterest?: (interest:
           </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-5 max-w-3xl mx-auto">
           {categories.map((c) => (
             <div
               key={c.id}
