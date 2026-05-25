@@ -1,8 +1,33 @@
+import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, Heart, Shield, GraduationCap, Users, MessageCircle, Phone, Trophy } from "lucide-react";
 import { useSiteSettings, waUrl } from "@/lib/site-settings";
 import heroImg from "@/assets/hero-driving.webp";
 import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 import { scrollToLead } from "@/components/landing/Categories";
+
+function parseTarget(raw: string): { value: number; suffix: string } {
+  const m = raw.match(/^(\d+)(.*)$/);
+  return m ? { value: parseInt(m[1], 10), suffix: m[2] } : { value: 0, suffix: raw };
+}
+
+function useCounterAnimation(target: string, inView: boolean) {
+  const [display, setDisplay] = useState("0");
+  useEffect(() => {
+    if (!inView) return;
+    const { value: end, suffix } = parseTarget(target);
+    if (end === 0) { setDisplay(target); return; }
+    const duration = 1400;
+    const startTime = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setDisplay(`${Math.round(eased * end)}${suffix}`);
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [inView, target]);
+  return display;
+}
 
 function Speedometer() {
   return (
@@ -33,6 +58,22 @@ function Speedometer() {
 export function Hero() {
   const s = useSiteSettings();
   const heroSrc = s.hero.hero_media_url || heroImgMobile;
+
+  const statsRef = useRef<HTMLDivElement>(null);
+  const [statsInView, setStatsInView] = useState(false);
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { setStatsInView(true); obs.disconnect(); }
+    }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const studentsDisplay = useCounterAnimation(s.stats.students, statsInView);
+  const yearsDisplay = useCounterAnimation(s.stats.years, statsInView);
+  const successDisplay = useCounterAnimation(s.stats.success, statsInView);
   const heroSrcSet = s.hero.hero_media_url ? undefined : `${heroImgMobile} 768w, ${heroImg} 1920w`;
   return (
     <section id="top" className="stable-render-zone relative min-h-screen flex items-start lg:items-center pt-24 lg:pt-20 overflow-hidden">
@@ -115,6 +156,20 @@ export function Hero() {
             <a href={`tel:${s.contact.phone}`} className="inline-flex items-center gap-2 rounded-full bg-card border border-white/10 px-5 py-3.5 font-bold">
               <Phone size={18} /> {s.buttons.call}
             </a>
+          </div>
+
+          {/* stats counter row */}
+          <div ref={statsRef} className="flex justify-center lg:justify-start gap-6 sm:gap-10 mb-6">
+            {[
+              { value: studentsDisplay, label: s.stats.students_label },
+              { value: yearsDisplay,   label: s.stats.years_label },
+              { value: successDisplay, label: s.stats.success_label },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center lg:text-right">
+                <div className="text-2xl sm:text-3xl font-black text-white leading-none">{stat.value}</div>
+                <div className="text-[11px] text-muted-foreground mt-1">{stat.label}</div>
+              </div>
+            ))}
           </div>
 
           {/* trust bar */}
