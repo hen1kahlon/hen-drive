@@ -186,7 +186,7 @@ export function LeadForm({ selectedInterest }: { selectedInterest?: string | nul
         <div id="lead-form" className="lg:col-span-3 glass-strong rounded-[2rem] p-6 sm:p-8 border border-white/10 shadow-card relative scroll-mt-24">
           <div className="mb-6">
             <p className="gradient-text-blue font-bold text-xs tracking-[0.2em] uppercase mb-2">השאירו פרטים</p>
-            <h3 className="text-2xl sm:text-3xl font-black">חן יחזור אליך <span className="gradient-text-blue">בהקדם</span></h3>
+            <h3 className="text-2xl sm:text-3xl font-black">השאר פרטים — חן יחזור אליך <span className="gradient-text-blue">תוך שעה</span></h3>
           </div>
 
           {submitted ? (
@@ -252,9 +252,9 @@ export function LeadForm({ selectedInterest }: { selectedInterest?: string | nul
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-accent transition resize-none" placeholder="כל מה שחשוב שנדע..." />
               </Field>
               <button type="submit" disabled={submitting} className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-blue px-6 py-4 font-bold text-white shadow-glow hover:scale-[1.01] transition disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100">
-                <Send size={18} /> {submitting ? "שולח..." : "שלח/י פרטים"}
+                <Send size={18} /> {submitting ? "שולח..." : "שלח פרטים →"}
               </button>
-              <p className="text-[11px] text-center text-muted-foreground">בלחיצה על שליחה את/ה מאשר/ת שנחזור אליך בקרוב</p>
+              <p className="text-[11px] text-center text-muted-foreground">ללא התחייבות · חינם לחלוטין</p>
             </form>
           )}
         </div>

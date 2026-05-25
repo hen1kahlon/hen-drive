@@ -43,11 +43,11 @@ export function About() {
         <div className="order-1 lg:order-2">
           <p className="gradient-text-blue font-bold text-xs sm:text-sm tracking-[0.2em] uppercase mb-3">קצת עליי</p>
           <h2 className="text-display text-4xl sm:text-5xl mb-6">
-            נעים מאוד,<br />
-            <span className="gradient-text-blue">חן כחלון</span>
+            נעים מאוד —<br />
+            <span className="gradient-text-blue">אני חן</span>
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8">
-            מורה נהיגה בעל ותק של 5 שנים בתחום הרכב והאופנועים. אני מאמין בלימוד נהיגה בגישה אישית, רגועה ומקצועית, עם התאמה מלאה לקצב של כל תלמיד. השיעורים מתבצעים על כלים חדשים, נוחים ובטיחותיים, באווירה צעירה ומכבדת — עד שמגיעים מוכנים ובטוחים לטסט.
+            מורה נהיגה עם 5 שנות ניסיון ברכב ואופנועים באשקלון. אני מאמין שכל תלמיד צריך קצב משלו — לכן אני מתאים את השיעורים אליך, לא להיפך. האווירה תמיד צעירה, נעימה ובלי לחץ.
           </p>
           <ul className="grid sm:grid-cols-2 gap-3">
             {bullets.map((b) => (

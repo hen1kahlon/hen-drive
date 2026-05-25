@@ -52,11 +52,11 @@ export type SiteSettings = {
 
 export const DEFAULT_SETTINGS: SiteSettings = {
   hero: {
-    badge: "5 שנות ותק · רכב ואופנועים · אשקלון",
+    badge: "זמין השבוע · אשקלון",
     headline_line1: "מוציאים רישיון",
     headline_highlight: "בביטחון",
     tagline: "עד ההצלחה!",
-    description: "שיעורי נהיגה לרכב אוטומט ואופנועים באווירה צעירה, מקצועית וסבלנית — עם מורה שמלווה אותך עד הקריאה ״עברת!״",
+    description: "שיעורי נהיגה לרכב ואופנוע באשקלון — מורה צעיר, סבלני ומקצועי שמלווה אותך עד ההצלחה",
     cta_primary: "התחל ללמוד עכשיו",
     hero_media_url: "",
   },

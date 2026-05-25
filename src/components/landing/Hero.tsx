@@ -101,7 +101,7 @@ export function Hero() {
             {/* corner badge */}
              <div className="absolute top-4 right-4 rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5" style={{ background: "rgba(34,197,94,0.15)", border: "0.5px solid rgba(34,197,94,0.3)", color: "#22c55e" }}>
                <span className="w-2 h-2 rounded-full bg-green-400" />
-              זמין השבוע
+              זמין השבוע · אשקלון
             </div>
             {/* speedometer accent */}
             <div className="absolute bottom-4 left-4 w-32 sm:w-44 opacity-90">
