@@ -15,6 +15,7 @@ type Category = {
   accent: string;
   interest: string;
   link: "/car-lessons-ashkelon" | "/motorcycle-lessons-ashkelon";
+  linkLabel: string;
 };
 
 const categories: Category[] = [
@@ -28,6 +29,7 @@ const categories: Category[] = [
     accent: "#2563eb",
     interest: "רכב אוטומט דרגה B",
     link: "/car-lessons-ashkelon",
+    linkLabel: "כל הפרטים על רכב אוטומט ←",
   },
   {
     id: "A2",
@@ -39,6 +41,7 @@ const categories: Category[] = [
     accent: "#2563eb",
     interest: "אופנוע A2",
     link: "/motorcycle-lessons-ashkelon",
+    linkLabel: "כל הפרטים על אופנוע ←",
   },
   {
     id: "A1",
@@ -50,6 +53,7 @@ const categories: Category[] = [
     accent: "#2563eb",
     interest: "אופנוע A1",
     link: "/motorcycle-lessons-ashkelon",
+    linkLabel: "כל הפרטים על אופנוע ←",
   },
   {
     id: "A",
@@ -61,6 +65,7 @@ const categories: Category[] = [
     accent: "#2563eb",
     interest: "אופנוע A",
     link: "/motorcycle-lessons-ashkelon",
+    linkLabel: "כל הפרטים על אופנוע ←",
   },
 ];
 
@@ -161,13 +166,13 @@ export function Categories({ onSelectInterest }: { onSelectInterest?: (interest:
                   className="block w-full text-center rounded-xl py-2.5 text-sm font-bold text-white transition-colors"
                   style={{ background: c.accent }}
                 >
-                  אני מעוניין/ת בפרטים
+                  אני רוצה להתחיל ←
                 </button>
                 <Link
                   to={c.link}
                   className="block w-full text-center rounded-xl border border-white/10 py-2.5 text-sm font-medium bg-background hover:bg-white/5 transition-colors mt-2"
                 >
-                  פרטים נוספים ←
+                  {c.linkLabel}
                 </Link>
               </div>
             </div>
