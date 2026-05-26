@@ -171,7 +171,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
               ))}
               <span className="font-black tabular-nums">5.0</span>
             </div>
-          <p className="text-xs text-muted-foreground">120+ תלמידים ממליצים · בית ספר לנהיגה באשקלון</p>
+          <p className="text-xs text-muted-foreground">120+ תלמידים ממליצים · מורה נהיגה באשקלון</p>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-center mb-2">המלצות תלמידים</h2>
           <p className="text-center text-sm text-muted-foreground mb-8">
@@ -389,7 +389,7 @@ export function buildLocalBusinessJsonLd(opts: { serviceName: string; serviceDes
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "DrivingSchool"],
     "@id": "https://hendrive.co.il/#business",
-    name: "חן כחלון – בית הספר לנהיגה ואופנוע אשקלון",
+    name: "חן כחלון – מורה נהיגה לאופנוע ורכב באשקלון",
     url: opts.url,
     telephone: "+972503250150",
     priceRange: "₪₪",

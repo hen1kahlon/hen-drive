@@ -5,7 +5,7 @@ import bikeA1 from "@/assets/vehicle-bike-a1-manual.webp";
 import bikeA2 from "@/assets/vehicle-bike-a2-manual.webp";
 
 const URL = "https://hendrive.co.il/motorcycle-lessons-ashkelon";
-const TITLE = "שיעורי אופנוע באשקלון | בית ספר לנהיגה לאופנוע – חן כחלון";
+const TITLE = "שיעורי אופנוע באשקלון | מורה נהיגה לאופנוע – חן כחלון";
 const DESC = "שיעורי נהיגה לאופנוע באשקלון – דרגות A, A1, A2 ידני ואוטומט. מורה צעיר, ציוד חדש, הכנה לטסט וליווי עד ההצלחה באשקלון והסביבה.";
 
 const faqs: SeoFaq[] = [
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/motorcycle-lessons-ashkelon")({
     meta: [
       { title: TITLE },
       { name: "description", content: DESC },
-      { name: "keywords", content: "שיעורי אופנוע אשקלון, מורה אופנוע אשקלון, בית ספר לנהיגה לאופנוע אשקלון, רישיון אופנוע אשקלון, אופנוע A אשקלון, אופנוע A1 אשקלון, אופנוע A2 אשקלון, חן כחלון" },
+      { name: "keywords", content: "שיעורי אופנוע אשקלון, מורה אופנוע אשקלון, מורה נהיגה לאופנוע אשקלון, רישיון אופנוע אשקלון, אופנוע A אשקלון, אופנוע A1 אשקלון, אופנוע A2 אשקלון, חן כחלון" },
       { name: "robots", content: "index, follow, max-image-preview:large" },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
@@ -50,7 +50,7 @@ function Page() {
       eyebrow="אופנוע · אשקלון"
       h1Lead="שיעורי אופנוע באשקלון –"
       h1Highlight="כל הדרגות"
-      intro="A, A1, A2 – ידני ואוטומט. ציוד חדש, מגרש אימונים מסודר באשקלון, ושיטה שמביאה לטסט ראשון. בית הספר לנהיגה לאופנוע של חן כחלון."
+      intro="A, A1, A2 – ידני ואוטומט. ציוד חדש, מגרש אימונים מסודר באשקלון, ושיטה שמביאה לטסט ראשון. מורה נהיגה לאופנוע — חן כחלון."
       ctaSubline="רוצים להוציא רישיון אופנוע?"
       waMessage="היי חן, אני מעוניין/ת בשיעורי אופנוע באשקלון, אשמח לפרטים"
       highlights={[
