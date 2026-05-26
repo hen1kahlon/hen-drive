@@ -159,6 +159,10 @@
   }
 
   html {
+    /* Anti-FOUC: hide until CSS is loaded and inline script restores opacity */
+    background: #0f1729;
+    opacity: 0;
+    transition: opacity 0.15s ease;
     /* scroll-behavior intentionally NOT smooth globally — smooth scroll is
        triggered only when the user clicks a nav/menu hash link (handled in JS).
        This prevents unexpected scroll jumps after typing in inputs or
