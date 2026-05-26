@@ -1,16 +1,9 @@
 User-agent: *
 Allow: /
-
-# Private / admin paths
 Disallow: /admin
 Disallow: /admin/
 Disallow: /dashboard
 Disallow: /login
 Disallow: /auth
-
-# Internal API & tooling — not meant for indexing
-Disallow: /api/
-Disallow: /lovable/
-Disallow: /email/
 
 Sitemap: https://hendrive.co.il/sitemap.xml
