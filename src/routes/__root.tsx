@@ -209,11 +209,9 @@ function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="he" dir="rtl">
       <head>
-        <HeadContent />
-        {/* Anti-FOUC: runs after CSS link is parsed (browsers defer inline scripts
-            until preceding stylesheets load), reveals content once styled */}
-        <script dangerouslySetInnerHTML={{ __html: `document.documentElement.style.opacity='1'` }} />
+        <script dangerouslySetInnerHTML={{ __html: `window.addEventListener('DOMContentLoaded',function(){document.documentElement.classList.add('loaded');});` }} />
         <noscript><style>{"html{opacity:1!important}"}</style></noscript>
+        <HeadContent />
       </head>
       <body>
         {children}
