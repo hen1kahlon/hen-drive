@@ -159,7 +159,6 @@
   }
 
   html {
-    opacity: 0;
     background: #0f1729;
     /* scroll-behavior intentionally NOT smooth globally — smooth scroll is
        triggered only when the user clicks a nav/menu hash link (handled in JS).
@@ -171,11 +170,6 @@
     overflow-anchor: none;
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
-  }
-
-  html.loaded {
-    opacity: 1;
-    transition: opacity 0.15s ease;
   }
 
   body {
