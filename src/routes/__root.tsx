@@ -77,7 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     const GA4_ID = "G-PPTGL967ZY";
     const SITE_VERIFICATION =
       (import.meta.env.VITE_GOOGLE_SITE_VERIFICATION as string | undefined)?.trim() ||
-      "KASmw16sVNguMFCtBDmK5quyVvk5nxdGTChHOtaTd0E";
+      "NDliQByj_YtbMCRaRVmwYMwfiontJokRyKzGATVW62M";
 
     const meta: Array<Record<string, string>> = [
       { charSet: "utf-8" },
