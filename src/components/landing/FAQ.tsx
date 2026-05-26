@@ -42,7 +42,11 @@ export function FAQ() {
                 <ChevronDown size={20} className={`flex-shrink-0 transition-transform ${open === i ? "rotate-180 text-accent" : ""}`} />
               </button>
               {open === i && (
-                <div className="px-5 pb-5 text-muted-foreground leading-relaxed whitespace-pre-line">{f.a}</div>
+                <div className="px-5 pb-5 text-muted-foreground leading-relaxed">
+                  {f.a.split('\n').map((line, i) => (
+                    <span key={i}>{line}<br /></span>
+                  ))}
+                </div>
               )}
             </div>
           ))}
