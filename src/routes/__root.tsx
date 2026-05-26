@@ -209,8 +209,8 @@ function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="he" dir="rtl">
       <head>
-        <style dangerouslySetInnerHTML={{ __html: `body{opacity:0!important}` }} />
-        <noscript><style>{"body{opacity:1!important}"}</style></noscript>
+        <script dangerouslySetInnerHTML={{ __html: `window.addEventListener('DOMContentLoaded',function(){document.documentElement.classList.add('loaded');});` }} />
+        <noscript><style>{"html{opacity:1!important}"}</style></noscript>
         <HeadContent />
       </head>
       <body>
@@ -226,8 +226,6 @@ function RootComponent() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    document.body.style.transition = "opacity 0.2s";
-    document.body.style.opacity = "1";
     installGlobalErrorLogger();
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
