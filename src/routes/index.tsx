@@ -84,7 +84,7 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           "@id": "https://hendrive.co.il/#business",
-          name: "חן כחלון – בית הספר לנהיגה ואופנוע אשקלון",
+          name: "חן כחלון – מורה נהיגה לאופנוע ורכב באשקלון",
           aggregateRating: { "@type": "AggregateRating", ratingValue: "5.0", reviewCount: "120", bestRating: "5", worstRating: "1" },
           review: [
             { "@type": "Review", author: { "@type": "Person", name: "ליאור מ׳" }, reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, reviewBody: "חן הכי סבלני בעולם — עברתי טסט ראשון על רכב אוטומט באשקלון. ממליץ בחום." },
