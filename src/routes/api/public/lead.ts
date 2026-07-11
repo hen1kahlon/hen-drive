@@ -9,7 +9,7 @@ const RESEND_GATEWAY = 'https://connector-gateway.lovable.dev/resend'
 const LeadSchema = z.object({
   full_name: z.string().trim().min(2).max(100),
   phone: z.string().trim().min(8).max(30),
-  license_type: z.string().trim().max(20).nullable().optional(),
+  license_type: z.enum(['B', 'A2', 'A1', 'A']).nullable().optional(),
   interest: z.string().trim().max(200).nullable().optional(),
   area: z.string().trim().max(200).nullable().optional(),
   notes: z.string().trim().max(2000).nullable().optional(),

@@ -3,8 +3,21 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Toaster } from "sonner";
 import { LayoutDashboard, Users, Star, Image as ImageIcon, HelpCircle, Settings, LogOut, Menu, X, Bike, AlertTriangle, FileText } from "lucide-react";
+import { verifyAdmin } from "@/lib/admin-guard.functions";
 
-export const Route = createFileRoute("/admin")({ component: AdminLayout });
+export const Route = createFileRoute("/admin")({
+  ssr: false,
+  beforeLoad: async () => {
+    try {
+      const { isAdmin } = await verifyAdmin();
+      if (!isAdmin) return { serverAdminOk: false };
+      return { serverAdminOk: true };
+    } catch {
+      return { serverAdminOk: false };
+    }
+  },
+  component: AdminLayout,
+});
 
 const NAV: { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
   { to: "/admin", label: "סקירה", icon: LayoutDashboard, exact: true },
@@ -34,15 +47,11 @@ function AdminLayout() {
 
     const checkAccess = async (uid: string) => {
       try {
-        const { data: roles } = await supabase
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", uid)
-          .eq("role", "admin")
-          .maybeSingle();
+        // Server-side authoritative check (client check is defense-in-depth only)
+        const { isAdmin } = await verifyAdmin();
         if (!mounted) return;
         setUserId(uid);
-        setIsAdmin(!!roles);
+        setIsAdmin(!!isAdmin);
       } catch (e) {
         console.error("admin role check failed", e);
         if (!mounted) return;
