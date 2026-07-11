@@ -24,7 +24,7 @@ export function About() {
             <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 bg-gradient-to-t from-black/85 via-black/55 to-transparent">
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
-                  <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">98%</div>
+                  <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">95%</div>
                   <div className="text-[10px] sm:text-xs text-white/80 mt-1">הצלחה</div>
                 </div>
                 <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">

@@ -84,8 +84,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   stats: {
     students: "350+", students_label: "תלמידים",
     years: "5", years_label: "שנות ותק",
-    success: "98%", success_label: "הצלחה",
-    floating: "98%", floating_label: "הצלחה בטסט",
+    success: "95%", success_label: "הצלחה",
+    floating: "95%", floating_label: "הצלחה בטסט",
   },
   sections: {
     categories_eyebrow: "בחרו את הדרגה",

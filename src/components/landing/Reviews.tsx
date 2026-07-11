@@ -66,7 +66,7 @@ function TrustHeader() {
       </div>
       <div className="hidden sm:flex flex-col items-center gap-0.5 text-center pr-3 border-r border-white/10">
         <Trophy size={18} className="text-[oklch(0.72_0.18_50)]" />
-        <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">98% טסט ראשון</span>
+        <span className="text-[10px] font-bold text-muted-foreground whitespace-nowrap">95% טסט ראשון</span>
       </div>
     </div>
   );
