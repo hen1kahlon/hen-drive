@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "מורה נהיגה אשקלון | חן כחלון — רכב ואופנוע" },
-      { name: "description", content: "מורה נהיגה מקצועי באשקלון לרכב אוטומט ואופנוע. 95% הצלחה בטסט, 350+ תלמידים, ליווי אישי עד ההצלחה. התקשר עכשיו: 050-3250150" },
+      { name: "description", content: "מורה נהיגה מקצועי באשקלון לרכב אוטומט ואופנוע. 98% הצלחה בטסט, 350+ תלמידים, ליווי אישי עד ההצלחה. התקשר עכשיו: 050-3250150" },
       { name: "keywords", content: "מורה נהיגה אשקלון, מורה נהיגה לאופנוע אשקלון, מורה נהיגה לרכב אשקלון, מורה אופנוע אשקלון, לימוד נהיגה אופנוע אשקלון, מורה נהיגה רכב אשקלון, שיעורי נהיגה אשקלון, רישיון A אשקלון, רישיון A1 אשקלון, רישיון A2 אשקלון, חן כחלון" },
       { name: "author", content: "חן כחלון" },
       { name: "robots", content: "index, follow, max-image-preview:large" },
