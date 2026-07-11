@@ -105,7 +105,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
           <div className="mt-6 flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
             <span className="inline-flex items-center gap-1"><MapPin size={12} /> אשקלון והסביבה</span>
             <span className="inline-flex items-center gap-1"><Star size={12} className="fill-[#FBBC04] text-[#FBBC04]" /> 5.0 · 120+ המלצות</span>
-            <span className="inline-flex items-center gap-1"><Trophy size={12} /> 98% טסט ראשון</span>
+            <span className="inline-flex items-center gap-1"><Trophy size={12} /> 95% טסט ראשון</span>
           </div>
         </div>
       </section>
