@@ -30,16 +30,10 @@ export function SoldiersBenefit() {
   const s = useSiteSettings();
 
   return (
-    <section
-      id="chayalim"
-      className="relative py-16 lg:py-24 overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #0f1729 0%, #1a2d5a 100%)" }}
-    >
-      {/* subtle glow blobs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full -z-0 pointer-events-none" style={{ background: "rgba(245,158,11,0.05)", filter: "blur(80px)" }} />
-      <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full -z-0 pointer-events-none" style={{ background: "rgba(37,99,235,0.08)", filter: "blur(80px)" }} />
+    <section id="chayalim" className="relative py-16 lg:py-24 px-4 overflow-hidden">
+      <div className="absolute inset-0 -z-10 pointer-events-none" style={{ background: "rgba(245,158,11,0.03)" }} />
 
-      <div className="relative max-w-6xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto">
         {/* badge */}
         <div
           className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-6 text-xs font-bold"
