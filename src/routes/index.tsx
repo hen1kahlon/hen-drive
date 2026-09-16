@@ -17,6 +17,7 @@ import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 import { Nav } from "@/components/landing/Nav";
 import { Hero } from "@/components/landing/Hero";
 import { Categories, scrollToLead } from "@/components/landing/Categories";
+import { SoldiersBenefit } from "@/components/landing/SoldiersBenefit";
 import { About } from "@/components/landing/About";
 import { WhyMe } from "@/components/landing/WhyMe";
 import { Reviews } from "@/components/landing/Reviews";
@@ -127,6 +128,7 @@ function LandingPageInner() {
       <main className="pb-24 md:pb-0">
         <Hero />
         <Categories onSelectInterest={handleSelectInterest} />
+        <SoldiersBenefit />
         <About />
         <WhyMe />
         <SuccessGallery />
