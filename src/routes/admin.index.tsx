@@ -116,8 +116,7 @@ function PushToProduction() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("לא מחובר");
 
-      const { data: { url } } = await supabase.functions.getFunctionUrl("push-to-production").catch(() => ({ data: { url: null } }));
-      const fnUrl = url ?? `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/push-to-production`;
+      const fnUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/push-to-production`;
 
       const res = await fetch(fnUrl, {
         method: "POST",
