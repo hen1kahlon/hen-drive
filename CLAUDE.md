@@ -1,117 +1,113 @@
-# CLAUDE.md — hen-drive
+# CLAUDE.md — תעודת זהות לפרויקט hen-drive
 
-## הפרויקט
+## מה הפרויקט
 
-אתר שיווקי עבור **חן כחלון** — מורה נהיגה לרכב אוטומט ואופנוע באשקלון.
-האתר בעברית, RTL, ומיועד ללידים אורגניים (SEO + וואטסאפ).
-קהל יעד: תושבי אשקלון והסביבה המעוניינים ברישיון B, A, A1, A2.
-
-**טלפון:** 050-3250150
-**דומיין פרודקשן:** https://hendrive.co.il
-**דומיין staging:** https://tanstack-start-app-staging.hen1kahlon.workers.dev
+אתר תדמית למורה נהיגה **חן כחלון** (אשקלון).  
+דומיין פרודקשן: `hendrive.co.il`  
+בעלים: `hen1kahlon@gmail.com`
 
 ---
 
-## Stack טכנולוגי
+## טכנולוגיות
 
-| שכבה | טכנולוגיה |
-|------|-----------|
+| שכבה | כלי |
+|---|---|
 | Framework | TanStack Start (React 19, SSR) |
-| Routing | TanStack Router — file-based (`src/routes/`) |
-| Hosting | Cloudflare Workers (`tanstack-start-app`) |
-| DB / CMS | Supabase PostgreSQL |
+| Routing | TanStack Router (file-based, `src/routes/`) |
+| Runtime | Cloudflare Workers |
+| Deploy tool | Wrangler (via `npx wrangler deploy`) |
+| Package manager | Bun |
+| DB / Auth | Supabase |
 | Styling | Tailwind CSS v4 |
-| Build | Bun + Vite |
-| CI/CD | GitHub Actions |
 
 ---
 
-## ארכיטקטורה — דברים קריטיים להבין
+## ארכיטקטורה חשובה
 
-### useSiteSettings()
-ה-hook `src/lib/site-settings.tsx` טוען נתונים מטבלת `site_settings` בSupabase ומאחד אותם עם defaults בקוד (`DEFAULT_SETTINGS`).
-**Supabase תמיד דורס את הקוד.** שינוי ב-`DEFAULT_SETTINGS` בלבד לא יעדכן את האתר החי אם יש ערך בSupabase.
+### TanStack Start + Wrangler
 
-### landing_pages table
-טבלת `landing_pages` בSupabase מחזיקה תוכן לעמודי SEO (`/car-lessons-ashkelon`, `/motorcycle-lessons-ashkelon`).
-הקומפוננטה `src/components/SeoLanding.tsx` מאחדת props מהקוד עם נתוני Supabase.
+הבנייה (`bun run build`) מייצרת `.output/server/wrangler.json` שמחליף את `wrangler.jsonc`.  
+לכן **כל הגדרה חשובה** (custom domains, שם Worker) חייבת להיות מוזרקת **אחרי הבנייה** דרך ה-CI, לא ב-`wrangler.jsonc`.
 
-### Hero.tsx
-`src/components/landing/Hero.tsx` — הסקשן הראשי. הכותרת בנויה מ:
-- `s.hero.headline_line1` — שורה ראשונה (לבן)
-- `s.hero.headline_highlight` — שורה שנייה (כחול `#60a5fa`)
-- `s.hero.tagline` — שורה שלישית (כחול)
+### useSiteSettings
+
+`src/lib/site-settings.tsx` — טוען הגדרות מ-Supabase (`site_settings` table).  
+סופרמסה על קוד: ה-DB תמיד מנצח. כדי לשנות טקסט/תמונות/קישורים → עדכן ב-Supabase, לא בקוד.
+
+### landing_pages
+
+תוכן SEO (כותרת, תיאור, slug) נשמר ב-Supabase `landing_pages`.
 
 ---
 
-## Git Workflow
+## תהליך עבודה — חובה לקרוא לפני כל שינוי
 
 ```
-staging branch  →  deploy אוטומטי לstageing URL  →  בדיקה ואישור  →  merge ל-main  →  פרודקשן
+שינוי בקוד
+    ↓
+push לסניף staging
+    ↓
+GitHub Actions מ-deploy לאוטומטית → tanstack-start-app-staging.hen1kahlon.workers.dev
+    ↓
+המשתמש בודק בחלון אינקוגניטו ומאשר
+    ↓
+merge ל-main (או push ישיר ל-main)
+    ↓
+GitHub Actions מ-deploy לאוטומטית → hendrive.co.il
 ```
 
-**חוקים:**
-- כל שינוי הולך ל-`staging` תחילה
-- merge ל-`main` רק לאחר אישור מפורש של חן
-- אף פעם לא push ישיר ל-`main` בלי בדיקה
+**אסור לדחוף שינויי UI ישירות ל-main לפני אישור המשתמש.**  
+חריגים מותרים: תיקוני בגים קריטיים (שגיאות 500, הפניות שגויות), תיקוני CI/CD.
 
 ---
 
-## CI/CD
+## Environments
 
-| Branch | Workflow | יעד |
-|--------|----------|-----|
-| `staging` | `.github/workflows/Staging.yml` | `tanstack-start-app-staging` Worker |
-| `main` | `.github/workflows/Deploy.yml` | `tanstack-start-app` Worker + `hendrive.co.il` |
-
-ה-deploy מריץ: `bun install` → `bun run build` → `wrangler deploy`
-Staging מבצע patch על `.output/server/wrangler.json` לשינוי שם ה-Worker לפני ה-deploy.
+| סביבה | Branch | URL | Worker |
+|---|---|---|---|
+| Production | `main` | `hendrive.co.il` | `tanstack-start-app` |
+| Staging | `staging` | `tanstack-start-app-staging.hen1kahlon.workers.dev` | `tanstack-start-app-staging` |
 
 ---
 
-## קבצים חשובים
+## GitHub Actions
+
+| קובץ | מתי רץ | מה עושה |
+|---|---|---|
+| `.github/workflows/Deploy.yml` | push ל-`main` | בונה + מוסיף custom domains + deploy לפרודקשן |
+| `.github/workflows/Staging.yml` | push ל-`staging` | בונה + משנה שם Worker + deploy לסטייג' |
+
+ה-CI מזריק custom domains עם `jq` לתוך `.output/server/wrangler.json` לאחר הבנייה:
+- Production: `routes: [{ pattern: "hendrive.co.il", custom_domain: true }, { pattern: "www.hendrive.co.il", custom_domain: true }]`
+- Staging: `name = "tanstack-start-app-staging"`, ללא custom domains
+
+---
+
+## קבצים מרכזיים
 
 | קובץ | תפקיד |
-|------|--------|
-| `src/lib/site-settings.tsx` | הגדרות ברירת מחדל + `useSiteSettings()` hook |
-| `src/components/landing/Hero.tsx` | סקשן Hero הראשי |
-| `src/components/landing/About.tsx` | סקשן "עליי" עם סטטיסטיקות |
-| `src/components/SeoLanding.tsx` | template לעמודי SEO |
-| `src/routes/__root.tsx` | root layout + meta tags גלובליים |
-| `src/routes/index.tsx` | עמוד הבית |
-| `src/routes/car-lessons-ashkelon.tsx` | עמוד SEO — שיעורי רכב |
-| `src/routes/motorcycle-lessons-ashkelon.tsx` | עמוד SEO — שיעורי אופנוע |
-| `wrangler.jsonc` | הגדרות Cloudflare Workers |
-| `supabase/migrations/` | migrations לDB |
+|---|---|
+| `src/server.ts` | נקודת הכניסה ל-Worker. מכיל redirect מ-www לאפקס |
+| `src/lib/site-settings.tsx` | מיזוג הגדרות Supabase + ברירות מחדל |
+| `src/components/landing/Hero.tsx` | קומפוננט ה-Hero הראשי |
+| `src/routes/` | דפים (file-based routing) |
+| `wrangler.jsonc` | קונפיגורציה בסיסית (לא מגיעה ל-deploy — ראה הערה למעלה) |
+| `.github/workflows/` | CI/CD pipelines |
 
 ---
 
-## מה אסור לשבור
+## מה לא לשבור
 
-- **GA4** — קוד Google Analytics בroot layout
-- **כפתורי וואטסאפ** — `waUrl(s)` משתמש במספר מ-settings
-- **כפתורי טלפון** — `tel:${s.contact.phone}`
-- **Supabase connection** — env vars `VITE_SUPABASE_URL` ו-`VITE_SUPABASE_ANON_KEY`
-- **SEO meta tags** — title, description, canonical, og:*, twitter:*
-- **robots meta** — `index, follow` בכל עמוד
-- **JSON-LD structured data** — `buildFaqJsonLd`, `buildLocalBusinessJsonLd`
+- **`useSiteSettings`** — לא לשנות את ה-schema ב-Supabase בלי לעדכן את הטיפוסים בקוד
+- **`src/server.ts`** — מכיל לוגיקת redirect ו-error handling. כל שינוי דורש בדיקה
+- **Deploy.yml** — ה-`jq` patch חיוני; בלעדיו `hendrive.co.il` לא יעבוד
+- **branch `main`** — deploy אוטומטי לפרודקשן. לא לדחוף קוד שבור
 
 ---
 
-## קונבנציות קוד
+## קונבנציות
 
-- אין comments מיותרים — רק WHY לא WHAT
-- אין emojis בקוד
-- עברית RTL — כיוון `dir="rtl"` בroot
-- צבעים עיקריים: כחול `#2563eb` / `#60a5fa`, צהוב/ענבר לאקסנטים
-- Tailwind v4 — משתמש ב-CSS variables, לא `tailwind.config.js`
-
----
-
-## Supabase
-
-פרויקט Supabase מכיל:
-- `site_settings` — הגדרות גלובליות (hero, stats, contact, buttons)
-- `landing_pages` — תוכן לעמודי SEO לפי `slug`
-
-שינויים בDB דרך migrations ב-`supabase/migrations/`.
+- אין קומנטים בקוד אלא אם ה-WHY לא מובן
+- שמות commits: `feat:`, `fix:`, `style:`, `chore:`, `revert:`
+- אין TypeScript `any` — יש `unknown` עם guard
+- RTL בעברית — layout עם `dir="rtl"` ו-Tailwind עם `text-right` / `lg:text-right`
