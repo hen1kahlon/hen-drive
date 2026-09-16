@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Phone, Star, TrendingUp } from "lucide-react";
+import { Users, Phone, Star, TrendingUp, Rocket, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/")({ component: Overview });
 
@@ -47,6 +48,7 @@ function Overview() {
   if (!stats) return <p className="text-sm text-muted-foreground">טוען נתונים...</p>;
 
   const topLicense = Object.entries(stats.byLicense).sort((a, b) => b[1] - a[1])[0];
+
   const waOpens = Object.entries(stats.bySource).filter(([k]) => k.toLowerCase().includes("whatsapp") || k.toLowerCase().includes("wa")).reduce((s, [, v]) => s + v, 0);
 
   const cards = [
@@ -62,6 +64,9 @@ function Overview() {
         <h1 className="text-2xl sm:text-3xl font-black mb-1">סקירה</h1>
         <p className="text-sm text-muted-foreground">סיכום פעילות האתר</p>
       </div>
+
+      <PushToProduction />
+
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {cards.map((c) => {
@@ -94,6 +99,71 @@ function Overview() {
           <p className="text-xs text-muted-foreground mt-3">פתיחות וואטסאפ: <span className="text-foreground font-bold">{waOpens}</span></p>
         </Panel>
       </div>
+    </div>
+  );
+}
+
+type PushStatus = "idle" | "pushing" | "success" | "error";
+
+function PushToProduction() {
+  const [status, setStatus] = useState<PushStatus>("idle");
+  const [result, setResult] = useState<Record<string, unknown> | null>(null);
+
+  const push = async () => {
+    setStatus("pushing");
+    setResult(null);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("לא מחובר");
+
+      const { data: { url } } = await supabase.functions.getFunctionUrl("push-to-production").catch(() => ({ data: { url: null } }));
+      const fnUrl = url ?? `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/push-to-production`;
+
+      const res = await fetch(fnUrl, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${session.access_token}`, "Content-Type": "application/json" },
+      });
+      const json = await res.json();
+      if (!res.ok || json.error) throw new Error(json.error ?? `שגיאה ${res.status}`);
+      setResult(json.synced);
+      setStatus("success");
+      toast.success("הפרודקשן עודכן בהצלחה!");
+    } catch (err) {
+      setStatus("error");
+      toast.error(err instanceof Error ? err.message : "שגיאה בדחיפה לפרודקשן");
+    }
+  };
+
+  return (
+    <div className="rounded-2xl border border-white/10 bg-card p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      <div className="flex-1">
+        <div className="flex items-center gap-2 mb-1">
+          <Rocket size={18} className="text-[oklch(0.72_0.18_50)]" />
+          <h2 className="font-black text-base">דחוף לפרודקשן</h2>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          מסנכרן site_settings, גלריה וביקורות מ-staging לאתר החי
+        </p>
+        {status === "success" && result && (
+          <p className="text-xs text-green-400 mt-1 flex items-center gap-1">
+            <CheckCircle size={12} />
+            סונכרן: {Object.entries(result).map(([k, v]) => `${k}(${v})`).join(", ")}
+          </p>
+        )}
+        {status === "error" && (
+          <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+            <AlertCircle size={12} /> נכשל — בדוק שה-secret הוגדר ב-Supabase
+          </p>
+        )}
+      </div>
+      <button
+        onClick={push}
+        disabled={status === "pushing"}
+        className="shrink-0 flex items-center gap-2 rounded-xl px-5 py-3 font-bold text-sm bg-gradient-orange text-white disabled:opacity-50 hover:opacity-90 transition"
+      >
+        {status === "pushing" ? <Loader2 size={16} className="animate-spin" /> : <Rocket size={16} />}
+        {status === "pushing" ? "דוחף..." : "Push to Production"}
+      </button>
     </div>
   );
 }
