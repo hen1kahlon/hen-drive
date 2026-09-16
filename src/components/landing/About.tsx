@@ -98,8 +98,10 @@ export function About() {
       <div className="absolute top-1/2 -translate-y-1/2 right-0 w-96 h-96 rounded-full bg-[oklch(0.62_0.20_255_/_0.12)] blur-[120px] -z-10" />
 
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
-        <div className="relative order-2 lg:order-1">
-          <AboutSlider />
+        <div className="relative order-2 lg:order-1 flex justify-center">
+          <div className="w-full lg:max-w-[75%]">
+            <AboutSlider />
+          </div>
         </div>
 
         <div className="order-1 lg:order-2">
