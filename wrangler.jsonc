@@ -5,11 +5,5 @@
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
   "workers_dev": true,
-  "custom_domains": ["hendrive.co.il"],
-  "env": {
-    "staging": {
-      "name": "tanstack-start-app-staging",
-      "workers_dev": true
-    }
-  }
+  "custom_domains": ["hendrive.co.il"]
 }
