@@ -1,6 +1,86 @@
 import { Check } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import chenPortrait from "@/assets/chen-portrait.webp";
+import aboutSlide1 from "@/assets/about-slide-1.jpg";
+import aboutSlide2 from "@/assets/about-slide-2.jpg";
+import aboutSlide3 from "@/assets/about-slide-3.jpg";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+
+const SLIDES = [
+  { src: chenPortrait, alt: "חן כחלון - מורה נהיגה לאופנוע ורכב באשקלון" },
+  { src: aboutSlide1, alt: "תלמידים עם חן כחלון בשיעור נהיגה על אופנוע" },
+  { src: aboutSlide2, alt: "חן כחלון מלמד תלמידה נהיגה על קטנוע" },
+  { src: aboutSlide3, alt: "שיעור נהיגה על אופנוע עם חן כחלון באשקלון" },
+];
+const INTERVAL = 3000;
+
+function AboutSlider() {
+  const [current, setCurrent] = useState(0);
+  const paused = useRef(false);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (!paused.current) setCurrent(i => (i + 1) % SLIDES.length);
+    }, INTERVAL);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div
+      className="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue aspect-[3/4]"
+      onMouseEnter={() => { paused.current = true; }}
+      onMouseLeave={() => { paused.current = false; }}
+    >
+      {SLIDES.map(({ src, alt }, i) => (
+        <img
+          key={src}
+          src={src}
+          alt={alt}
+          loading={i === 0 ? "eager" : "lazy"}
+          width={1100}
+          height={1100}
+          className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700"
+          style={{ opacity: i === current ? 1 : 0 }}
+        />
+      ))}
+
+      {/* bottom overlay */}
+      <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 bg-gradient-to-t from-black/85 via-black/55 to-transparent">
+        {/* dot indicators */}
+        <div className="flex justify-center gap-1.5 mb-3">
+          {SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              aria-label={`תמונה ${i + 1}`}
+              className="rounded-full transition-all duration-300"
+              style={{
+                width: i === current ? 20 : 6,
+                height: 6,
+                background: i === current ? "#60a5fa" : "rgba(255,255,255,0.35)",
+              }}
+            />
+          ))}
+        </div>
+        {/* stats */}
+        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
+            <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">95%</div>
+            <div className="text-[10px] sm:text-xs text-white/80 mt-1">הצלחה</div>
+          </div>
+          <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
+            <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">5</div>
+            <div className="text-[10px] sm:text-xs text-white/80 mt-1">שנות ותק</div>
+          </div>
+          <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
+            <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">350+</div>
+            <div className="text-[10px] sm:text-xs text-white/80 mt-1">תלמידים</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function About() {
   const ref = useScrollReveal(0);
@@ -19,25 +99,7 @@ export function About() {
 
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
         <div className="relative order-2 lg:order-1">
-          <div className="relative rounded-[2rem] overflow-hidden border border-white/10 shadow-glow ring-glow-blue aspect-[3/4]">
-            <img src={chenPortrait} alt="חן כחלון - מורה נהיגה עם רכב ואופנוע באשקלון" loading="lazy" width={1100} height={1100} className="absolute inset-0 w-full h-full object-cover object-center" />
-            <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 bg-gradient-to-t from-black/85 via-black/55 to-transparent">
-              <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
-                  <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">95%</div>
-                  <div className="text-[10px] sm:text-xs text-white/80 mt-1">הצלחה</div>
-                </div>
-                <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
-                  <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">5</div>
-                  <div className="text-[10px] sm:text-xs text-white/80 mt-1">שנות ותק</div>
-                </div>
-                <div className="rounded-xl bg-white/10 border border-white/15 p-2 sm:p-3 text-center">
-                  <div className="text-base sm:text-2xl font-bold gradient-text-blue leading-none">350+</div>
-                  <div className="text-[10px] sm:text-xs text-white/80 mt-1">תלמידים</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <AboutSlider />
         </div>
 
         <div className="order-1 lg:order-2">
