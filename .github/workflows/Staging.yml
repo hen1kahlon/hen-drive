@@ -20,6 +20,17 @@ jobs:
           jq '.name = "tanstack-start-app-staging" | del(.custom_domains)' \
             .output/server/wrangler.json > /tmp/wrangler-staging.json
           mv /tmp/wrangler-staging.json .output/server/wrangler.json
+      - name: Set Worker secrets
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          echo "${{ secrets.SUPABASE_SERVICE_ROLE_KEY_STAGING }}" | npx wrangler secret put SUPABASE_SERVICE_ROLE_KEY --name tanstack-start-app-staging
+          if [ -n "${{ secrets.LOVABLE_API_KEY }}" ]; then
+            echo "${{ secrets.LOVABLE_API_KEY }}" | npx wrangler secret put LOVABLE_API_KEY --name tanstack-start-app-staging
+          fi
+          if [ -n "${{ secrets.RESEND_API_KEY }}" ]; then
+            echo "${{ secrets.RESEND_API_KEY }}" | npx wrangler secret put RESEND_API_KEY --name tanstack-start-app-staging
+          fi
       - run: npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
