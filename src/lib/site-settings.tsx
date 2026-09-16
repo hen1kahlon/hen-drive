@@ -41,6 +41,7 @@ export type SiteSettings = {
   sections: {
     categories_eyebrow: string; categories_title1: string; categories_title2: string;
     about_eyebrow: string; about_title1: string; about_title2: string; about_description: string;
+    about_slides: string[];
     why_eyebrow: string; why_title1: string; why_title2: string;
     reviews_eyebrow: string; reviews_title1: string; reviews_title2: string;
     faq_eyebrow: string; faq_title1: string; faq_title2: string;
@@ -95,6 +96,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     about_title1: "נעים מאוד,",
     about_title2: "חן כחלון",
     about_description: "מורה נהיגה בעל ותק של 5 שנים בתחום הרכב והאופנועים. אני מאמין בלימוד נהיגה בגישה אישית, רגועה ומקצועית, עם התאמה מלאה לקצב של כל תלמיד. השיעורים מתבצעים על כלים חדשים, נוחים ובטיחותיים, באווירה צעירה ומכבדת — עד שמגיעים מוכנים ובטוחים לטסט.",
+    about_slides: [],
     why_eyebrow: "היתרונות שלי",
     why_title1: "למה לבחור",
     why_title2: "בחן?",
