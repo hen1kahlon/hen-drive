@@ -68,6 +68,12 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const url = new URL(request.url);
+    if (url.hostname === "www.hendrive.co.il") {
+      url.hostname = "hendrive.co.il";
+      return Response.redirect(url.toString(), 301);
+    }
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
