@@ -18,7 +18,7 @@ type Review = {
 
 function ReviewsPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [filter, setFilter] = useState<"pending" | "approved" | "rejected" | "all">("pending");
+  const [filter, setFilter] = useState<"pending" | "approved" | "rejected" | "all">("all");
   const [editing, setEditing] = useState<Review | null>(null);
 
   const load = useCallback(async () => {

@@ -143,7 +143,7 @@ function SubmitReview() {
         license_type: form.license_type,
         content: form.content.trim(),
         image_url,
-        status: "pending",
+        status: "approved",
         is_featured: false,
       });
       if (error) throw error;
