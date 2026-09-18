@@ -8,7 +8,7 @@ const INTERVAL = 3000;
 
 function AboutSlider() {
   const s = useSiteSettings();
-  const slides = s.sections.about_slides.length > 0
+  const slides = Array.isArray(s.sections.about_slides) && s.sections.about_slides.length > 0
     ? s.sections.about_slides.map((src, i) => ({ src, alt: `שיעור נהיגה עם חן כחלון ${i + 1}` }))
     : [{ src: chenPortrait, alt: "חן כחלון - מורה נהיגה לאופנוע ורכב באשקלון" }];
 
