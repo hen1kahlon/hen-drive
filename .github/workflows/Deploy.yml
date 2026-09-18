@@ -15,11 +15,6 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
-      - name: Patch wrangler output for production
-        run: |
-          jq '. + {"routes": [{"pattern": "hendrive.co.il", "custom_domain": true}, {"pattern": "www.hendrive.co.il", "custom_domain": true}]}' \
-            .output/server/wrangler.json > /tmp/wrangler-prod.json
-          mv /tmp/wrangler-prod.json .output/server/wrangler.json
       - name: Set Worker secrets
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
