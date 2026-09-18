@@ -48,20 +48,24 @@ export const Route = createFileRoute('/api/public/lead')({
           return Response.json({ error: 'Lead save failed' }, { status: 500 })
         }
 
-        // Fire-and-forget: email via Supabase Edge Function (non-fatal if it fails)
-        fetch(`${supabaseUrl}/functions/v1/notify-lead`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${supabaseKey}` },
-          body: JSON.stringify({
-            lead_id: leadId,
-            full_name: leadInput.full_name,
-            phone: leadInput.phone,
-            license_type: leadInput.license_type,
-            interest: leadInput.interest,
-            area: leadInput.area,
-            notes: leadInput.notes,
+        // Email notification via Supabase Edge Function — awaited with timeout so CF Worker doesn't drop it
+        const notifyPayload = JSON.stringify({
+          lead_id: leadId,
+          full_name: leadInput.full_name,
+          phone: leadInput.phone,
+          license_type: leadInput.license_type,
+          interest: leadInput.interest,
+          area: leadInput.area,
+          notes: leadInput.notes,
+        })
+        await Promise.race([
+          fetch(`${supabaseUrl}/functions/v1/notify-lead`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${supabaseKey}` },
+            body: notifyPayload,
           }),
-        }).catch(() => { /* email failure is non-fatal */ })
+          new Promise<void>((resolve) => setTimeout(resolve, 4000)),
+        ]).catch(() => { /* email failure is non-fatal */ })
 
         return Response.json({ success: true, leadId })
       },
