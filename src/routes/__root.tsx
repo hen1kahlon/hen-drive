@@ -336,9 +336,6 @@ function RootComponent() {
         const style = window.getComputedStyle(node);
         const rect = node.getBoundingClientRect();
         const text = node.innerText?.trim() ?? "";
-        const isExternalBadge =
-          node.matches('[data-lovable-badge], [id*="lovable" i], [class*="lovable" i], [id*="gpteng" i], [class*="gpteng" i]') ||
-          (node instanceof HTMLIFrameElement && /lovable|gpteng/i.test(node.src || ""));
         const isSuspiciousBlankPanel =
           text.length === 0 &&
           (style.position === "fixed" || style.position === "absolute") &&
@@ -351,7 +348,7 @@ function RootComponent() {
           rect.top < window.innerHeight &&
           rect.left < window.innerWidth &&
           /rgb\(2[3-5]\d, 2[3-5]\d, 2[3-5]\d\)|rgba\(2[3-5]\d, 2[3-5]\d, 2[3-5]\d/.test(style.backgroundColor);
-        if (isExternalBadge || isSuspiciousBlankPanel) {
+        if (isSuspiciousBlankPanel) {
           node.style.setProperty("display", "none", "important");
           node.style.setProperty("pointer-events", "none", "important");
         }

@@ -127,11 +127,12 @@ function LandingPageInner() {
       <main className="pb-24 md:pb-0">
         <Hero />
         <Categories onSelectInterest={handleSelectInterest} />
-        <About />
         <WhyMe />
-        <SuccessGallery />
-        {/* <VideoIntro /> */}
         <Reviews />
+        <About />
+        <SuccessGallery />
+        <SoldiersBenefit />
+        {/* <VideoIntro /> */}
         <FAQ />
         <LeadForm selectedInterest={leadInterest} />
       </main>
