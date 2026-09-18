@@ -15,6 +15,11 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL_STAGING }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY_STAGING }}
+      - name: Patch wrangler output for staging
+        run: |
+          jq '.name = "tanstack-start-app-staging" | del(.routes) | del(.custom_domains)' \
+            dist/server/wrangler.json > /tmp/wrangler-staging.json
+          mv /tmp/wrangler-staging.json dist/server/wrangler.json
       - name: Set Worker secrets
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -23,6 +28,6 @@ jobs:
           if [ -n "${{ secrets.RESEND_API_KEY }}" ]; then
             echo "${{ secrets.RESEND_API_KEY }}" | npx wrangler secret put RESEND_API_KEY --name tanstack-start-app-staging
           fi
-      - run: npx wrangler deploy --config wrangler.staging.jsonc
+      - run: npx wrangler deploy --config dist/server/wrangler.json
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
