@@ -26,7 +26,6 @@ import { FAQ } from "@/components/landing/FAQ";
 import { Footer } from "@/components/landing/Footer";
 import { MobileBar } from "@/components/landing/MobileBar";
 import { SuccessGallery } from "@/components/landing/SuccessGallery";
-import { SoldiersBenefit } from "@/components/landing/SoldiersBenefit";
 import { VideoIntro } from "@/components/landing/VideoIntro";
 import { ExitIntent } from "@/components/landing/ExitIntent";
 import { AccessibilityWidget } from "@/components/landing/AccessibilityWidget";
