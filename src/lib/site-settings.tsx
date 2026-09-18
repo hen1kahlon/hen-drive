@@ -48,7 +48,6 @@ export type SiteSettings = {
     lead_title1: string; lead_title2: string; lead_description: string;
     final_cta_title1: string; final_cta_title2: string; final_cta_description: string;
     footer_about: string;
-    about_slides: string[];
   };
 };
 
@@ -114,7 +113,6 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     final_cta_title2: "לרישיון?",
     final_cta_description: "דבר אחד מפריד בינך לבין הרישיון — ההחלטה שלך",
     footer_about: "מורה נהיגה לרכב ואופנועים — אשקלון והסביבה. מלווה אותך עד הקריאה ״עברת״.",
-    about_slides: [],
   },
 };
 
