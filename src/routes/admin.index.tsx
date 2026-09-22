@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Phone, Star, TrendingUp } from "lucide-react";
+import { Users, Phone, Star, TrendingUp, ArrowUpFromLine, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/")({ component: Overview });
 
@@ -93,6 +94,62 @@ function Overview() {
           }
           <p className="text-xs text-muted-foreground mt-3">פתיחות וואטסאפ: <span className="text-foreground font-bold">{waOpens}</span></p>
         </Panel>
+      </div>
+
+      <PushToProduction />
+    </div>
+  );
+}
+
+const IS_STAGING = typeof window !== "undefined" && window.location.hostname.includes("staging");
+
+type PushResult = { synced_tables?: string[]; rows?: Record<string, number> };
+
+function PushToProduction() {
+  const [pushing, setPushing] = useState(false);
+  const [lastResult, setLastResult] = useState<PushResult | null>(null);
+
+  if (!IS_STAGING) return null;
+
+  const push = async () => {
+    if (!confirm("לדחוף תוכן מהסטייג׳ לפרודקשן?\n\nיועברו: תוכן האתר, ביקורות מאושרות, גלריה, שאלות נפוצות, דרגות רישיון.")) return;
+    setPushing(true);
+    setLastResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("push-to-production");
+      if (error) throw error;
+      setLastResult(data as PushResult);
+      toast.success("הועבר לפרודקשן בהצלחה!");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "שגיאה בדחיפה לפרודקשן");
+    } finally {
+      setPushing(false);
+    }
+  };
+
+  return (
+    <div className="bg-card border border-orange-500/20 rounded-2xl p-5">
+      <div className="flex items-start justify-between flex-wrap gap-4">
+        <div>
+          <h3 className="font-black text-base mb-1">דחיפה לפרודקשן</h3>
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            מסנכרן מהסטייג׳ לאתר החי: תוכן, ביקורות מאושרות, גלריה, שאלות נפוצות, דרגות רישיון.
+          </p>
+          {lastResult && (
+            <div className="flex items-center gap-1.5 mt-2 text-xs text-green-400">
+              <CheckCircle2 size={13} />
+              סונכרן בהצלחה
+            </div>
+          )}
+        </div>
+        <button
+          onClick={push}
+          disabled={pushing}
+          className="bg-gradient-orange text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 disabled:opacity-50 shrink-0"
+        >
+          <ArrowUpFromLine size={15} />
+          {pushing ? "מסנכרן..." : "דחוף לפרודקשן"}
+        </button>
       </div>
     </div>
   );
