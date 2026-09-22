@@ -16,15 +16,16 @@ import heroImgMobile from "@/assets/hero-driving-mobile.webp";
 
 import { Nav } from "@/components/landing/Nav";
 import { Hero } from "@/components/landing/Hero";
-import { Categories, scrollToLead } from "@/components/landing/Categories";
+import { Categories, scrollToLead, type LicenseCardItem } from "@/components/landing/Categories";
 import { About } from "@/components/landing/About";
 import { WhyMe } from "@/components/landing/WhyMe";
 import { Reviews } from "@/components/landing/Reviews";
 import { LeadForm } from "@/components/landing/LeadForm";
-import { FAQ } from "@/components/landing/FAQ";
+import { FAQ, type FaqItem } from "@/components/landing/FAQ";
 import { Footer } from "@/components/landing/Footer";
 import { MobileBar } from "@/components/landing/MobileBar";
 import { SuccessGallery } from "@/components/landing/SuccessGallery";
+import { SoldiersBenefit } from "@/components/landing/SoldiersBenefit";
 import { VideoIntro } from "@/components/landing/VideoIntro";
 import { ExitIntent } from "@/components/landing/ExitIntent";
 import { AccessibilityWidget } from "@/components/landing/AccessibilityWidget";
@@ -32,14 +33,18 @@ import { AccessibilityWidget } from "@/components/landing/AccessibilityWidget";
 export const Route = createFileRoute("/")({
   loader: async () => {
     try {
-      const { data } = await supabase
-        .from("site_settings")
-        .select("data")
-        .eq("id", "main")
-        .maybeSingle();
-      return { initialSettings: data?.data ? mergeSettings(data.data) : DEFAULT_SETTINGS };
+      const [settingsRes, faqsRes, cardsRes] = await Promise.all([
+        supabase.from("site_settings").select("data").eq("id", "main").maybeSingle(),
+        supabase.from("faqs").select("id,question,answer,sort_order,is_active").eq("is_active", true).order("sort_order"),
+        supabase.from("license_cards").select("*").eq("is_active", true).order("sort_order"),
+      ]);
+      return {
+        initialSettings: settingsRes.data?.data ? mergeSettings(settingsRes.data.data) : DEFAULT_SETTINGS,
+        faqs: (faqsRes.data ?? []) as FaqItem[],
+        licenseCards: (cardsRes.data ?? []) as LicenseCardItem[],
+      };
     } catch {
-      return { initialSettings: DEFAULT_SETTINGS };
+      return { initialSettings: DEFAULT_SETTINGS, faqs: [], licenseCards: [] };
     }
   },
   head: () => ({
@@ -100,7 +105,7 @@ export const Route = createFileRoute("/")({
 });
 
 function LandingPage() {
-  const { initialSettings } = Route.useLoaderData() as { initialSettings: SiteSettings };
+  const { initialSettings } = Route.useLoaderData() as { initialSettings: SiteSettings; faqs: FaqItem[]; licenseCards: LicenseCardItem[] };
   return (
     <SiteSettingsProvider initialSettings={initialSettings}>
       <LandingPageInner />
@@ -109,6 +114,7 @@ function LandingPage() {
 }
 
 function LandingPageInner() {
+  const { faqs, licenseCards } = Route.useLoaderData() as { initialSettings: SiteSettings; faqs: FaqItem[]; licenseCards: LicenseCardItem[] };
   // Subscribe to settings so this tree re-renders when CMS values change.
   const s = useSiteSettings();
   const [hydrated, setHydrated] = useState(false);
@@ -126,13 +132,14 @@ function LandingPageInner() {
       <Nav />
       <main className="pb-24 md:pb-0">
         <Hero />
-        <Categories onSelectInterest={handleSelectInterest} />
-        <About />
+        <Categories onSelectInterest={handleSelectInterest} licenseCards={licenseCards} />
         <WhyMe />
-        <SuccessGallery />
-        {/* <VideoIntro /> */}
         <Reviews />
-        <FAQ />
+        <About />
+        <SuccessGallery />
+        <SoldiersBenefit />
+        {/* <VideoIntro /> */}
+        <FAQ items={faqs} />
         <LeadForm selectedInterest={leadInterest} />
       </main>
       <Footer />

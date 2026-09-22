@@ -1,7 +1,21 @@
-import { Car, Bike } from "lucide-react";
+import { Car, Bike, Zap } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import vehSedan from "@/assets/vehicle-sedan.webp";
 import vehBikeA from "@/assets/vehicle-bike-a.webp";
+
+export type LicenseCardItem = {
+  id: string;
+  code: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  interest_label: string;
+  icon: string;
+  color: string;
+  image_url: string | null;
+  sort_order: number;
+  is_active: boolean;
+};
 
 type Category = {
   id: string;
@@ -16,7 +30,29 @@ type Category = {
   linkLabel: string;
 };
 
-const categories: Category[] = [
+const ICON_MAP: Record<string, typeof Car> = { Car, Bike, Zap };
+const COLOR_MAP: Record<string, string> = { blue: "#2563eb", orange: "#f97316" };
+const IMAGE_MAP: Record<string, string> = { Car: vehSedan, Bike: vehBikeA, Zap: vehBikeA };
+const LINK_MAP: Record<string, "/car-lessons-ashkelon" | "/motorcycle-lessons-ashkelon"> = {
+  B: "/car-lessons-ashkelon",
+};
+
+function cardFromDb(c: LicenseCardItem): Category {
+  return {
+    id: c.id,
+    title: c.title,
+    subtitle: c.subtitle,
+    desc: c.description,
+    img: IMAGE_MAP[c.icon] ?? vehBikeA,
+    icon: ICON_MAP[c.icon] ?? Bike,
+    accent: COLOR_MAP[c.color] ?? "#2563eb",
+    interest: c.interest_label,
+    link: LINK_MAP[c.code] ?? "/motorcycle-lessons-ashkelon",
+    linkLabel: c.code === "B" ? "כל הפרטים על רכב אוטומט ←" : `כל הפרטים על אופנוע ${c.code} ←`,
+  };
+}
+
+const FALLBACK_CATEGORIES: Category[] = [
   {
     id: "B",
     title: "רכב אוטומט",
@@ -88,7 +124,8 @@ export function scrollToLead() {
   });
 }
 
-export function Categories({ onSelectInterest }: { onSelectInterest?: (interest: string) => void }) {
+export function Categories({ onSelectInterest, licenseCards }: { onSelectInterest?: (interest: string) => void; licenseCards?: LicenseCardItem[] }) {
+  const categories = licenseCards?.length ? licenseCards.map(cardFromDb) : FALLBACK_CATEGORIES;
   return (
     <section id="categories" className="py-7 sm:py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
