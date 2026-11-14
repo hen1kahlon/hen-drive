@@ -11,6 +11,7 @@ const GOOGLE_RATING = 5.0;
 export const GOOGLE_REVIEWS_URL = "https://maps.google.com/?cid=12294889007904145123";
 export const GOOGLE_WRITE_REVIEW_URL = "https://g.page/r/CeM--1xpOKCqEBM/review";
 export const EASY_PAGE_URL = "https://easy.co.il/page/10131206";
+export const EASY_WRITE_REVIEW_URL = "https://easy.co.il/page/10131206?action=leavereview&utm_source=hendrive&utm_medium=website&utm_campaign=reviews";
 
 function GoogleGlyph({ className }: { className?: string }) {
   return (
@@ -110,7 +111,7 @@ function ReviewsCTA() {
           </div>
           <p className="mt-5 text-xs text-muted-foreground">
             למדת אצלי?{" "}
-            <a href={EASY_PAGE_URL} target="_blank" rel="noopener noreferrer" className="font-bold text-foreground underline underline-offset-2 hover:text-accent">
+            <a href={EASY_WRITE_REVIEW_URL} target="_blank" rel="noopener noreferrer" className="font-bold text-foreground underline underline-offset-2 hover:text-accent">
               השאירו ביקורת באיזי
             </a>
           </p>
