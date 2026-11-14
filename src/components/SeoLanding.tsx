@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useSiteSettings, waUrl } from "@/lib/site-settings";
 import { supabase } from "@/integrations/supabase/client";
+import { LegalLinks } from "@/components/LegalPage";
 
 export type SeoFaq = { q: string; a: string };
 export type SeoReview = { name: string; text: string; type: string };
@@ -104,7 +105,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
           </div>
           <div className="mt-6 flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
             <span className="inline-flex items-center gap-1"><MapPin size={12} /> אשקלון והסביבה</span>
-            <span className="inline-flex items-center gap-1"><Star size={12} className="fill-[#FBBC04] text-[#FBBC04]" /> 5.0 · 120+ המלצות</span>
+            <span className="inline-flex items-center gap-1"><Star size={12} className="fill-[#FBBC04] text-[#FBBC04]" /> 5.0 בגוגל</span>
             <span className="inline-flex items-center gap-1"><Trophy size={12} /> 95% טסט ראשון</span>
           </div>
         </div>
@@ -171,7 +172,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
               ))}
               <span className="font-black tabular-nums">5.0</span>
             </div>
-          <p className="text-xs text-muted-foreground">120+ תלמידים ממליצים · מורה נהיגה באשקלון</p>
+          <p className="text-xs text-muted-foreground">דירוג 5.0 בגוגל · מורה נהיגה באשקלון</p>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-center mb-2">המלצות תלמידים</h2>
           <p className="text-center text-sm text-muted-foreground mb-8">
@@ -246,6 +247,8 @@ export default function SeoLanding(initial: SeoLandingProps) {
           </div>
         </div>
       </section>
+
+      <LegalLinks className="pb-24 sm:pb-6 border-t border-white/5" />
 
       <DeferredExitIntent wa={wa} tel={tel} phoneDisplay={s.contact.phone_display} />
 
@@ -399,7 +402,6 @@ export function buildLocalBusinessJsonLd(opts: { serviceName: string; serviceDes
     areaServed: [
       { "@type": "City", name: "אשקלון" },
     ],
-    aggregateRating: { "@type": "AggregateRating", ratingValue: "5.0", reviewCount: "120", bestRating: "5", worstRating: "1" },
     makesOffer: {
       "@type": "Offer",
       itemOffered: { "@type": "Service", name: opts.serviceName, description: opts.serviceDesc, areaServed: "אשקלון" },

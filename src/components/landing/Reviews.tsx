@@ -7,7 +7,9 @@ import { useSiteSettings, waUrl } from "@/lib/site-settings";
 import { getSafeImageMimeType } from "@/lib/image-upload";
 
 
-const REVIEW_AGGREGATE = { value: 5.0, count: 120 };
+const GOOGLE_RATING = 5.0;
+export const GOOGLE_REVIEWS_URL = "https://maps.google.com/?cid=12294889007904145123";
+export const GOOGLE_WRITE_REVIEW_URL = "https://g.page/r/CeM--1xpOKCqEBM/review";
 
 function GoogleGlyph({ className }: { className?: string }) {
   return (
@@ -43,7 +45,7 @@ function TrustHeader() {
       </div>
       <div className="flex-1 text-right">
         <div className="flex items-center gap-2 justify-start flex-row-reverse">
-          <span className="text-xl font-black tabular-nums">{REVIEW_AGGREGATE.value.toFixed(1)}</span>
+          <span className="text-xl font-black tabular-nums">{GOOGLE_RATING.toFixed(1)}</span>
           <div className="flex gap-0.5">
             {[...Array(5)].map((_, i) => (
               <Star key={i} size={16} className="fill-[#f59e0b] text-[#f59e0b]" />
@@ -51,7 +53,10 @@ function TrustHeader() {
           </div>
         </div>
         <p className="text-xs text-muted-foreground mt-0.5">
-          מבוסס על <span className="font-bold text-foreground">{REVIEW_AGGREGATE.count}+</span> חוות דעת תלמידים – Google &amp; אתר
+          דירוג התלמידים ב-Google ·{" "}
+          <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" className="font-bold text-foreground underline underline-offset-2 hover:text-accent">
+            לכל הביקורות בגוגל
+          </a>
         </p>
       </div>
       <div className="hidden sm:flex flex-col items-center gap-0.5 text-center pr-3 border-r border-white/10">
@@ -98,6 +103,12 @@ function ReviewsCTA() {
               <Phone size={18} /> {s.contact.phone_display}
             </a>
           </div>
+          <p className="mt-5 text-xs text-muted-foreground">
+            למדת אצלי?{" "}
+            <a href={GOOGLE_WRITE_REVIEW_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-bold text-foreground underline underline-offset-2 hover:text-accent">
+              <GoogleGlyph className="w-3.5 h-3.5" /> השאירו ביקורת בגוגל
+            </a>
+          </p>
         </div>
       </div>
     </div>

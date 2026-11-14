@@ -133,9 +133,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             { "@type": "OpeningHoursSpecification", dayOfWeek: "Friday", opens: "07:00", closes: "14:00" },
           ],
           sameAs: [
-            "https://www.instagram.com/hen_drive/",
-            "https://www.tiktok.com/@hen_drive",
-            "https://www.facebook.com/hendrive",
+            "https://www.instagram.com/hen_driver/",
+            "https://www.tiktok.com/@hen_driver",
+            "https://www.facebook.com/p/%D7%97%D7%9F-%D7%9B%D7%97%D7%9C%D7%95%D7%9F-%D7%9E%D7%95%D7%A8%D7%94-%D7%A0%D7%94%D7%99%D7%92%D7%94-61554332618880/",
+            "https://maps.google.com/?cid=12294889007904145123",
           ],
           hasOfferCatalog: {
             "@type": "OfferCatalog",
@@ -147,7 +148,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               { "@type": "Offer", itemOffered: { "@type": "Service", name: "הכנה לטסט וטסט ראשון", areaServed: "אשקלון והסביבה" } },
             ],
           },
-          aggregateRating: { "@type": "AggregateRating", ratingValue: "5", reviewCount: "120" },
         }),
       },
       {

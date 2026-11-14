@@ -1,5 +1,6 @@
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
 import { useSiteSettings } from "@/lib/site-settings";
+import { LegalLinks } from "@/components/LegalPage";
 
 function TikTokIcon({ className }: { className?: string }) {
   return (
@@ -59,6 +60,7 @@ export function Footer() {
       </div>
       <div className="max-w-7xl mx-auto mt-8 pt-5 border-t text-center text-xs" style={{ borderColor: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>
         © {new Date().getFullYear()} חן כחלון - מורה נהיגה. כל הזכויות שמורות.
+        <LegalLinks className="!py-3" />
       </div>
     </footer>
   );
