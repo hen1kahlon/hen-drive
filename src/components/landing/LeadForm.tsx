@@ -256,6 +256,7 @@ export function LeadForm({ selectedInterest }: { selectedInterest?: string | nul
                 <Send size={18} /> {submitting ? "שולח..." : "שלח פרטים →"}
               </button>
               <p className="text-[11px] text-center text-muted-foreground">ללא התחייבות · חינם לחלוטין</p>
+              <p className="text-[11px] text-center text-muted-foreground">הפרטים משמשים רק כדי לחזור אליך · <a href="/privacy" className="underline hover:text-foreground">מדיניות פרטיות</a></p>
             </form>
           )}
         </div>

@@ -9,28 +9,60 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as MotorcycleLessonsAshkelonRouteImport } from './routes/motorcycle-lessons-ashkelon'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as CarLessonsAshkelonRouteImport } from './routes/car-lessons-ashkelon'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccessibilityRouteImport } from './routes/accessibility'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CarLessonsAshkelonRouteImport } from './routes/car-lessons-ashkelon'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as MotorcycleLessonsAshkelonRouteImport } from './routes/motorcycle-lessons-ashkelon'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
-import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
-import { Route as AdminLicenseCardsRouteImport } from './routes/admin.license-cards'
-import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
-import { Route as AdminLandingPagesRouteImport } from './routes/admin.landing-pages'
-import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
-import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
 import { Route as AdminErrorsRouteImport } from './routes/admin.errors'
+import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
+import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
+import { Route as AdminLandingPagesRouteImport } from './routes/admin.landing-pages'
+import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
+import { Route as AdminLicenseCardsRouteImport } from './routes/admin.license-cards'
+import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as ApiPublicLeadRouteImport } from './routes/api/public/lead'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccessibilityRoute = AccessibilityRouteImport.update({
+  id: '/accessibility',
+  path: '/accessibility',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarLessonsAshkelonRoute = CarLessonsAshkelonRouteImport.update({
+  id: '/car-lessons-ashkelon',
+  path: '/car-lessons-ashkelon',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MotorcycleLessonsAshkelonRoute =
@@ -39,34 +71,14 @@ const MotorcycleLessonsAshkelonRoute =
     path: '/motorcycle-lessons-ashkelon',
     getParentRoute: () => rootRouteImport,
   } as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CarLessonsAshkelonRoute = CarLessonsAshkelonRouteImport.update({
-  id: '/car-lessons-ashkelon',
-  path: '/car-lessons-ashkelon',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -74,34 +86,9 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminSettingsRoute = AdminSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminReviewsRoute = AdminReviewsRouteImport.update({
-  id: '/reviews',
-  path: '/reviews',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLicenseCardsRoute = AdminLicenseCardsRouteImport.update({
-  id: '/license-cards',
-  path: '/license-cards',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLeadsRoute = AdminLeadsRouteImport.update({
-  id: '/leads',
-  path: '/leads',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLandingPagesRoute = AdminLandingPagesRouteImport.update({
-  id: '/landing-pages',
-  path: '/landing-pages',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminGalleryRoute = AdminGalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
+const AdminErrorsRoute = AdminErrorsRouteImport.update({
+  id: '/errors',
+  path: '/errors',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminFaqsRoute = AdminFaqsRouteImport.update({
@@ -109,9 +96,34 @@ const AdminFaqsRoute = AdminFaqsRouteImport.update({
   path: '/faqs',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminErrorsRoute = AdminErrorsRouteImport.update({
-  id: '/errors',
-  path: '/errors',
+const AdminGalleryRoute = AdminGalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLandingPagesRoute = AdminLandingPagesRouteImport.update({
+  id: '/landing-pages',
+  path: '/landing-pages',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLeadsRoute = AdminLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLicenseCardsRoute = AdminLicenseCardsRouteImport.update({
+  id: '/license-cards',
+  path: '/license-cards',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReviewsRoute = AdminReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
 const ApiPublicLeadRoute = ApiPublicLeadRouteImport.update({
@@ -122,12 +134,14 @@ const ApiPublicLeadRoute = ApiPublicLeadRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/car-lessons-ashkelon': typeof CarLessonsAshkelonRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
@@ -142,11 +156,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
   '/auth': typeof AuthRoute
   '/car-lessons-ashkelon': typeof CarLessonsAshkelonRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
@@ -162,12 +178,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/car-lessons-ashkelon': typeof CarLessonsAshkelonRoute
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
+  '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
@@ -184,12 +202,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/accessibility'
     | '/admin'
     | '/auth'
     | '/car-lessons-ashkelon'
     | '/dashboard'
     | '/login'
     | '/motorcycle-lessons-ashkelon'
+    | '/privacy'
     | '/sitemap.xml'
     | '/admin/errors'
     | '/admin/faqs'
@@ -204,11 +224,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/accessibility'
     | '/auth'
     | '/car-lessons-ashkelon'
     | '/dashboard'
     | '/login'
     | '/motorcycle-lessons-ashkelon'
+    | '/privacy'
     | '/sitemap.xml'
     | '/admin/errors'
     | '/admin/faqs'
@@ -223,12 +245,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/accessibility'
     | '/admin'
     | '/auth'
     | '/car-lessons-ashkelon'
     | '/dashboard'
     | '/login'
     | '/motorcycle-lessons-ashkelon'
+    | '/privacy'
     | '/sitemap.xml'
     | '/admin/errors'
     | '/admin/faqs'
@@ -244,58 +268,32 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccessibilityRoute: typeof AccessibilityRoute
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   CarLessonsAshkelonRoute: typeof CarLessonsAshkelonRoute
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   MotorcycleLessonsAshkelonRoute: typeof MotorcycleLessonsAshkelonRoute
+  PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiPublicLeadRoute: typeof ApiPublicLeadRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/motorcycle-lessons-ashkelon': {
-      id: '/motorcycle-lessons-ashkelon'
-      path: '/motorcycle-lessons-ashkelon'
-      fullPath: '/motorcycle-lessons-ashkelon'
-      preLoaderRoute: typeof MotorcycleLessonsAshkelonRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/car-lessons-ashkelon': {
-      id: '/car-lessons-ashkelon'
-      path: '/car-lessons-ashkelon'
-      fullPath: '/car-lessons-ashkelon'
-      preLoaderRoute: typeof CarLessonsAshkelonRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/accessibility': {
+      id: '/accessibility'
+      path: '/accessibility'
+      fullPath: '/accessibility'
+      preLoaderRoute: typeof AccessibilityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -305,11 +303,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/car-lessons-ashkelon': {
+      id: '/car-lessons-ashkelon'
+      path: '/car-lessons-ashkelon'
+      fullPath: '/car-lessons-ashkelon'
+      preLoaderRoute: typeof CarLessonsAshkelonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motorcycle-lessons-ashkelon': {
+      id: '/motorcycle-lessons-ashkelon'
+      path: '/motorcycle-lessons-ashkelon'
+      fullPath: '/motorcycle-lessons-ashkelon'
+      preLoaderRoute: typeof MotorcycleLessonsAshkelonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -319,46 +359,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/settings': {
-      id: '/admin/settings'
-      path: '/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof AdminSettingsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/reviews': {
-      id: '/admin/reviews'
-      path: '/reviews'
-      fullPath: '/admin/reviews'
-      preLoaderRoute: typeof AdminReviewsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/license-cards': {
-      id: '/admin/license-cards'
-      path: '/license-cards'
-      fullPath: '/admin/license-cards'
-      preLoaderRoute: typeof AdminLicenseCardsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/leads': {
-      id: '/admin/leads'
-      path: '/leads'
-      fullPath: '/admin/leads'
-      preLoaderRoute: typeof AdminLeadsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/landing-pages': {
-      id: '/admin/landing-pages'
-      path: '/landing-pages'
-      fullPath: '/admin/landing-pages'
-      preLoaderRoute: typeof AdminLandingPagesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/gallery': {
-      id: '/admin/gallery'
-      path: '/gallery'
-      fullPath: '/admin/gallery'
-      preLoaderRoute: typeof AdminGalleryRouteImport
+    '/admin/errors': {
+      id: '/admin/errors'
+      path: '/errors'
+      fullPath: '/admin/errors'
+      preLoaderRoute: typeof AdminErrorsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/faqs': {
@@ -368,11 +373,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminFaqsRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/errors': {
-      id: '/admin/errors'
-      path: '/errors'
-      fullPath: '/admin/errors'
-      preLoaderRoute: typeof AdminErrorsRouteImport
+    '/admin/gallery': {
+      id: '/admin/gallery'
+      path: '/gallery'
+      fullPath: '/admin/gallery'
+      preLoaderRoute: typeof AdminGalleryRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/landing-pages': {
+      id: '/admin/landing-pages'
+      path: '/landing-pages'
+      fullPath: '/admin/landing-pages'
+      preLoaderRoute: typeof AdminLandingPagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/leads': {
+      id: '/admin/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminLeadsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/license-cards': {
+      id: '/admin/license-cards'
+      path: '/license-cards'
+      fullPath: '/admin/license-cards'
+      preLoaderRoute: typeof AdminLicenseCardsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reviews': {
+      id: '/admin/reviews'
+      path: '/reviews'
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AdminReviewsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/api/public/lead': {
@@ -413,15 +453,27 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccessibilityRoute: AccessibilityRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   CarLessonsAshkelonRoute: CarLessonsAshkelonRoute,
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   MotorcycleLessonsAshkelonRoute: MotorcycleLessonsAshkelonRoute,
+  PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiPublicLeadRoute: ApiPublicLeadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
