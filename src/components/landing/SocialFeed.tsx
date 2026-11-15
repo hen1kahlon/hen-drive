@@ -1,4 +1,5 @@
-import { Instagram, Heart, Play } from "lucide-react";
+import { Instagram } from "lucide-react";
+import { TikTokRow } from "@/components/TikTokEmbed";
 import { useSiteSettings } from "@/lib/site-settings";
 
 function TikTokIcon({ className }: { className?: string }) {
@@ -9,11 +10,11 @@ function TikTokIcon({ className }: { className?: string }) {
   );
 }
 
-const socialPosts = [
-  { platform: "instagram" as const, caption: "תלמידה עברה טסט מהפעם הראשונה 🎉", likes: "248", grad: "from-[oklch(0.62_0.20_255)] to-[oklch(0.55_0.22_330)]" },
-  { platform: "tiktok" as const, caption: "טיפ חשוב לפני טסט אופנוע 🏍️", likes: "1.2K", grad: "from-[oklch(0.20_0.02_260)] to-[oklch(0.10_0.02_260)]" },
-  { platform: "instagram" as const, caption: "שיעור ראשון על הכלי החדש 🚗", likes: "189", grad: "from-[oklch(0.62_0.20_255)] to-[oklch(0.4_0.18_280)]" },
-  { platform: "tiktok" as const, caption: "מה לבדוק לפני יציאה לכביש?", likes: "892", grad: "from-[oklch(0.78_0.20_55)] to-[oklch(0.5_0.22_30)]" },
+const VIDEOS = [
+  { id: "7686478543789788436", title: "ככה נראה יום טסט אצלנו" },
+  { id: "7683852015776091412", title: "משיעור ראשון לנסיעה לבד" },
+  { id: "7696639346836868372", title: "רישיון A – כוח פוגש שליטה" },
+  { id: "7697191865300405510", title: "המגרש מלמעלה" },
 ];
 
 export function SocialFeed() {
@@ -28,44 +29,10 @@ export function SocialFeed() {
           <h2 className="text-display text-4xl sm:text-5xl lg:text-6xl">
             הסיפורים שלי <span className="gradient-text-blue">ברשתות</span>
           </h2>
-          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">תכנים חדשים, טיפים, ורגעים מתוך השיעורים — מוזמנים להצטרף.</p>
+          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">סרטונים אמיתיים מהשיעורים ומימי הטסט – ככה זה נראה אצלי.</p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
-          {socialPosts.map((p, i) => {
-            const href = p.platform === "tiktok" ? tiktok : instagram;
-            return (
-              <a
-                key={i}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative aspect-[9/16] rounded-3xl overflow-hidden border border-white/10 block"
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${p.grad}`} />
-                <div className="absolute inset-0 grid-bg opacity-20" />
-                <div className="absolute inset-0 grid place-items-center">
-                  <Play size={48} className="text-white/40 group-hover:scale-110 group-hover:text-white/70 transition" fill="currentColor" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-
-                {/* platform badge */}
-                <div className="absolute top-3 right-3 glass-strong rounded-full px-2.5 py-1 flex items-center gap-1.5 border border-white/10">
-                  {p.platform === "instagram" ? <Instagram size={12} /> : <TikTokIcon className="w-3 h-3" />}
-                  <span className="text-[10px] font-bold capitalize">{p.platform}</span>
-                </div>
-
-                {/* caption */}
-                <div className="absolute bottom-3 right-3 left-3 text-white">
-                  <p className="text-xs sm:text-sm font-bold leading-snug mb-2 line-clamp-3">{p.caption}</p>
-                  <div className="flex items-center gap-3 text-[11px] text-white/80">
-                    <span className="inline-flex items-center gap-1"><Heart size={11} /> {p.likes}</span>
-                  </div>
-                </div>
-              </a>
-            );
-          })}
-        </div>
+        <TikTokRow videos={VIDEOS} />
 
         <div className="text-center mt-10 flex flex-wrap justify-center gap-3">
           <a href={instagram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-gradient-blue px-5 py-3 text-sm font-bold text-white shadow-glow hover:scale-105 transition">

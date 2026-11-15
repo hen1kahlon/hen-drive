@@ -7,6 +7,7 @@ import {
 import { useSiteSettings, waUrl } from "@/lib/site-settings";
 import { supabase } from "@/integrations/supabase/client";
 import { LegalLinks } from "@/components/LegalPage";
+import { TikTokRow } from "@/components/TikTokEmbed";
 
 export type SeoFaq = { q: string; a: string };
 export type SeoReview = { name: string; text: string; type: string };
@@ -21,6 +22,7 @@ export type SeoLandingProps = {
   faqs: SeoFaq[];
   reviews: SeoReview[];
   reviewLicenseTypes?: string[];
+  videos?: { id: string; title: string }[];
   related: RelatedLink[];
   waMessage: string;
   ctaSubline: string;
@@ -187,6 +189,15 @@ export default function SeoLanding(initial: SeoLandingProps) {
           })}
         </div>
       </section>
+
+      {initial.videos && initial.videos.length > 0 && (
+        <section className="px-4 py-10 sm:py-14">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-black text-center mb-6">ככה זה נראה בשיעורים</h2>
+            <TikTokRow videos={initial.videos} />
+          </div>
+        </section>
+      )}
 
       {/* Reviews */}
       {props.reviews.length > 0 && (
