@@ -275,6 +275,21 @@ export default function SeoLanding(initial: SeoLandingProps) {
         </div>
       </section>
 
+      {props.related.length > 0 && (
+        <nav aria-label="עמודים קשורים" className="max-w-5xl mx-auto px-4 py-8">
+          <h2 className="text-lg font-black mb-3 text-right">עוד מידע שיעזור לך</h2>
+          <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {props.related.map((r) => (
+              <li key={r.to}>
+                <Link to={r.to} className="block rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-bold hover:bg-white/[0.06]">
+                  {r.title} ←
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
       <LegalLinks className="pb-24 sm:pb-6 border-t border-white/5" />
 
       <DeferredExitIntent wa={wa} tel={tel} phoneDisplay={s.contact.phone_display} />
