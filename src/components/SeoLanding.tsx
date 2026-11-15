@@ -20,6 +20,7 @@ export type SeoLandingProps = {
   highlights: { icon: "bike" | "car" | "shield" | "grad" | "trophy"; title: string; body: string }[];
   faqs: SeoFaq[];
   reviews: SeoReview[];
+  reviewLicenseTypes?: string[];
   related: RelatedLink[];
   waMessage: string;
   ctaSubline: string;
@@ -57,6 +58,31 @@ export default function SeoLanding(initial: SeoLandingProps) {
     })();
     return () => { cancelled = true; };
   }, [initial.slug]);
+  useEffect(() => {
+    const types = initial.reviewLicenseTypes;
+    if (!types || types.length === 0) return;
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase
+        .from("reviews")
+        .select("full_name, content, license_type")
+        .eq("status", "approved")
+        .in("license_type", types)
+        .order("created_at", { ascending: false })
+        .limit(6);
+      if (cancelled || !data || data.length === 0) return;
+      const real: SeoReview[] = data.map((r) => {
+        const text = String(r.content ?? "").replace(/\s+/g, " ").trim();
+        return {
+          name: String(r.full_name ?? ""),
+          type: r.license_type === "B" ? "רכב B" : `אופנוע ${r.license_type}`,
+          text: text.length > 220 ? `${text.slice(0, 217)}…` : text,
+        };
+      });
+      setProps((p) => ({ ...p, reviews: real }));
+    })();
+    return () => { cancelled = true; };
+  }, [initial.reviewLicenseTypes?.join(",")]);
   const s = useSiteSettings();
   const wa = waUrl(s, props.waMessage);
   const tel = `tel:${s.contact.phone}`;
@@ -163,6 +189,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
       </section>
 
       {/* Reviews */}
+      {props.reviews.length > 0 && (
       <section className="px-4 py-10 sm:py-14 bg-white/[0.02]">
         <div className="max-w-5xl mx-auto">
           <div className="mx-auto mb-6 max-w-lg rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-center">
@@ -199,7 +226,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
           </div>
         </div>
       </section>
-
+      )}
 
       {/* FAQ */}
       <section className="px-4 py-10 sm:py-14">
