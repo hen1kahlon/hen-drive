@@ -79,7 +79,7 @@ export default function SeoLanding(initial: SeoLandingProps) {
           text: text.length > 220 ? `${text.slice(0, 217)}…` : text,
         };
       });
-      setProps((p) => ({ ...p, reviews: real }));
+      setProps((p) => ({ ...p, reviews: [...real, ...p.reviews] }));
     })();
     return () => { cancelled = true; };
   }, [initial.reviewLicenseTypes?.join(",")]);
