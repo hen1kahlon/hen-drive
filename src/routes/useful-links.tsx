@@ -15,7 +15,6 @@ const groups: { title: string; links: UsefulLink[] }[] = [
       { title: "הצהרת בריאות – תחילת התהליך", desc: "השלב הראשון: טופס הרישום והצהרת הבריאות באתר משרד התחבורה", href: "https://govforms.gov.il/mw/forms/RishumTheory@mot.gov.il" },
       { title: "תחנות לצילום ובדיקת עיניים", desc: "רשימת התחנות המורשות לצילום לרישיון ולבדיקת ראייה", href: "https://www.gov.il/he/Departments/DynamicCollectors/photo_driving_license_stock?skip=0&limit=10" },
       { title: "מאגר שאלות תיאוריה", desc: "כל שאלות מבחן התיאוריה, ב-6 שפות", href: "https://www.gov.il/he/Departments/DynamicCollectors/theoryexamhe_data?skip=0&limit=10" },
-      { title: "מוקדים למבחן תיאוריה", desc: "איפה ניגשים למבחן התיאוריה וקביעת מועד", href: "https://theory.org.il/" },
       { title: "לוח התמרורים המלא", desc: "כל התמרורים במקום אחד – מעולה לחזרה לפני התיאוריה", href: "https://www.gov.il/he/departments/policies/tamrurim_7924_01_18" },
       { title: "אזור אישי לתלמידים (ברוש)", desc: "מעקב אחרי השיעורים והסטטוס שלך במשרד התחבורה", href: "https://driverstudent.mot.gov.il" },
       { title: "תשלום אגרת מבחן", desc: "תשלום אגרת הטסט אונליין", href: "https://ecom.gov.il/voucherspa/input/427" },
