@@ -71,7 +71,11 @@ export function LanguageSwitcher() {
   useEffect(() => {
     const current = readLang();
     setLang(current);
-    if (current !== "iw") loadTranslator();
+    if (current !== "iw") {
+      document.documentElement.dir = current === "ar" ? "rtl" : "ltr";
+      document.documentElement.lang = current === "iw" ? "he" : current;
+      loadTranslator();
+    }
   }, []);
 
   const choose = (code: LangCode) => {
