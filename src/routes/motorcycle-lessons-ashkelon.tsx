@@ -46,6 +46,7 @@ export const Route = createFileRoute("/motorcycle-lessons-ashkelon")({
 function Page() {
   return (
     <SeoLanding
+      videos={[{ id: "7683852015776091412", title: "משיעור ראשון לנסיעה לבד" }, { id: "7686478543789788436", title: "יום טסט אצלנו" }, { id: "7705854726016863508", title: "איך נכנסים למעגל תנועה" }, { id: "7706609289632271637", title: "כשהנתיב מצטמצם" }]}
       slug="motorcycle-lessons-ashkelon"
       eyebrow="אופנוע · אשקלון"
       h1Lead="שיעורי אופנוע באשקלון –"

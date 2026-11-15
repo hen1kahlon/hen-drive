@@ -27,6 +27,7 @@ import { MobileBar } from "@/components/landing/MobileBar";
 import { SuccessGallery } from "@/components/landing/SuccessGallery";
 import { SoldiersBenefit } from "@/components/landing/SoldiersBenefit";
 import { VideoIntro } from "@/components/landing/VideoIntro";
+import { SocialFeed } from "@/components/landing/SocialFeed";
 import { ExitIntent } from "@/components/landing/ExitIntent";
 import { AccessibilityWidget } from "@/components/landing/AccessibilityWidget";
 
@@ -136,6 +137,7 @@ function LandingPageInner() {
         <Reviews />
         <About />
         <SuccessGallery />
+        <SocialFeed />
         <SoldiersBenefit />
         {/* <VideoIntro /> */}
         <FAQ items={faqs} />

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GuidePage, GuideSteps } from "@/components/GuidePage";
 import { buildFaqJsonLd, type SeoFaq } from "@/components/SeoLanding";
+import { TikTokRow } from "@/components/TikTokEmbed";
 
 const URL = "https://hendrive.co.il/motorcycle-test-ashkelon";
 const TITLE = "טסט לאופנוע באשקלון – מבחן שליטה, מבחן בכביש וטיפים | חן כחלון";
@@ -129,6 +130,19 @@ function Page() {
           },
         ]}
       />
+
+      <h2>צפו במשימות מהמגרש</h2>
+      <p>סרטונים שלי מהמגרש ומהטסט – ככה זה נראה באמת.</p>
+      <div className="not-prose my-6">
+        <TikTokRow
+          videos={[
+            { id: "7703058468957179157", title: "מה מחכה לכם במגרש המשימות" },
+            { id: "7701800344614964500", title: "משימה 3 – השערים" },
+            { id: "7692003053506940180", title: "משימה 5 – השמיניות" },
+            { id: "7704374003556715797", title: "לפני טסט החוץ – כדאי לדעת" },
+          ]}
+        />
+      </div>
 
       <h2>מה להביא ביום הטסט</h2>
       <ul>

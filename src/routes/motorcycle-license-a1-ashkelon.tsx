@@ -38,6 +38,7 @@ export const Route = createFileRoute("/motorcycle-license-a1-ashkelon")({
 function Page() {
   return (
     <SeoLanding
+      videos={[{ id: "7686478543789788436", title: "יום טסט אצלנו" }, { id: "7701800344614964500", title: "משימה 3 – השערים" }]}
       slug="motorcycle-license-a1-ashkelon"
       eyebrow="אופנוע A1 · אשקלון"
       h1Lead="רישיון אופנוע A1 באשקלון –"
