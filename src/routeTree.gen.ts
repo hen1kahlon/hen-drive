@@ -24,6 +24,7 @@ import { Route as MotorcycleLicenseProcessRouteImport } from './routes/motorcycl
 import { Route as MotorcycleTestAshkelonRouteImport } from './routes/motorcycle-test-ashkelon'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as UsefulLinksRouteImport } from './routes/useful-links'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminErrorsRouteImport } from './routes/admin.errors'
 import { Route as AdminFaqsRouteImport } from './routes/admin.faqs'
@@ -115,6 +116,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UsefulLinksRoute = UsefulLinksRouteImport.update({
+  id: '/useful-links',
+  path: '/useful-links',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -182,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/motorcycle-test-ashkelon': typeof MotorcycleTestAshkelonRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/useful-links': typeof UsefulLinksRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/motorcycle-test-ashkelon': typeof MotorcycleTestAshkelonRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/useful-links': typeof UsefulLinksRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -236,6 +244,7 @@ export interface FileRoutesById {
   '/motorcycle-test-ashkelon': typeof MotorcycleTestAshkelonRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/useful-links': typeof UsefulLinksRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -265,6 +274,7 @@ export interface FileRouteTypes {
     | '/motorcycle-test-ashkelon'
     | '/privacy'
     | '/sitemap.xml'
+    | '/useful-links'
     | '/admin/errors'
     | '/admin/faqs'
     | '/admin/gallery'
@@ -291,6 +301,7 @@ export interface FileRouteTypes {
     | '/motorcycle-test-ashkelon'
     | '/privacy'
     | '/sitemap.xml'
+    | '/useful-links'
     | '/admin/errors'
     | '/admin/faqs'
     | '/admin/gallery'
@@ -318,6 +329,7 @@ export interface FileRouteTypes {
     | '/motorcycle-test-ashkelon'
     | '/privacy'
     | '/sitemap.xml'
+    | '/useful-links'
     | '/admin/errors'
     | '/admin/faqs'
     | '/admin/gallery'
@@ -346,6 +358,7 @@ export interface RootRouteChildren {
   MotorcycleTestAshkelonRoute: typeof MotorcycleTestAshkelonRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  UsefulLinksRoute: typeof UsefulLinksRoute
   ApiPublicLeadRoute: typeof ApiPublicLeadRoute
 }
 
@@ -454,6 +467,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/useful-links': {
+      id: '/useful-links'
+      path: '/useful-links'
+      fullPath: '/useful-links'
+      preLoaderRoute: typeof UsefulLinksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/': {
@@ -571,6 +591,7 @@ const rootRouteChildren: RootRouteChildren = {
   MotorcycleTestAshkelonRoute: MotorcycleTestAshkelonRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  UsefulLinksRoute: UsefulLinksRoute,
   ApiPublicLeadRoute: ApiPublicLeadRoute,
 }
 export const routeTree = rootRouteImport
