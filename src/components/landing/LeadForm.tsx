@@ -81,10 +81,11 @@ export function LeadForm({ selectedInterest }: { selectedInterest?: string | nul
       }
     } catch { /* localStorage may be blocked */ }
 
-    // duplicate-submit guard — same phone in last 24h on this device
+    // returning students may ask about another license, so only an accidental resend is blocked
     try {
       const prev = localStorage.getItem("lead:phone");
-      if (prev && prev === phoneDigits) {
+      const prevAt = Number(localStorage.getItem("lead:last") ?? "0");
+      if (prev && prev === phoneDigits && Date.now() - prevAt < 10 * 60_000) {
         toast.error("כבר שלחנו את הפרטים האלה — חן יחזור אליך 👌");
         setSubmitted(true);
         return;
