@@ -11,6 +11,7 @@ import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 import { installGlobalErrorLogger, logError } from "@/lib/log-error";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 function NotFoundComponent() {
   return (
@@ -216,6 +217,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <LanguageSwitcher />
         <Scripts />
       </body>
     </html>
