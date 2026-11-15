@@ -44,7 +44,8 @@ export function Footer() {
             <li><Link to="/motorcycle-license-a-ashkelon" className="hover:text-foreground">רישיון אופנוע A</Link></li>
             <li><Link to="/car-lessons-ashkelon" className="hover:text-foreground">שיעורי רכב אוטומט</Link></li>
             <li><Link to="/motorcycle-license-process" className="hover:text-foreground">איך מוציאים רישיון</Link></li>
-            <li><a href="https://www.gov.il/he/service/apply_for_new_driver_drivers_license" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">טופס ירוק והצהרת בריאות ↗</a></li>
+            <li><a href="https://govforms.gov.il/mw/forms/RishumTheory@mot.gov.il" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">הצהרת בריאות – תחילת התהליך ↗</a></li>
+            <li><Link to="/useful-links" className="hover:text-foreground">קישורים שימושיים</Link></li>
             <li><Link to="/motorcycle-test-ashkelon" className="hover:text-foreground">טסט לאופנוע – מה מצפה לך</Link></li>
           </ul>
         </nav>

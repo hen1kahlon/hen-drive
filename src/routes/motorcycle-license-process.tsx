@@ -39,13 +39,14 @@ function Page() {
       intro="מהטופס הירוק ועד הרישיון ביד – כל השלבים, בשפה פשוטה. אותו תהליך לאופנוע ולרכב, עם כמה הבדלים קטנים שמפורטים כאן."
       waMessage="היי חן, קראתי את המדריך באתר ואשמח לעזרה בהוצאת רישיון"
       related={[
+        { to: "/useful-links", title: "קישורים שימושיים – כל הטפסים במקום אחד" },
         { to: "/motorcycle-test-ashkelon", title: "טסט לאופנוע – מה מצפה לך" },
         { to: "/motorcycle-license-a2-ashkelon", title: "רישיון A2 – מגיל 16" },
         { to: "/motorcycle-license-a1-ashkelon", title: "רישיון A1 – מגיל 18" },
         { to: "/car-lessons-ashkelon", title: "שיעורי רכב באשקלון" },
       ]}
     >
-      <a href="https://www.gov.il/he/service/apply_for_new_driver_drivers_license" target="_blank" rel="noopener noreferrer"
+      <a href="https://govforms.gov.il/mw/forms/RishumTheory@mot.gov.il" target="_blank" rel="noopener noreferrer"
          className="!no-underline flex items-center justify-between gap-4 rounded-2xl border border-primary/40 bg-primary/10 p-5 hover:bg-primary/15">
         <span>
           <span className="block text-lg font-black text-foreground">טופס ירוק והצהרת בריאות</span>
@@ -71,7 +72,14 @@ function Page() {
           },
           {
             title: "בדיקת ראייה",
-            body: "אצל אופטומטריסט שמורשה מטעם משרד התחבורה. התוצאות נכנסות ישירות לטופס המקוון.",
+            body: (
+              <>
+                אצל אופטומטריסט שמורשה מטעם משרד התחבורה. התוצאות נכנסות ישירות לטופס המקוון.{" "}
+                <a href="https://www.gov.il/he/Departments/DynamicCollectors/photo_driving_license_stock?skip=0&limit=10" target="_blank" rel="noopener noreferrer">
+                  רשימת התחנות לצילום ובדיקת עיניים
+                </a>
+              </>
+            ),
           },
           {
             title: "מסמכים רפואיים – רק אם מבקשים",
@@ -79,7 +87,14 @@ function Page() {
           },
           {
             title: "מבחן תיאוריה – או פטור",
-            body: "מבחן ממוחשב על חוקי התנועה. בעלי רישיון רכב או רישיון אופנוע אחר פטורים. לדרגות A2, A1 ו-B אפשר לגשת לתיאוריה מגיל 15 וחצי.",
+            body: (
+              <>
+                מבחן ממוחשב על חוקי התנועה. בעלי רישיון רכב או רישיון אופנוע אחר פטורים. לדרגות A2, A1 ו-B אפשר לגשת לתיאוריה מגיל 15 וחצי.{" "}
+                <a href="https://www.gov.il/he/Departments/DynamicCollectors/theoryexamhe_data?skip=0&limit=10" target="_blank" rel="noopener noreferrer">
+                  מאגר שאלות התיאוריה
+                </a>
+              </>
+            ),
           },
           {
             title: "שיעורי נהיגה",
@@ -87,7 +102,14 @@ function Page() {
           },
           {
             title: "טסט",
-            body: "כשאתה מוכן, אני קובע לך טסט. באופנוע הטסט כולל מבחן שליטה במגרש ומבחן בכביש. ביום המבחן אתה נבחן על האופנוע שלמדת עליו.",
+            body: (
+              <>
+                כשאתה מוכן, אני קובע לך טסט. באופנוע הטסט כולל מבחן שליטה במגרש ומבחן בכביש. ביום המבחן אתה נבחן על האופנוע שלמדת עליו.{" "}
+                <a href="https://ecom.gov.il/voucherspa/input/427" target="_blank" rel="noopener noreferrer">
+                  תשלום אגרת המבחן
+                </a>
+              </>
+            ),
           },
           {
             title: "רישיון ביד",

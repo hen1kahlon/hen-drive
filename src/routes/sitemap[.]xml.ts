@@ -12,6 +12,7 @@ const entries = [
   { path: "/motorcycle-license-a-ashkelon", changefreq: "monthly", priority: "0.8" },
   { path: "/motorcycle-license-process", changefreq: "monthly", priority: "0.7" },
   { path: "/motorcycle-test-ashkelon", changefreq: "monthly", priority: "0.7" },
+  { path: "/useful-links", changefreq: "monthly", priority: "0.6" },
   { path: "/accessibility", changefreq: "yearly", priority: "0.3" },
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
 ];
