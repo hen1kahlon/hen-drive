@@ -72,7 +72,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     phone: "0503250150",
     phone_display: "050-3250150",
     phone_intl: "972503250150",
-    email: "hen1kahlon@gmail.com",
+    email: "hendriver12@gmail.com",
     whatsapp_message: "היי חן, הגעתי דרך האתר ואני מעוניין לקבל פרטים על שיעורי נהיגה",
     training_map_url: "https://www.google.com/maps/search/?api=1&query=מגרש+אימונים+אופנוע+אשקלון",
     area: "אשקלון והסביבה",

@@ -121,7 +121,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           url: "https://hendrive.co.il/",
           image: "https://hendrive.co.il/og-image.jpg",
           telephone: "+972503250150",
-          email: "hen1kahlon@gmail.com",
+          email: "hendriver12@gmail.com",
           areaServed: [
             { "@type": "City", name: "אשקלון" },
           ],

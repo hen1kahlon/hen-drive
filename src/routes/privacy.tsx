@@ -68,7 +68,7 @@ function PrivacyPage() {
       <p>
         אפשר לבקש לעיין במידע שנשמר עליך, לתקן אותו או למחוק אותו. שלח/י בקשה בוואטסאפ, בטלפון{" "}
         <a href="tel:0503250150">050-3250150</a> או במייל{" "}
-        <a href="mailto:hen1kahlon@gmail.com">hen1kahlon@gmail.com</a>, ואטפל בה בהקדם.
+        <a href="mailto:hendriver12@gmail.com">hendriver12@gmail.com</a>, ואטפל בה בהקדם.
       </p>
 
       <h2>שינויים במדיניות</h2>

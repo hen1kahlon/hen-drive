@@ -54,7 +54,7 @@ function AccessibilityPage() {
       <ul>
         <li>שם: חן כחלון</li>
         <li>טלפון: <a href="tel:0503250150">050-3250150</a></li>
-        <li>דוא״ל: <a href="mailto:hen1kahlon@gmail.com">hen1kahlon@gmail.com</a></li>
+        <li>דוא״ל: <a href="mailto:hendriver12@gmail.com">hendriver12@gmail.com</a></li>
       </ul>
 
       <p className="text-xs text-muted-foreground">הצהרה זו עודכנה בתאריך {LEGAL_UPDATED}.</p>
