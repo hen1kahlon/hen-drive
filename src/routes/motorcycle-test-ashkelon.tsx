@@ -31,10 +31,11 @@ export const Route = createFileRoute("/motorcycle-test-ashkelon")({
   component: Page,
 });
 
-function MissionMeta({ gear, speed }: { gear: string; speed?: string }) {
+function MissionMeta({ gear, aGear = "הילוך ראשון", speed }: { gear: string; aGear?: string; speed?: string }) {
   return (
     <span className="mt-2 flex flex-wrap gap-2">
       <span className="rounded-full bg-primary/15 text-primary px-3 py-1 text-xs font-bold">A1 ידני: {gear}</span>
+      <span className="rounded-full bg-accent/15 text-accent px-3 py-1 text-xs font-bold">A: {aGear}</span>
       {speed && <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold">{speed}</span>}
     </span>
   );
@@ -75,9 +76,9 @@ function Page() {
 
       <h2>מבחן השליטה – 5 המשימות</h2>
       <p>
-        המשימות מתבצעות לפי הסדר, ברצף. ליד כל משימה מופיעים ההילוך והמהירות לאופנוע ידני.{" "}
+        המשימות מתבצעות לפי הסדר, ברצף. ליד כל משימה מופיעים ההילוך לכל דרגה והמהירות.{" "}
         <strong>ב-A1 ידני</strong> – משימה 1 בהילוך ראשון, ממשימה 2 עוברים לשני, ובמשימה 4 מורידים שוב לראשון לפני העצירה.{" "}
-        <strong>ב-A</strong> – כל המשימות בהילוך ראשון.
+        <strong>ב-A</strong> – כל המשימות בהילוך ראשון, חוץ ממשימה 4: מעלים הילוך, מורידים בחזרה לראשון ועוצרים במטרה.
       </p>
       <GuideSteps
         steps={[
@@ -112,8 +113,8 @@ function Page() {
             title: "האצה, הורדת הילוך ועצירת מטרה",
             body: (
               <>
-                מאיצים, מורידים הילוך לראשון ועוצרים בדיוק במקום שסומן.
-                <MissionMeta gear="משני לראשון" speed="18–20 קמ״ש" />
+                מאיצים, מורידים הילוך לראשון ועוצרים בדיוק במקום שסומן. ב-A מעלים הילוך תוך כדי ההאצה, ואז מורידים לראשון לפני העצירה.
+                <MissionMeta gear="משני לראשון" aGear="העלאת הילוך, הורדה לראשון" speed="18–20 קמ״ש" />
               </>
             ),
           },
