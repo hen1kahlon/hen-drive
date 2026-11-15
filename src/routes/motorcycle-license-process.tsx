@@ -130,7 +130,7 @@ function Page() {
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
-            <tr><td className="p-3 font-bold">A2</td><td className="p-3">קטנוע / אופנוע עד 11 קילוואט</td><td className="p-3">16 (עד 17 באישור הורים)</td><td className="p-3">15</td></tr>
+            <tr><td className="p-3 font-bold">A2</td><td className="p-3">קטנוע / אופנוע עד 11 קילוואט</td><td className="p-3">16 (עד 17 באישור הורים)</td><td className="p-3">15 (בעלי רישיון רכב 3 שנים ומעלה – ללא מינימום, מבחן שליטה בלבד)</td></tr>
             <tr><td className="p-3 font-bold">A1</td><td className="p-3">אופנוע עד 35 קילוואט (47.46 כ״ס)</td><td className="p-3">18</td><td className="p-3">15 (8 לבעלי A2 עם שנת ותק)</td></tr>
             <tr><td className="p-3 font-bold">A</td><td className="p-3">כל אופנוע, ללא הגבלה</td><td className="p-3">21, עם שנת ותק ב-A1</td><td className="p-3">8</td></tr>
           </tbody>
