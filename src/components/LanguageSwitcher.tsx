@@ -73,7 +73,7 @@ export function LanguageSwitcher() {
     setLang(current);
     if (current !== "iw") {
       document.documentElement.dir = current === "ar" ? "rtl" : "ltr";
-      document.documentElement.lang = current === "iw" ? "he" : current;
+      document.documentElement.lang = current;
       loadTranslator();
     }
   }, []);

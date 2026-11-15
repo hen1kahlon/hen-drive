@@ -23,6 +23,7 @@ export type SeoLandingProps = {
   reviews: SeoReview[];
   reviewLicenseTypes?: string[];
   videos?: { id: string; title: string }[];
+  photo?: { src: string; alt: string; caption: string };
   related: RelatedLink[];
   waMessage: string;
   ctaSubline: string;
@@ -138,6 +139,16 @@ export default function SeoLanding(initial: SeoLandingProps) {
           </div>
         </div>
       </section>
+
+      {initial.photo && (
+        <section className="px-4 pb-10 sm:pb-14">
+          <figure className="max-w-5xl mx-auto overflow-hidden rounded-3xl border border-white/10 shadow-card">
+            <img src={initial.photo.src} alt={initial.photo.alt} width={1080} height={730} loading="eager" decoding="async"
+                 className="w-full h-auto object-cover" />
+            <figcaption className="bg-white/[0.03] px-4 py-3 text-center text-sm font-bold">{initial.photo.caption}</figcaption>
+          </figure>
+        </section>
+      )}
 
       {props.licenseTiers && props.licenseTiers.length > 0 && (
         <section className="px-4 py-10 sm:py-14 border-y border-white/5 bg-white/[0.015]">

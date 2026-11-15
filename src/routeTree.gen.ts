@@ -34,6 +34,8 @@ import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 import { Route as AdminLicenseCardsRouteImport } from './routes/admin.license-cards'
 import { Route as AdminReviewsRouteImport } from './routes/admin.reviews'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ApiPublicLeadRouteImport } from './routes/api/public/lead'
 
 const IndexRoute = IndexRouteImport.update({
@@ -166,6 +168,16 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicLeadRoute = ApiPublicLeadRouteImport.update({
   id: '/api/public/lead',
   path: '/api/public/lead',
@@ -197,7 +209,9 @@ export interface FileRoutesByFullPath {
   '/admin/license-cards': typeof AdminLicenseCardsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/blog/': typeof BlogIndexRoute
   '/api/public/lead': typeof ApiPublicLeadRoute
 }
 export interface FileRoutesByTo {
@@ -224,7 +238,9 @@ export interface FileRoutesByTo {
   '/admin/license-cards': typeof AdminLicenseCardsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/admin': typeof AdminIndexRoute
+  '/blog': typeof BlogIndexRoute
   '/api/public/lead': typeof ApiPublicLeadRoute
 }
 export interface FileRoutesById {
@@ -253,7 +269,9 @@ export interface FileRoutesById {
   '/admin/license-cards': typeof AdminLicenseCardsRoute
   '/admin/reviews': typeof AdminReviewsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/admin/': typeof AdminIndexRoute
+  '/blog/': typeof BlogIndexRoute
   '/api/public/lead': typeof ApiPublicLeadRoute
 }
 export interface FileRouteTypes {
@@ -283,7 +301,9 @@ export interface FileRouteTypes {
     | '/admin/license-cards'
     | '/admin/reviews'
     | '/admin/settings'
+    | '/blog/$slug'
     | '/admin/'
+    | '/blog/'
     | '/api/public/lead'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -310,7 +330,9 @@ export interface FileRouteTypes {
     | '/admin/license-cards'
     | '/admin/reviews'
     | '/admin/settings'
+    | '/blog/$slug'
     | '/admin'
+    | '/blog'
     | '/api/public/lead'
   id:
     | '__root__'
@@ -338,7 +360,9 @@ export interface FileRouteTypes {
     | '/admin/license-cards'
     | '/admin/reviews'
     | '/admin/settings'
+    | '/blog/$slug'
     | '/admin/'
+    | '/blog/'
     | '/api/public/lead'
   fileRoutesById: FileRoutesById
 }
@@ -359,6 +383,8 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UsefulLinksRoute: typeof UsefulLinksRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   ApiPublicLeadRoute: typeof ApiPublicLeadRoute
 }
 
@@ -539,6 +565,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/lead': {
       id: '/api/public/lead'
       path: '/api/public/lead'
@@ -592,6 +632,8 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UsefulLinksRoute: UsefulLinksRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
   ApiPublicLeadRoute: ApiPublicLeadRoute,
 }
 export const routeTree = rootRouteImport
