@@ -52,6 +52,7 @@ function Page() {
       related={[
         { to: "/motorcycle-license-process", title: "איך מוציאים רישיון – שלב אחר שלב" },
         { to: "/useful-links", title: "קישורים שימושיים – כל הטפסים במקום אחד" },
+        { to: "/blog", title: "בלוג – טיפים מהמגרש ומהכביש" },
         { to: "/motorcycle-license-a2-ashkelon", title: "רישיון A2 – מגיל 16" },
         { to: "/motorcycle-license-a1-ashkelon", title: "רישיון A1 – מגיל 18" },
         { to: "/motorcycle-license-a-ashkelon", title: "רישיון A – ללא הגבלה" },

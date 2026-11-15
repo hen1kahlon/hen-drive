@@ -46,6 +46,7 @@ export function Footer() {
             <li><Link to="/motorcycle-license-process" className="hover:text-foreground">איך מוציאים רישיון</Link></li>
             <li><a href="https://govforms.gov.il/mw/forms/RishumTheory@mot.gov.il" target="_blank" rel="noopener noreferrer" className="hover:text-foreground">הצהרת בריאות – תחילת התהליך ↗</a></li>
             <li><Link to="/useful-links" className="hover:text-foreground">קישורים שימושיים</Link></li>
+            <li><Link to="/blog" className="hover:text-foreground">בלוג – טיפים</Link></li>
             <li><Link to="/motorcycle-test-ashkelon" className="hover:text-foreground">טסט לאופנוע – מה מצפה לך</Link></li>
           </ul>
         </nav>

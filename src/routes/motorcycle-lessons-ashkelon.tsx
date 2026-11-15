@@ -3,6 +3,7 @@ import SeoLanding, { buildFaqJsonLd, buildLocalBusinessJsonLd, type SeoFaq } fro
 import bikeA from "@/assets/vehicle-bike-a.webp";
 import bikeA1 from "@/assets/vehicle-bike-a1-manual.webp";
 import bikeA2 from "@/assets/vehicle-bike-a2-manual.webp";
+import groupPhoto from "@/assets/students-group-ashkelon.webp";
 
 const URL = "https://hendrive.co.il/motorcycle-lessons-ashkelon";
 const TITLE = "שיעורי אופנוע באשקלון | מורה נהיגה לאופנוע – חן כחלון";
@@ -46,6 +47,7 @@ export const Route = createFileRoute("/motorcycle-lessons-ashkelon")({
 function Page() {
   return (
     <SeoLanding
+      photo={{ src: groupPhoto, alt: "תלמידי אופנוע עם חן כחלון בטיילת אשקלון", caption: "התלמידים שלנו ביום שיעור – מול הים באשקלון" }}
       videos={[{ id: "7683852015776091412", title: "משיעור ראשון לנסיעה לבד" }, { id: "7686478543789788436", title: "יום טסט אצלנו" }, { id: "7705854726016863508", title: "איך נכנסים למעגל תנועה" }, { id: "7706609289632271637", title: "כשהנתיב מצטמצם" }]}
       slug="motorcycle-lessons-ashkelon"
       eyebrow="אופנוע · אשקלון"
