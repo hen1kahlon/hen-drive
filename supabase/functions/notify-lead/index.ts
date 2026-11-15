@@ -1,7 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const RECIPIENT = "hen1kahlon@gmail.com";
-const FROM = "Hendrive <onboarding@resend.dev>";
+const RECIPIENT = "hendriver12@gmail.com";
+const FROM = "Hendrive <leads@hendrive.co.il>";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
