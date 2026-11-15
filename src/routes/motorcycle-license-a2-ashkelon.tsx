@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import SeoLanding, { buildFaqJsonLd, buildLocalBusinessJsonLd, type SeoFaq } from "@/components/SeoLanding";
-import bikeA2 from "@/assets/vehicle-bike-a2-manual.webp";
 
 const URL = "https://hendrive.co.il/motorcycle-license-a2-ashkelon";
 const TITLE = "רישיון אופנוע A2 באשקלון | קטנוע ואופנוע קל מגיל 16 – חן כחלון";
