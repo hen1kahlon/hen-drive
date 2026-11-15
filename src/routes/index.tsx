@@ -86,6 +86,12 @@ export const Route = createFileRoute("/")({
           "@type": "LocalBusiness",
           "@id": "https://hendrive.co.il/#business",
           name: "חן כחלון – מורה נהיגה לאופנוע ורכב באשקלון",
+          review: [
+            { "@type": "Review", author: { "@type": "Person", name: "ליאור מ׳" }, reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, reviewBody: "חן הכי סבלני בעולם — עברתי טסט ראשון על רכב אוטומט באשקלון. ממליץ בחום." },
+            { "@type": "Review", author: { "@type": "Person", name: "יובל א׳" }, reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, reviewBody: "למדתי אופנוע A2 אצל חן — רישיון ביד מהפעם הראשונה, ציוד חדש ובטוח." },
+            { "@type": "Review", author: { "@type": "Person", name: "נועה ש׳" }, reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, reviewBody: "הרגשתי בטוחה מהשיעור הראשון. עברתי טסט ראשון על רכב פרטי." },
+            { "@type": "Review", author: { "@type": "Person", name: "עומר כ׳" }, reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" }, reviewBody: "הוצאתי A1 אצל חן. שיעורים ממוקדים, הכנה אמיתית לטסט — ממליץ בענק על בית הספר לאופנוע באשקלון." },
+          ],
         }),
       },
     ],
