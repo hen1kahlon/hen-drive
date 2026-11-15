@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useSiteSettings } from "@/lib/site-settings";
 import { LegalLinks } from "@/components/LegalPage";
 
@@ -30,11 +31,22 @@ export function Footer() {
   const tiktok = s.social.tiktok;
   return (
     <footer className="border-t py-8 sm:py-12 px-4 pb-28 md:pb-12 relative" style={{ background: "#0a0f1e", borderColor: "rgba(255,255,255,0.08)" }}>
-      <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6 sm:gap-8 text-sm">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-6 sm:gap-8 text-sm">
         <div>
           <Logo />
           <p className="mt-4 max-w-xs" style={{ color: "rgba(255,255,255,0.6)" }}>מורה נהיגה לרכב ואופנועים — אשקלון והסביבה. מלווה אותך עד הקריאה ״עברת״.</p>
         </div>
+        <nav aria-label="מסלולים ומידע">
+          <h4 className="font-black mb-4 text-base">מסלולים ומידע</h4>
+          <ul className="space-y-2" style={{ color: "rgba(255,255,255,0.6)" }}>
+            <li><Link to="/motorcycle-license-a2-ashkelon" className="hover:text-foreground">רישיון אופנוע A2</Link></li>
+            <li><Link to="/motorcycle-license-a1-ashkelon" className="hover:text-foreground">רישיון אופנוע A1</Link></li>
+            <li><Link to="/motorcycle-license-a-ashkelon" className="hover:text-foreground">רישיון אופנוע A</Link></li>
+            <li><Link to="/car-lessons-ashkelon" className="hover:text-foreground">שיעורי רכב אוטומט</Link></li>
+            <li><Link to="/motorcycle-license-process" className="hover:text-foreground">איך מוציאים רישיון</Link></li>
+            <li><Link to="/motorcycle-test-ashkelon" className="hover:text-foreground">טסט לאופנוע – מה מצפה לך</Link></li>
+          </ul>
+        </nav>
         <div>
           <h4 className="font-black mb-4 text-base">צור קשר</h4>
           <ul className="space-y-3" style={{ color: "rgba(255,255,255,0.6)" }}>

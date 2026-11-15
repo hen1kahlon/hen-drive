@@ -17,6 +17,11 @@ import { Route as CarLessonsAshkelonRouteImport } from './routes/car-lessons-ash
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MotorcycleLessonsAshkelonRouteImport } from './routes/motorcycle-lessons-ashkelon'
+import { Route as MotorcycleLicenseAAshkelonRouteImport } from './routes/motorcycle-license-a-ashkelon'
+import { Route as MotorcycleLicenseA1AshkelonRouteImport } from './routes/motorcycle-license-a1-ashkelon'
+import { Route as MotorcycleLicenseA2AshkelonRouteImport } from './routes/motorcycle-license-a2-ashkelon'
+import { Route as MotorcycleLicenseProcessRouteImport } from './routes/motorcycle-license-process'
+import { Route as MotorcycleTestAshkelonRouteImport } from './routes/motorcycle-test-ashkelon'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -71,6 +76,35 @@ const MotorcycleLessonsAshkelonRoute =
     path: '/motorcycle-lessons-ashkelon',
     getParentRoute: () => rootRouteImport,
   } as any)
+const MotorcycleLicenseAAshkelonRoute =
+  MotorcycleLicenseAAshkelonRouteImport.update({
+    id: '/motorcycle-license-a-ashkelon',
+    path: '/motorcycle-license-a-ashkelon',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const MotorcycleLicenseA1AshkelonRoute =
+  MotorcycleLicenseA1AshkelonRouteImport.update({
+    id: '/motorcycle-license-a1-ashkelon',
+    path: '/motorcycle-license-a1-ashkelon',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const MotorcycleLicenseA2AshkelonRoute =
+  MotorcycleLicenseA2AshkelonRouteImport.update({
+    id: '/motorcycle-license-a2-ashkelon',
+    path: '/motorcycle-license-a2-ashkelon',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const MotorcycleLicenseProcessRoute =
+  MotorcycleLicenseProcessRouteImport.update({
+    id: '/motorcycle-license-process',
+    path: '/motorcycle-license-process',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const MotorcycleTestAshkelonRoute = MotorcycleTestAshkelonRouteImport.update({
+  id: '/motorcycle-test-ashkelon',
+  path: '/motorcycle-test-ashkelon',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -141,6 +175,11 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
+  '/motorcycle-license-a-ashkelon': typeof MotorcycleLicenseAAshkelonRoute
+  '/motorcycle-license-a1-ashkelon': typeof MotorcycleLicenseA1AshkelonRoute
+  '/motorcycle-license-a2-ashkelon': typeof MotorcycleLicenseA2AshkelonRoute
+  '/motorcycle-license-process': typeof MotorcycleLicenseProcessRoute
+  '/motorcycle-test-ashkelon': typeof MotorcycleTestAshkelonRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
@@ -162,6 +201,11 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
+  '/motorcycle-license-a-ashkelon': typeof MotorcycleLicenseAAshkelonRoute
+  '/motorcycle-license-a1-ashkelon': typeof MotorcycleLicenseA1AshkelonRoute
+  '/motorcycle-license-a2-ashkelon': typeof MotorcycleLicenseA2AshkelonRoute
+  '/motorcycle-license-process': typeof MotorcycleLicenseProcessRoute
+  '/motorcycle-test-ashkelon': typeof MotorcycleTestAshkelonRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
@@ -185,6 +229,11 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/motorcycle-lessons-ashkelon': typeof MotorcycleLessonsAshkelonRoute
+  '/motorcycle-license-a-ashkelon': typeof MotorcycleLicenseAAshkelonRoute
+  '/motorcycle-license-a1-ashkelon': typeof MotorcycleLicenseA1AshkelonRoute
+  '/motorcycle-license-a2-ashkelon': typeof MotorcycleLicenseA2AshkelonRoute
+  '/motorcycle-license-process': typeof MotorcycleLicenseProcessRoute
+  '/motorcycle-test-ashkelon': typeof MotorcycleTestAshkelonRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/errors': typeof AdminErrorsRoute
@@ -209,6 +258,11 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/motorcycle-lessons-ashkelon'
+    | '/motorcycle-license-a-ashkelon'
+    | '/motorcycle-license-a1-ashkelon'
+    | '/motorcycle-license-a2-ashkelon'
+    | '/motorcycle-license-process'
+    | '/motorcycle-test-ashkelon'
     | '/privacy'
     | '/sitemap.xml'
     | '/admin/errors'
@@ -230,6 +284,11 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/motorcycle-lessons-ashkelon'
+    | '/motorcycle-license-a-ashkelon'
+    | '/motorcycle-license-a1-ashkelon'
+    | '/motorcycle-license-a2-ashkelon'
+    | '/motorcycle-license-process'
+    | '/motorcycle-test-ashkelon'
     | '/privacy'
     | '/sitemap.xml'
     | '/admin/errors'
@@ -252,6 +311,11 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/motorcycle-lessons-ashkelon'
+    | '/motorcycle-license-a-ashkelon'
+    | '/motorcycle-license-a1-ashkelon'
+    | '/motorcycle-license-a2-ashkelon'
+    | '/motorcycle-license-process'
+    | '/motorcycle-test-ashkelon'
     | '/privacy'
     | '/sitemap.xml'
     | '/admin/errors'
@@ -275,6 +339,11 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   MotorcycleLessonsAshkelonRoute: typeof MotorcycleLessonsAshkelonRoute
+  MotorcycleLicenseAAshkelonRoute: typeof MotorcycleLicenseAAshkelonRoute
+  MotorcycleLicenseA1AshkelonRoute: typeof MotorcycleLicenseA1AshkelonRoute
+  MotorcycleLicenseA2AshkelonRoute: typeof MotorcycleLicenseA2AshkelonRoute
+  MotorcycleLicenseProcessRoute: typeof MotorcycleLicenseProcessRoute
+  MotorcycleTestAshkelonRoute: typeof MotorcycleTestAshkelonRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiPublicLeadRoute: typeof ApiPublicLeadRoute
@@ -336,6 +405,41 @@ declare module '@tanstack/react-router' {
       path: '/motorcycle-lessons-ashkelon'
       fullPath: '/motorcycle-lessons-ashkelon'
       preLoaderRoute: typeof MotorcycleLessonsAshkelonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motorcycle-license-a-ashkelon': {
+      id: '/motorcycle-license-a-ashkelon'
+      path: '/motorcycle-license-a-ashkelon'
+      fullPath: '/motorcycle-license-a-ashkelon'
+      preLoaderRoute: typeof MotorcycleLicenseAAshkelonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motorcycle-license-a1-ashkelon': {
+      id: '/motorcycle-license-a1-ashkelon'
+      path: '/motorcycle-license-a1-ashkelon'
+      fullPath: '/motorcycle-license-a1-ashkelon'
+      preLoaderRoute: typeof MotorcycleLicenseA1AshkelonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motorcycle-license-a2-ashkelon': {
+      id: '/motorcycle-license-a2-ashkelon'
+      path: '/motorcycle-license-a2-ashkelon'
+      fullPath: '/motorcycle-license-a2-ashkelon'
+      preLoaderRoute: typeof MotorcycleLicenseA2AshkelonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motorcycle-license-process': {
+      id: '/motorcycle-license-process'
+      path: '/motorcycle-license-process'
+      fullPath: '/motorcycle-license-process'
+      preLoaderRoute: typeof MotorcycleLicenseProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motorcycle-test-ashkelon': {
+      id: '/motorcycle-test-ashkelon'
+      path: '/motorcycle-test-ashkelon'
+      fullPath: '/motorcycle-test-ashkelon'
+      preLoaderRoute: typeof MotorcycleTestAshkelonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -460,6 +564,11 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   MotorcycleLessonsAshkelonRoute: MotorcycleLessonsAshkelonRoute,
+  MotorcycleLicenseAAshkelonRoute: MotorcycleLicenseAAshkelonRoute,
+  MotorcycleLicenseA1AshkelonRoute: MotorcycleLicenseA1AshkelonRoute,
+  MotorcycleLicenseA2AshkelonRoute: MotorcycleLicenseA2AshkelonRoute,
+  MotorcycleLicenseProcessRoute: MotorcycleLicenseProcessRoute,
+  MotorcycleTestAshkelonRoute: MotorcycleTestAshkelonRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiPublicLeadRoute: ApiPublicLeadRoute,
