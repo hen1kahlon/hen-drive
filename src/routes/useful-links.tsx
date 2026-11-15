@@ -30,14 +30,6 @@ const groups: { title: string; links: UsefulLink[] }[] = [
       { title: "הוצאת רישיון או היתר נהיגה חדש (כפל)", desc: "תשלום להנפקת רישיון חדש או כפל רישיון", href: "https://ecom.gov.il/voucherspa/input/209" },
     ],
   },
-  {
-    title: "לנהגים",
-    links: [
-      { title: "קורסי רענון וניקוד", desc: "רישום למוקדי קורסי רענון", href: "https://www.gov.il/he/departments/news/renewal_course" },
-      { title: "העברת בעלות ברכב", desc: "העברת בעלות דרך האינטרנט", href: "https://www.gov.il/he/departments/guides/vehicles_ownership_transfer" },
-      { title: "פניות למשרד התחבורה", desc: "טפסים מקוונים לפניות הציבור", href: "https://www.gov.il/he/Departments/General/transport_contactus_units" },
-    ],
-  },
 ];
 
 export const Route = createFileRoute("/useful-links")({
