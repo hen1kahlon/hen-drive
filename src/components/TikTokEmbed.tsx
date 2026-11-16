@@ -1,6 +1,17 @@
+import { useState } from "react";
 import { Play } from "lucide-react";
 
 const PROFILE = "https://www.tiktok.com/@hen_driver";
+
+const LOCAL_VIDEOS = new Set([
+  "7697191865300405510",
+  "7700293638508629269",
+  "7701800344614964500",
+  "7703058468957179157",
+  "7704374003556715797",
+  "7705854726016863508",
+  "7706609289632271637",
+]);
 
 function TikTokLogo({ className }: { className?: string }) {
   return (
@@ -10,38 +21,79 @@ function TikTokLogo({ className }: { className?: string }) {
   );
 }
 
+function PlayBadge() {
+  return (
+    <>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/10" />
+      <div className="absolute inset-0 grid place-items-center">
+        <span className="grid h-16 w-16 place-items-center rounded-full bg-white/90 text-black shadow-lg transition-transform group-hover:scale-110">
+          <Play className="h-7 w-7 translate-x-0.5" fill="currentColor" />
+        </span>
+      </div>
+    </>
+  );
+}
+
+const CARD = "!no-underline group relative block aspect-[9/15] w-full overflow-hidden rounded-3xl border border-white/10 bg-black shadow-card";
+
+function LocalVideo({ id, title }: { id: string; title: string }) {
+  const [playing, setPlaying] = useState(false);
+  if (playing) {
+    return (
+      <div className={CARD}>
+        <video
+          src={`/videos/${id}.mp4`}
+          poster={`/videos/${id}.webp`}
+          controls
+          autoPlay
+          playsInline
+          className="absolute inset-0 h-full w-full object-contain bg-black"
+        />
+      </div>
+    );
+  }
+  return (
+    <button type="button" onClick={() => setPlaying(true)} aria-label={`הפעלת הסרטון: ${title}`} className={`${CARD} text-start`}>
+      <img
+        src={`/videos/${id}.webp`}
+        alt={title}
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+      />
+      <PlayBadge />
+    </button>
+  );
+}
+
 // TikTok's in-page player fails in browsers that block third-party cookies,
-// so each video is a cover image that opens the clip on TikTok.
-export function TikTokEmbed({ id, title }: { id: string; title: string }) {
+// so clips we don't host ourselves open on TikTok instead.
+function TikTokLink({ id, title }: { id: string; title: string }) {
   return (
     <a
       href={`${PROFILE}/video/${id}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${title} – צפייה בטיקטוק`}
-      className="!no-underline group relative block aspect-[9/15] w-full overflow-hidden rounded-3xl border border-white/10 bg-black shadow-card"
+      className={CARD}
     >
       <img
         src={`/videos/${id}.webp`}
         alt={title}
         loading="lazy"
         decoding="async"
-        width={280}
-        height={462}
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/20" />
-      <div className="absolute inset-0 grid place-items-center">
-        <span className="grid h-16 w-16 place-items-center rounded-full bg-white/90 text-black shadow-lg transition-transform group-hover:scale-110">
-          <Play className="h-7 w-7 translate-x-0.5" fill="currentColor" />
-        </span>
-      </div>
+      <PlayBadge />
       <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-bold text-white">
         <TikTokLogo className="h-3 w-3" /> TikTok
       </span>
-      <span className="absolute bottom-3 inset-x-3 text-center text-xs font-bold text-white/90">לצפייה בסרטון ↗</span>
     </a>
   );
+}
+
+export function TikTokEmbed({ id, title }: { id: string; title: string }) {
+  return LOCAL_VIDEOS.has(id) ? <LocalVideo id={id} title={title} /> : <TikTokLink id={id} title={title} />;
 }
 
 export function TikTokRow({ videos }: { videos: { id: string; title: string }[] }) {
