@@ -37,7 +37,7 @@ export const Route = createFileRoute("/motorcycle-license-a-ashkelon")({
 function Page() {
   return (
     <SeoLanding
-      videos={[{ id: "7696639346836868372", title: "רישיון A – כוח פוגש שליטה" }, { id: "7697191865300405510", title: "המגרש מלמעלה" }]}
+      videos={[{ id: "7696639346836868372", title: "רישיון A – כוח פוגש שליטה" }, { id: "7697191865300405510", title: "המגרש מלמעלה" }, { id: "test-day-drone-2", title: "יום טסט מהרחפן" }]}
       slug="motorcycle-license-a-ashkelon"
       eyebrow="אופנוע A · אשקלון"
       h1Lead="רישיון אופנוע A באשקלון –"

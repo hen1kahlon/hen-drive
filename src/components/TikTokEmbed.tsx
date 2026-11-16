@@ -11,6 +11,16 @@ const LOCAL_VIDEOS = new Set([
   "7704374003556715797",
   "7705854726016863508",
   "7706609289632271637",
+  "moment-license",
+  "scooter-lesson",
+  "a1-lot-practice",
+  "before-test-day",
+  "test-day-drone",
+  "test-day-drone-2",
+  "helmet-gift",
+  "task3-night",
+  "first-test-pass",
+  "lot-route",
 ]);
 
 function TikTokLogo({ className }: { className?: string }) {
